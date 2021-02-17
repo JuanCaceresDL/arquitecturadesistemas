@@ -3,14 +3,8 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 <%
-    String id = request.getParameter("ID");
-    String driver = "com.mysql.jdbc.Driver";
-    
-    try {
-        Class.forName(driver);
-    } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-    }
+    String id = request.getParameter("id");
+
 
 %>
 <%
