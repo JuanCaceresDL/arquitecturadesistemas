@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class Controlador {
@@ -33,11 +33,32 @@ public class Controlador {
     }
     
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-        public String save(@ModelAttribute("nuevo") Modelo nuevo) {
-        dao.save(nuevo);
-      
+    public String save(@ModelAttribute("modelo") Modelo modelo) {
+    dao.save(modelo);
+    return "redirect:/";
+    }
+
+    @RequestMapping("/edit/{id}")
+    public ModelAndView showEditForm(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("update");
+        Modelo modelo = dao.get(id);
+        mav.addObject("modelo", modelo);
+            
+        return mav;
+    }
+        
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("modelo") Modelo modelo) {
+        dao.update(modelo);
+            
         return "redirect:/";
-        }
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") int id) {
+        dao.delete(id);
+        return "redirect:/";       
+    }	
     
     
 

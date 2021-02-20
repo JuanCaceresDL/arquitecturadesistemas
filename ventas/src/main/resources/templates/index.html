@@ -15,14 +15,18 @@
             <tr>
                 <th>ID</th>
                 <th>Item Name</th>
-               
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each ="prueba : ${listPrueba}">
                 <td th:text="${prueba.clientid}">ID</td>
                 <td th:text="${prueba.nombre}">Item Name</td>
-            
+                <td>
+                    <a th:href="@{'/edit/' + ${prueba.clientid}}">Edit</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a th:href="@{'/delete/' + ${prueba.clientid}}">Delete</a>
+                </td>
                 
              
             </tr>
