@@ -2,6 +2,10 @@ package com.ventas.ventas;
 
 import java.util.List;
 
+import com.ventas.ventas.telefonos.*;
+import com.ventas.ventas.clientes.*;
+import com.ventas.ventas.tutorial.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class Controlador {
     @Autowired
     private Dao dao;
+
     @Autowired
     private TelDao teldao;
+    
     @Autowired
     private ClienteDao daoc;
 
@@ -70,14 +76,14 @@ public class Controlador {
     public String telefonosPage(final Model telefono) {
         final List<Telefono> listTel = teldao.list();
         telefono.addAttribute("listTel", listTel);
-        return "telefonos.html";
+        return "telefonos/telefonos.html";
     }
     
     @RequestMapping("/newTel")
     public String telefonoNew(Model model) {
         Telefono nuevoTel = new Telefono();
         model.addAttribute("nuevoTel", nuevoTel);
-        return "telefonosNew.html";
+        return "telefonos/telefonosNew.html";
     }
 
     @RequestMapping(value = "/saveTel", method = RequestMethod.POST)
@@ -91,7 +97,7 @@ public class Controlador {
     public String fabricaPage(final Model fabrica) {/*
         final List<Telefono> listTel = teldao.list();
         telefono.addAttribute("listTel", listTel);*/
-        return "fabricas.html";
+        return "fabricas/fabricas.html";
     }
 
     //CLIENTES
@@ -99,13 +105,13 @@ public class Controlador {
     public String clientesPage(final Model model) {
         final List<ModeloCliente> listClient = daoc.list();
         model.addAttribute("listClient", listClient);
-        return "ClienteRead.html";
+        return "clientes/ClienteRead.html";
     }
 
     @RequestMapping("/newCliente")
     public String clienteNew(Model model) {
         ModeloCliente nuevoClient = new ModeloCliente();
         model.addAttribute("nuevoClient", nuevoClient);
-        return "clienteCreate.html";
+        return "clientes/clienteCreate.html";
     }
 }

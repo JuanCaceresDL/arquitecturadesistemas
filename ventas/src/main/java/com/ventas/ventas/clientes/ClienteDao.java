@@ -1,4 +1,4 @@
-package com.ventas.ventas;
+package com.ventas.ventas.clientes;
 
 import java.util.List;
 
@@ -11,38 +11,38 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TelDao {
+public class ClienteDao {
 
     private String dbuser = "";
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    public TelDao(JdbcTemplate jdbcTemplate) {
+    public ClienteDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Telefono> list(){
-        String sql = "SELECT * FROM "+ dbuser +"TELEFONOS";
-        List<Telefono> listTel = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Telefono.class));
-        return listTel;
+
+    public List<ModeloCliente> list(){
+        String sql = "SELECT * FROM "+ dbuser +"CLIENTES";
+        List<ModeloCliente> listPrueba = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(ModeloCliente.class));
+        return listPrueba;
     }
 
-    public void save(Telefono nuevo) {
+    public void save(ModeloCliente nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-        insertActor.withTableName("telefonos").usingColumns("telcodigo", "modelo", "ram", "almacenamiento", "procesador", "cores", "descripcion", "marcaid", "preciofabrica", "precioventa", "disponible", "inventario", "color");
+        insertActor.withTableName("clientes").usingColumns("nombre");
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
          
         insertActor.execute(param);    
     }
 
-    public Telefono get(int id) {
-		String sql = "SELECT * FROM "+ dbuser +"TELEFONOS WHERE TELCODIGO = ?";
+    public ModeloCliente get(int id) {
+		String sql = "SELECT * FROM "+ dbuser +"CLIENTES WHERE clientid = ?";
 		Object[] args = {id};
-		Telefono tel = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Telefono.class));
-		return tel;
+		ModeloCliente sale = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(ModeloCliente.class));
+		return sale;
 	}
 
-    public void update(Modelo modelo) {
+    public void update(ModeloCliente modelo) {
 		String sql = "UPDATE "+ dbuser +"CLIENTES SET nombre=:nombre WHERE clientid=:clientid";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);

@@ -1,4 +1,4 @@
-package com.ventas.ventas;
+package com.ventas.ventas.tutorial;
 
 import javax.persistence.Entity;
 import javax.persistence.Column;
@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-class Modelo {
+public class Modelo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

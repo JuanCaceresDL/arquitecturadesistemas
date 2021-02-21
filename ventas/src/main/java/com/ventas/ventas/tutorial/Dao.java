@@ -1,4 +1,4 @@
-package com.ventas.ventas;
+package com.ventas.ventas.tutorial;
 
 import java.util.List;
 

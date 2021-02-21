@@ -1,4 +1,4 @@
-package com.ventas.ventas;
+package com.ventas.ventas.telefonos;
 
 import javax.persistence.Entity;
 import javax.persistence.Column;
