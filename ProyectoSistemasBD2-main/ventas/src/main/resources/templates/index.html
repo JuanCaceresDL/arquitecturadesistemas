@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>Prueba Manager Application</title>
+</head>
+<body>
+<div align="center">
+    <h1>Prueba</h1>
+    <a href="/new">Enter New Prueba</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Item Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each ="prueba : ${listPrueba}">
+                <td th:text="${prueba.clientid}">ID</td>
+                <td th:text="${prueba.nombre}">Item Name</td>
+                <td>
+                    <a th:href="@{'/edit/' + ${prueba.clientid}}">Edit</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a th:href="@{'/delete/' + ${prueba.clientid}}">Delete</a>
+                </td>
+                
+             
+            </tr>
+        </tbody>
+        
+    </table>
+</div>  
+</body>
+</html>
