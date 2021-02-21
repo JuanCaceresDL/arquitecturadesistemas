@@ -15,7 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class Controlador {
     @Autowired
     private Dao dao;
+    @Autowired
+    private TelDao teldao;
+    @Autowired
+    private ClienteDao daoc;
 
+    //TEMPLATE
     @RequestMapping("/")
     public String viewHomePage(final Model model) {
         final List<Modelo> listPrueba = dao.list();
@@ -58,8 +63,49 @@ public class Controlador {
     public String delete(@PathVariable(name = "id") int id) {
         dao.delete(id);
         return "redirect:/";       
-    }	
+    }
     
+    //TELEFONO CONTROL
+    @RequestMapping("/telefonos")
+    public String telefonosPage(final Model telefono) {
+        final List<Telefono> listTel = teldao.list();
+        telefono.addAttribute("listTel", listTel);
+        return "telefonos.html";
+    }
     
+    @RequestMapping("/newTel")
+    public String telefonoNew(Model model) {
+        Telefono nuevoTel = new Telefono();
+        model.addAttribute("nuevoTel", nuevoTel);
+        return "telefonosNew.html";
+    }
 
+    @RequestMapping(value = "/saveTel", method = RequestMethod.POST)
+    public String telefonoSave(@ModelAttribute("newtel") Telefono newtel) {
+    teldao.save(newtel);
+    return "redirect:/telefonos";
+    }
+
+    //FABRICA CONTROL
+    @RequestMapping("/fabricas")
+    public String fabricaPage(final Model fabrica) {/*
+        final List<Telefono> listTel = teldao.list();
+        telefono.addAttribute("listTel", listTel);*/
+        return "fabricas.html";
+    }
+
+    //CLIENTES
+    @RequestMapping("/clientes")
+    public String clientesPage(final Model model) {
+        final List<ModeloCliente> listClient = daoc.list();
+        model.addAttribute("listClient", listClient);
+        return "ClienteRead.html";
+    }
+
+    @RequestMapping("/newCliente")
+    public String clienteNew(Model model) {
+        ModeloCliente nuevoClient = new ModeloCliente();
+        model.addAttribute("nuevoClient", nuevoClient);
+        return "clienteCreate.html";
+    }
 }

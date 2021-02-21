@@ -1,6 +1,0 @@
-com\mycompany\crud\SampleResource.class
-Modelo\Cliente.class
-Modelo\conexion.class
-Modelo\ClienteDAO.class
-Controlador\controlador.class
-com\mycompany\crud\JAXRSConfiguration.class
