@@ -25,9 +25,9 @@ public class Telefono {
     @Column
     private String descripcion;
     @Column
-    private int marcaid;
+    private int fabricaid;
     @Column
-    private String marca;
+    private String fabrica;
     @Column
     private float preciofabrica;
     @Column
@@ -44,7 +44,7 @@ public class Telefono {
     }
 
     public Telefono(int telcodigo, String modelo, float ram, float almacenamiento, String procesador, int cores,
-        String descripcion, int marcaid, String marca, float preciofabrica, float precioventa, int disponible,
+        String descripcion, int fabricaid, String fabrica, float preciofabrica, float precioventa, int disponible,
         int inventario, String color) {
       this.telcodigo = telcodigo;
       this.modelo = modelo;
@@ -53,8 +53,8 @@ public class Telefono {
       this.procesador = procesador;
       this.cores = cores;
       this.descripcion = descripcion;
-      this.marcaid = marcaid;
-      this.marca = marca;
+      this.fabricaid = fabricaid;
+      this.fabrica = fabrica;
       this.preciofabrica = preciofabrica;
       this.precioventa = precioventa;
       this.disponible = disponible;
@@ -118,20 +118,20 @@ public class Telefono {
       this.descripcion = descripcion;
     }
 
-    public int getMarcaid() {
-      return marcaid;
+    public int getFabricaid() {
+      return fabricaid;
     }
 
-    public void setMarcaid(int marcaid) {
-      this.marcaid = marcaid;
+    public void setFabricaid(int fabricaid) {
+      this.fabricaid = fabricaid;
     }
 
-    public String getMarca() {
-      return marca;
+    public String getFabrica() {
+      return fabrica;
     }
 
-    public void setMarca(String marca) {
-      this.marca = marca;
+    public void setFabrica(String fabrica) {
+      this.fabrica = fabrica;
     }
 
     public float getPreciofabrica() {

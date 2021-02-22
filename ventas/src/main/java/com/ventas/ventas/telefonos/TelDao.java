@@ -27,9 +27,15 @@ public class TelDao {
         return listTel;
     }
 
+    public List<Telefono> listMarcas(){
+        String sql = "SELECT * FROM "+ dbuser +"FABRICANTES";
+        List<Telefono> listTel = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Telefono.class));
+        return listTel;
+    }
+
     public void save(Telefono nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-        insertActor.withTableName("telefonos").usingColumns("telcodigo", "modelo", "ram", "almacenamiento", "procesador", "cores", "descripcion", "marcaid", "preciofabrica", "precioventa", "disponible", "inventario", "color");
+        insertActor.withTableName("telefonos").usingColumns("telcodigo", "modelo", "ram", "almacenamiento", "procesador", "cores", "descripcion", "fabricaid", "preciofabrica", "precioventa", "disponible", "inventario", "color");
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
          
         insertActor.execute(param);    
@@ -43,14 +49,14 @@ public class TelDao {
 	}
 
     public void update(Telefono modelo) {
-		String sql = "UPDATE "+ dbuser +"CLIENTES SET nombre=:nombre WHERE clientid=:clientid";
+		String sql = "UPDATE "+ dbuser +"TELEFONOS SET modelo=:modelo, ram=:ram, almacenamiento=:almacenamiento, procesador=:procesador, cores=:cores, descripcion=:descripcion, fabricaid=:fabricaid, preciofabrica=:preciofabrica, precioventa=:precioventa, disponible=:disponible, inventario=:inventario, color=:color WHERE telcodigo=:telcodigo";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		
 	}
 
     public void delete(int id) {
-		String sql = "DELETE FROM "+ dbuser +"CLIENTES WHERE clientid = ?";
+		String sql = "DELETE FROM "+ dbuser +"TELEFONOS WHERE TELCODIGO = ?";
 		jdbcTemplate.update(sql, id);
 	}
 

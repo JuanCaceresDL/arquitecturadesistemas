@@ -25,7 +25,9 @@ xmlns:th="http://www.thymeleaf.org">
             </div> 
         </nav>
         <br>
-        <h1 class="d-flex justify-content-center">Nuevo Teléfono</h1>
+        <h1 th:inline="text" class="d-flex justify-content-center">
+            Editar Codigo [[${telefono.telcodigo}]]
+         </h1>
         <br>
     </header>
 
@@ -37,11 +39,11 @@ xmlns:th="http://www.thymeleaf.org">
         </article>
 
         <article class="col-sm-8">
-            <form action ="#" th:action="@{/saveTel}" th:object="${nuevoTel}"  method="post">
+            <form action ="#" th:action="@{/updateTel}" th:object="${telefono}"  method="post">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Código</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" th:field="*{telcodigo}" placeholder="Código" />
+                        <input type="text" class="form-control" th:field="*{telcodigo}" readonly="readonly" placeholder="Código" />
                     </div>
                 </div>
                 <br>
@@ -58,7 +60,7 @@ xmlns:th="http://www.thymeleaf.org">
                     <label class="col-sm-2 col-form-label">Marca</label>
                     <div class="col-sm-10">
                         <select class="form-control" th:field="*{fabricaid}" >
-                            <option th:each ="mar : ${listMar}" th:value="${mar.fabricaid}" th:text="${mar.fabrica}"></option>
+                            <option th:each ="mar : ${listMar}" th:value="${mar.fabricaid}" th:text="${mar.fabrica}" th:selected="${mar.fabricaid==fabricaid}"></option>
                         </select>
                     </div>
                 </div>

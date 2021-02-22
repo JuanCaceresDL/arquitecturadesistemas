@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ventas.ventas.telefonos.*;
 import com.ventas.ventas.clientes.*;
+import com.ventas.ventas.fabricas.*;
 import com.ventas.ventas.tutorial.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +14,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class Controlador {
+
+    private Carrito carrito = new Carrito();
+
     @Autowired
     private Dao dao;
 
     @Autowired
     private TelDao teldao;
+
+    @Autowired
+    private FabDao fabDao;
     
     @Autowired
     private ClienteDao daoc;
@@ -83,6 +91,8 @@ public class Controlador {
     public String telefonoNew(Model model) {
         Telefono nuevoTel = new Telefono();
         model.addAttribute("nuevoTel", nuevoTel);
+        final List<Telefono> listMar = teldao.listMarcas();
+        model.addAttribute("listMar", listMar);
         return "telefonos/telefonosNew.html";
     }
 
@@ -92,12 +102,90 @@ public class Controlador {
     return "redirect:/telefonos";
     }
 
+    @RequestMapping("/editTel/{id}")
+    public ModelAndView telefonoEdit(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("telefonos/telefonosUpdate.html");
+        Telefono telefono = teldao.get(id);
+        List<Telefono> listMar = teldao.listMarcas();
+        mav.addObject("listMar", listMar);
+        mav.addObject("telefono", telefono);
+        return mav;
+    }
+        
+    @RequestMapping(value = "/updateTel", method = RequestMethod.POST)
+    public String telefonoUpdate(@ModelAttribute("modelo") Telefono modelo) {
+        teldao.update(modelo);
+        return "redirect:/telefonos";
+    }
+
+    @RequestMapping("/deleteTel/{id}")
+    public String telefonoDelete(@PathVariable(name = "id") int id) {
+        teldao.delete(id);
+        return "redirect:/telefonos";       
+    }
+
+    @RequestMapping(value = "/addCarrito/{id}", method = RequestMethod.POST)
+    public String addCarrito(@PathVariable(name = "id") int id, @RequestParam String cantidadTel) {
+        Telefono telefono = teldao.get(id);
+        int cant = Integer.parseInt(cantidadTel);
+        this.carrito.addPedido(cant, telefono);
+        return "redirect:/telefonos";       
+    }
+
     //FABRICA CONTROL
     @RequestMapping("/fabricas")
-    public String fabricaPage(final Model fabrica) {/*
-        final List<Telefono> listTel = teldao.list();
-        telefono.addAttribute("listTel", listTel);*/
+    public String fabricasPage(final Model model) {
+        final List<Fabricante> listFab = fabDao.list();
+        model.addAttribute("listFab", listFab);
+        
         return "fabricas/fabricas.html";
+    }
+
+    @RequestMapping("/newFabrica")
+    public String fabricaNew(Model model) {
+        Fabricante nuevo = new Fabricante();
+        model.addAttribute("nuevo", nuevo);
+        return "fabricas/fabricasNew.html";
+    }
+    
+    @RequestMapping(value = "/saveFabrica", method = RequestMethod.POST)
+    public String fabricaSave(@ModelAttribute("modelo") Fabricante modelo) {
+    fabDao.save(modelo);
+    return "redirect:/fabricas";
+    }
+
+    @RequestMapping("/editFabrica/{id}")
+    public ModelAndView fabricaEdit(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("fabricas/fabricasUpdate.html");
+        Fabricante modelo = fabDao.get(id);
+        mav.addObject("modelo", modelo);
+        return mav;
+    }
+        
+    @RequestMapping(value = "/updateFabrica", method = RequestMethod.POST)
+    public String fabricaUpdate(@ModelAttribute("modelo") Fabricante modelo) {
+        fabDao.update(modelo);
+            
+        return "redirect:/fabricas";
+    }
+
+    @RequestMapping("/deleteFabrica/{id}")
+    public String fabricaDelete(@PathVariable(name = "id") int id) {
+        fabDao.delete(id);
+        return "redirect:/fabricas";       
+    }
+
+    //CARRITO
+    @RequestMapping("/carrito")
+    public String carritoPage(final Model carrito) {
+        carrito.addAttribute("carrito", this.carrito);
+        return "pedidos/carrito.html";
+    }
+
+    @RequestMapping("/deleteCarrito/{id}")
+    public String carritoDel(@PathVariable(name = "id") int id) {
+        carrito.deletePedido(id);
+        return "redirect:/carrito";
     }
 
     //CLIENTES

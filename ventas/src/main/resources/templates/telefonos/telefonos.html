@@ -20,6 +20,7 @@ xmlns:th="http://www.thymeleaf.org">
               <a class="nav-item nav-link active" href="/telefonos">Teléfonos</a>    
               <a class="nav-item nav-link" href="/clientes">Clientes</a> 
               <a class="nav-item nav-link" href="/fabricas">Fábricas</a> 
+              <a class="nav-item nav-link" href="/carrito">Carrito</a>
             </div>
           </div> 
       </nav>
@@ -27,8 +28,8 @@ xmlns:th="http://www.thymeleaf.org">
       <h1 class="d-flex justify-content-center">Teléfonos</h1>
     </header>
 
-    <section>
-      <a href="/newTel"><button>Nuevo Teléfono</button></a>
+    <section class="container d-flex justify-content-center">
+      <a href="/newTel"><button class="btn btn-secondary">Nuevo Teléfono</button></a>
     </section>
 
     <section class="table-responsive container-fluid">
@@ -38,6 +39,8 @@ xmlns:th="http://www.thymeleaf.org">
             <th scope="col">Codigo</th>
             <th scope="col">Modelo</th>
             <th scope="col">Disponible</th>
+            <th scope="col">PrecioVenta</th>
+            <th scope="col" class="d-flex justify-content-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -45,6 +48,18 @@ xmlns:th="http://www.thymeleaf.org">
             <th scope="row" th:text="${tel.telcodigo}">Codigo</th>
             <td th:text="${tel.modelo}">Modelo</td>
             <td th:text="${tel.disponible} ? 'Si':'No' ">Disponible</td>
+            <td th:text="${tel.precioventa}">PrecioVenta</td>
+            <td class="d-flex justify-content-center">
+              <a th:href="@{'/editTel/' + ${tel.telcodigo}}"><Button class="btn btn-info">Edit</Button></a>
+              &nbsp;
+              <a th:href="@{'/deleteTel/' + ${tel.telcodigo}}"><button class="btn btn-danger">Delete</button></a>
+              &nbsp;
+              <form class="d-flex justify-content-center" action ="#" th:action="@{'/addCarrito/' + ${tel.telcodigo}}" method="post">
+                <input type="text" name="cantidadTel" placeholder="Unidades al carrito" th:value="${cantidadTel}"/>
+                &nbsp;
+                  <button type="submit" class="btn btn-dark" >Carrito</button>
+              </form>
+          </td>
           </tr>
         </tbody>
       </table>
