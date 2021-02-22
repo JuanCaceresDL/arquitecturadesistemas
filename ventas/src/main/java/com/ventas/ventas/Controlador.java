@@ -1,5 +1,7 @@
 package com.ventas.ventas;
 
+/*import java.text.SimpleDateFormat;
+import java.util.Date;*/
 import java.util.List;
 
 import com.ventas.ventas.telefonos.*;
@@ -7,8 +9,11 @@ import com.ventas.ventas.clientes.*;
 import com.ventas.ventas.tutorial.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+/*import org.springframework.beans.propertyeditors.CustomDateEditor;*/
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+/*import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;*/
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,6 +117,25 @@ public class Controlador {
     public String clienteNew(Model model) {
         ModeloCliente nuevoClient = new ModeloCliente();
         model.addAttribute("nuevoClient", nuevoClient);
-        return "clientes/clienteCreate.html";
+        return "clientes/clientecreate.html";
+    }
+
+    @RequestMapping("/deleteCliente/{nit}")
+    public String deleteCliente(@PathVariable(name = "nit") int nit) {
+        daoc.delete(nit);
+        return "clientes/ClienteRead.html";       
+    }
+
+    /*@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }*/
+
+    @RequestMapping(value = "/savec", method = RequestMethod.POST)
+        public String save(@ModelAttribute("nuevoClient") ModeloCliente nuevoClient) {
+        daoc.save(nuevoClient);
+        return "redirect:/";
     }
 }
