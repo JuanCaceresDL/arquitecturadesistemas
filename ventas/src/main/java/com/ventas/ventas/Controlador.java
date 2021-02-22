@@ -193,6 +193,9 @@ public class Controlador {
         return "redirect:/carrito";
     }
 
+    //PEDIDOS
+    
+
     //CLIENTES
     @RequestMapping("/clientes")
     public String clientesPage(final Model model) {
