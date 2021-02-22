@@ -30,19 +30,28 @@ xmlns:th="http://www.thymeleaf.org">
     <table border="1" cellpadding="10">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Cliente</th>
-                <th>Actions</th>
+                <th>NIT</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Patente</th>
+                <th>Suscripción</th>
+                <th>Fechav</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each ="prueba : ${listClient}">
-                <td th:text="${prueba.clientid}">ID</td>
-                <td th:text="${prueba.nombre}">Item Name</td>
+                <td th:text="${prueba.nombre}">Nombre</td>
+                <td th:text="${prueba.nit}">NIT</td>
+                <td th:text="${prueba.email}">Email</td>
+                <td th:text="${prueba.telefono}">Telefono</td>
+                <td th:text="${prueba.patente}">Patente</td>
+                <td th:text="${prueba.suscripcion}">Suscripción</td>
+                <td th:text="${prueba.fechav}">Fecha vencimiento</td>
                 <td>
-                    <a th:href="@{'/edit/' + ${prueba.clientid}}">Edit</a>
+                    <a th:href="@{'/editCliente/' + ${prueba.nit}}">Edit</a>
                     &nbsp;&nbsp;&nbsp;
-                    <a th:href="@{'/delete/' + ${prueba.clientid}}">Delete</a>
+                    <a th:href="@{'/deleteCliente/' + ${prueba.nit}}">Delete</a>
                 </td>
                 
              
