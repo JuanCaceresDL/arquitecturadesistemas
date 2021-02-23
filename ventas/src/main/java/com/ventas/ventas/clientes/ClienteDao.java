@@ -46,7 +46,7 @@ public class ClienteDao {
 	}
 
     public void update(ModeloCliente modelo) {
-		String sql = "UPDATE "+ dbuser +"CLIENTES SET nombre=:nombre WHERE clientid=:clientid";
+		String sql = "UPDATE "+ dbuser +"CLIENTES SET nombre=:nombre, email=:email, telefono=:telefono, patente=:patente, suscripcion=:suscripcion, fechav=:fechav WHERE nit=:nit";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		
