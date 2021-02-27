@@ -2,14 +2,10 @@ package com.ventas.ventas.clientes;
 
 import javax.persistence.Entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class ModeloCliente {
@@ -23,7 +19,7 @@ public class ModeloCliente {
     
     
 
-    public ModeloCliente(int nit, String nombre, String email, int telefono, String patente, String suscripcion, Date fechav) {
+    public ModeloCliente(int nit, String nombre, String email, int telefono, String patente, String suscripcion, String fechav) {
 		super();
 		this.nit = nit;
         this.nombre = nombre;
@@ -94,14 +90,13 @@ public class ModeloCliente {
         this.suscripcion = suscripcion;
     }
 
-    /*@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")*/
-    private Date fechav;
+    private String fechav;
 
-    public Date getFechav() {
+    public String getFechav() {
         return fechav;
     }
 
-    public void setFechav(Date fechav) {
+    public void setFechav(String fechav) {
         this.fechav = fechav;
     }
     
