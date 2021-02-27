@@ -1,0 +1,27 @@
+clientes
+
+{
+    nombre: String,
+    password: string
+}
+
+telefonos
+
+{
+    modelo: String,
+    color: String,
+    cores: Int,
+    procesador: String
+    precio: float
+}
+
+pedidos
+
+{
+    cliente: String
+    pedido{
+        telefono: telefono,
+        cantidad: int
+        fecha de entrega: date
+    }
+}

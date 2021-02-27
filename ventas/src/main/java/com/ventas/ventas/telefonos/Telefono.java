@@ -38,6 +38,12 @@ public class Telefono {
     private int inventario;
     @Column
     private String color;
+
+    @Column
+    private int fotoid;
+
+    @Column
+    private String foto;
     
     public Telefono() {
        
@@ -45,7 +51,7 @@ public class Telefono {
 
     public Telefono(int telcodigo, String modelo, float ram, float almacenamiento, String procesador, int cores,
         String descripcion, int fabricaid, String fabrica, float preciofabrica, float precioventa, int disponible,
-        int inventario, String color) {
+        int inventario, String color, int fotoid, String foto) {
       this.telcodigo = telcodigo;
       this.modelo = modelo;
       this.ram = ram;
@@ -60,6 +66,8 @@ public class Telefono {
       this.disponible = disponible;
       this.inventario = inventario;
       this.color = color;
+      this.fotoid = fotoid;
+      this.foto = foto;
     }
 
     public int getTelcodigo() {
@@ -172,6 +180,22 @@ public class Telefono {
 
     public void setColor(String color) {
       this.color = color;
+    }
+
+    public int getFotoid() {
+      return fotoid;
+    }
+
+    public void setFotoid(int fotoid) {
+      this.fotoid = fotoid;
+    }
+
+    public String getFoto() {
+      return foto;
+    }
+
+    public void setFoto(String foto) {
+      this.foto = foto;
     }
 
     

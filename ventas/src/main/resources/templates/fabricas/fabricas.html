@@ -38,6 +38,7 @@ xmlns:th="http://www.thymeleaf.org">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Fabrica</th>
+            <th scope="col">IP</th>
             <th scope="col">Puerto</th>
             <th scope="col">Acciones</th>
           </tr>
@@ -46,6 +47,7 @@ xmlns:th="http://www.thymeleaf.org">
           <tr th:each ="fab : ${listFab}">
             <th scope="row" th:text="${fab.fabricaid}">Codigo</th>
             <td th:text="${fab.fabrica}">Modelo</td>
+            <td th:text="${fab.ip}">IP</td>
             <td th:text="${fab.puerto}">Disponible</td>
             <td>
               <a th:href="@{'/editFabrica/' + ${fab.fabricaid}}"><Button class="btn btn-info">Edit</Button></a>

@@ -112,9 +112,28 @@ public class Controlador {
         ModelAndView mav = new ModelAndView("telefonos/telefonosUpdate.html");
         Telefono telefono = teldao.get(id);
         List<Telefono> listMar = teldao.listMarcas();
+        List<Telefono> listFotos = teldao.listFotos(id);
+        Telefono fotoVacia = new Telefono();
         mav.addObject("listMar", listMar);
         mav.addObject("telefono", telefono);
+        mav.addObject("listFotos", listFotos);
+        mav.addObject("fotoVacia", fotoVacia);
         return mav;
+    }
+
+    @RequestMapping(value = "/saveFoto", method = RequestMethod.POST)
+    public String fotoSave(@RequestParam String idtel, @ModelAttribute("fotoVacia") Telefono fotoVacia) {
+        if(fotoVacia.getFoto() != ""){
+            fotoVacia.setTelcodigo(Integer.parseInt(idtel));
+            teldao.saveFoto(fotoVacia);
+        }
+        return "redirect:/editTel/"+idtel;
+    }
+
+    @RequestMapping("/deleteFoto/{id}/{idtel}")
+    public String fotoDelete(@PathVariable(name = "id") int id, @PathVariable(name = "idtel") int idtel) {
+        teldao.deleteFoto(id);
+        return "redirect:/editTel/"+idtel;
     }
         
     @RequestMapping(value = "/updateTel", method = RequestMethod.POST)

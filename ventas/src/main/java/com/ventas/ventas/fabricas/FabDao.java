@@ -29,7 +29,7 @@ public class FabDao {
 
     public void save(Fabricante nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-        insertActor.withTableName("fabricantes").usingColumns("fabricaid","fabrica","puerto");
+        insertActor.withTableName("fabricantes").usingColumns("fabricaid","fabrica","puerto", "ip");
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
          
         insertActor.execute(param);    
@@ -43,7 +43,7 @@ public class FabDao {
 	}
 
     public void update(Fabricante modelo) {
-		String sql = "UPDATE "+ dbuser +"FABRICANTES SET fabrica=:fabrica, puerto=:puerto WHERE fabricaid=:fabricaid";
+		String sql = "UPDATE "+ dbuser +"FABRICANTES SET fabrica=:fabrica, puerto=:puerto, ip=:ip WHERE fabricaid=:fabricaid";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		

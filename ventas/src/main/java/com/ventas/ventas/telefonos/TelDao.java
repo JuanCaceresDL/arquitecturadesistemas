@@ -33,6 +33,12 @@ public class TelDao {
         return listTel;
     }
 
+    public List<Telefono> listFotos(int id){
+        String sql = "SELECT * FROM "+ dbuser +"FOTOS WHERE TELCODIGO = "+ id;
+        List<Telefono> listTel = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Telefono.class));
+        return listTel;
+    }
+
     public void save(Telefono nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
         insertActor.withTableName("telefonos").usingColumns("telcodigo", "modelo", "ram", "almacenamiento", "procesador", "cores", "descripcion", "fabricaid", "preciofabrica", "precioventa", "disponible", "inventario", "color");
@@ -40,6 +46,19 @@ public class TelDao {
          
         insertActor.execute(param);    
     }
+
+    public void saveFoto(Telefono nuevo) {
+        SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
+        insertActor.withTableName("fotos").usingColumns("telcodigo", "foto");
+        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
+         
+        insertActor.execute(param);    
+    }
+
+    public void deleteFoto(int id) {
+		String sql = "DELETE FROM "+ dbuser +"FOTOS WHERE FOTOID = ?";
+		jdbcTemplate.update(sql, id);
+	}
 
     public Telefono get(int id) {
 		String sql = "SELECT * FROM "+ dbuser +"TELEFONOS WHERE TELCODIGO = ?";
