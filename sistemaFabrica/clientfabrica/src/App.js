@@ -6,7 +6,7 @@ import {
   Route
 } from "react-router-dom";
 import './App.css';
-import Telefonos from './components/telefonos/Telefono'
+import Telefono from './components/telefonos/Telefono'
 
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
 
       <Switch>
         <Route path="/telefonos">
-          <Telefonos />
+          <Telefono />
         </Route>
       </Switch>
 

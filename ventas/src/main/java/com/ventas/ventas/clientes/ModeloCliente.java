@@ -2,6 +2,8 @@ package com.ventas.ventas.clientes;
 
 import javax.persistence.Entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +21,7 @@ public class ModeloCliente {
     
     
 
-    public ModeloCliente(int nit, String nombre, String email, int telefono, String patente, String suscripcion, String fechav) {
+    public ModeloCliente(int nit, String nombre, String email, int telefono, String patente, String suscripcion, Date vencimiento) {
 		super();
 		this.nit = nit;
         this.nombre = nombre;
@@ -27,7 +29,7 @@ public class ModeloCliente {
         this.telefono = telefono;
         this.patente = patente;
         this.suscripcion = suscripcion;
-        this.fechav = fechav;
+        this.vencimiento = vencimiento;
 	}
 
     public int getNit() {
@@ -90,14 +92,14 @@ public class ModeloCliente {
         this.suscripcion = suscripcion;
     }
 
-    private String fechav;
+    private Date vencimiento;
 
-    public String getFechav() {
-        return fechav;
+    public Date getVencimiento() {
+        return vencimiento;
     }
 
-    public void setFechav(String fechav) {
-        this.fechav = fechav;
+    public void setVencimiento(String vencimiento) {
+        this.vencimiento = Date.valueOf(vencimiento);
     }
     
 }
