@@ -18,12 +18,14 @@ function App() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/telefonos">Telefonos</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link href="/clientes">Clintes</Nav.Link>
+            <Nav.Link href="/pedidos">Reportes</Nav.Link>
+            <Nav.Link href="/Usuarios">Pedidos</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">More deets</Nav.Link>
+            <Nav.Link href="#deets">/</Nav.Link>
             <Nav.Link eventKey={2} href="#memes">
-              Dank memes
+              Log Out
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -34,8 +36,6 @@ function App() {
           <Telefono />
         </Route>
       </Switch>
-
-
     </Router>
   );
 }

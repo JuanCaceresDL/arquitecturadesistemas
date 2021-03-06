@@ -13,9 +13,14 @@ function Telefonos() {
     let match = useRouteMatch();
     return (
       <div >
-        <h1>Telefonos</h1>
-        <Link to={`${match.url}/nuevo`}><button>Crear teléfono</button></Link>
-
+        <center className="container">
+          <br/>
+          <h1>Telefonos</h1>
+          <Link to={`${match.url}`}><button className="btn btn-primary">Lista</button></Link>&nbsp;&nbsp;&nbsp;
+          <Link to={`${match.url}/nuevo`}><button className="btn btn-primary">Crear</button></Link>
+          <br/>
+          <br/>
+        </center>
         <Switch>
           <Route exact={true} path={match.path}>
             <TelefonoRead />
