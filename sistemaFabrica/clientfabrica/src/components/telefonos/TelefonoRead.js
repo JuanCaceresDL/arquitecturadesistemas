@@ -1,5 +1,8 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import Axios from 'axios'
+import {
+  Link
+} from "react-router-dom";
 
 
 function TelefonoRead() {
@@ -14,6 +17,16 @@ function TelefonoRead() {
           alert('ERR')
       })
   }, [])
+
+  const deleteTel = (id) => {
+    Axios.delete(`http://localhost:3001/deleteTelefono/${id}`).then(() =>{
+      setList(listTelefonos.filter(val => 
+         val._id !== id
+      ))
+    }).catch(() => {
+      alert("No se pudo borrar el elemento")
+    })
+  }
 
     return (
       <Fragment>
@@ -36,9 +49,9 @@ function TelefonoRead() {
                   <td>{tel.descripcion}</td>
                   <td>{tel.precio}</td>
                   <td className="d-flex justify-content-center">
-                    <a href="#"><button className="btn btn-info"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                    <Link to={`/telefonos/edit/${tel._id}`}><button className="btn btn-info"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></Link>
                     &nbsp;
-                    <a href="#"><button className="btn btn-danger"><i className="fa fa-trash" aria-hidden="true"></i></button></a>
+                    <button onClick={() => {deleteTel(tel._id)}} className="btn btn-danger"><i className="fa fa-trash" aria-hidden="true"></i></button>
                     &nbsp;
                 </td>
                 </tr>

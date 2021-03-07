@@ -1,6 +1,7 @@
 import React from 'react';
 import TelefonoRead from './TelefonoRead'
 import TelefonoNew from './TelefonoNew'
+import TelefonoEdit from './TelefonoEdit'
 import {
   Switch,
   Route,
@@ -27,6 +28,9 @@ function Telefonos() {
           </Route>
           <Route exact={true} path={`${match.path}/nuevo`}>
             <TelefonoNew />
+          </Route>
+          <Route exact={true} path={`${match.path}/edit/:id`}>
+            <TelefonoEdit />
           </Route>
         </Switch>
         

@@ -1,8 +1,10 @@
-import React, {useState, Fragment} from 'react';
-import {useHistory} from "react-router-dom";
+import React, {useState, Fragment, useEffect} from 'react';
+import {useParams, useHistory} from "react-router-dom";
 import Axios from 'axios'
 
-function TelefonoNew() {
+function TelefonoEdit() {
+
+    let { id } = useParams();
     const history = useHistory()
 
     const [datos, setDatos] = useState({
@@ -14,8 +16,21 @@ function TelefonoNew() {
         procesador: '',
         cores: '',
         descripcion: '',
-        precio: ''
+        precio: '',
+        _id:'',
+        __v: ''
       })
+
+    useEffect(() =>{
+
+        Axios.get(`http://localhost:3001/getTelefono/${id}`).then((response) => {
+              setDatos(response.data)
+          }).catch(() => {
+              alert('ERR')
+          })
+      }, [])
+
+    
       
       const handleInputChange = (event) => {
         setDatos({
@@ -26,20 +41,11 @@ function TelefonoNew() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.post('http://localhost:3001/addTelefono', {
-            codigo: datos.codigo,
-            modelo: datos.modelo,
-            color: datos.color,
-            ram: Number(datos.ram),
-            memoria: Number(datos.memoria),
-            procesador: datos.procesador,
-            cores: Number(datos.cores),
-            descripcion: datos.descripcion,
-            precio: Number(datos.precio)}).then(() => {
-                alert('Se ha añadido un nuevo teléfono')
-                history.push("/telefonos")
+        Axios.put('http://localhost:3001/updateTelefono', datos).then(() => {
+                alert('Se ha actualizado correctamente')
+                history.push("/telefonos");
             }).catch(() => {
-                alert('No se ha podido guardar')
+                alert('No se ha podido actualizar')
             })
       }
 
@@ -57,56 +63,56 @@ function TelefonoNew() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Código</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="codigo" placeholder="Código" onChange={handleInputChange}/>
+                                    <input type="text" value={datos.codigo} className="form-control" name="codigo" placeholder="Código" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Modelo</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="modelo" placeholder="Modelo" onChange={handleInputChange}/>
+                                    <input type="text" value={datos.modelo} className="form-control" name="modelo" placeholder="Modelo" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Color</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="color" placeholder="Color" onChange={handleInputChange}/>
+                                    <input type="text" value={datos.color} className="form-control" name="color" placeholder="Color" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Ram</label>
                                 <div className="col-sm-10">
-                                    <input type="number" className="form-control" name="ram" placeholder="Memora Ram GB" onChange={handleInputChange}/>
+                                    <input type="number" value={datos.ram} className="form-control" name="ram" placeholder="Memora Ram GB" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Almacenamiento</label>
                                 <div className="col-sm-10">
-                                    <input type="number" className="form-control" name="memoria" placeholder="Almacenamiento GB" onChange={handleInputChange}/>
+                                    <input type="number" value={datos.memoria} className="form-control" name="memoria" placeholder="Almacenamiento GB" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Procesador</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="procesador" placeholder="Procesador" onChange={handleInputChange}/>
+                                    <input type="text" value={datos.procesador} className="form-control" name="procesador" placeholder="Procesador" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Cores</label>
                                 <div className="col-sm-10">
-                                    <input type="number" className="form-control" name="cores" placeholder="Cores" onChange={handleInputChange}/>
+                                    <input type="number" value={datos.cores} className="form-control" name="cores" placeholder="Cores" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Descripción</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="descripcion" placeholder="Descripción" onChange={handleInputChange}/>
+                                    <input type="text" value={datos.descripcion} className="form-control" name="descripcion" placeholder="Descripción" onChange={handleInputChange}/>
                                 </div>
                             </div>
                             <br/>
@@ -114,7 +120,7 @@ function TelefonoNew() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Precio de fábrica</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="precio" placeholder="Precio de Fabrica" onChange={handleInputChange}/>
+                                    <input type="text" value={datos.precio} className="form-control" name="precio" placeholder="Precio de Fabrica" onChange={handleInputChange}/>
                                 </div>
                             </div>
                             
@@ -131,4 +137,4 @@ function TelefonoNew() {
     );
   }
   
-  export default TelefonoNew;
+  export default TelefonoEdit;
