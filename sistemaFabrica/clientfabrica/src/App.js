@@ -21,8 +21,8 @@ function App() {
           <Nav className="mr-auto">
             <Nav.Link href="/telefonos">Telefonos</Nav.Link>
             <Nav.Link href="/clientes">Clientes</Nav.Link>
-            <Nav.Link href="/pedidos">Reportes</Nav.Link>
-            <Nav.Link href="/Usuarios">Pedidos</Nav.Link>
+            <Nav.Link href="/reportes">Reportes</Nav.Link>
+            <Nav.Link href="/pedidos">Pedidos</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href="#deets">/</Nav.Link>

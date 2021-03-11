@@ -115,7 +115,9 @@ app.get("/listPedidos", async (req, res) => {
       res.send(err);
     } else {
       res.send(result);
-    });
+    }
+  })
+  });
 
 app.post("/addPedido", async (req, res) => {
   const pedido = new PedidoModel({ 
@@ -166,6 +168,7 @@ app.get("/readCliente", async (req, res) => {
     } else {
       res.send(result)
     }
+  })
   });
 
 app.delete("/deleteClientes/:id", async (req, res) =>{
