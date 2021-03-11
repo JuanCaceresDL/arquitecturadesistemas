@@ -8,6 +8,7 @@ import {
 import './App.css';
 import Telefono from './components/telefonos/Telefono'
 import Pedido from './components/pedidos/Pedido'
+import Clientes from './components/clientes/clientes'
 
 
 function App() {
@@ -19,9 +20,9 @@ function App() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/telefonos">Telefonos</Nav.Link>
-            <Nav.Link href="/clientes">Clintes</Nav.Link>
-            <Nav.Link href="/usuarios">Reportes</Nav.Link>
-            <Nav.Link href="/pedidos">Pedidos</Nav.Link>
+            <Nav.Link href="/clientes">Clientes</Nav.Link>
+            <Nav.Link href="/pedidos">Reportes</Nav.Link>
+            <Nav.Link href="/Usuarios">Pedidos</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href="#deets">/</Nav.Link>
@@ -36,8 +37,13 @@ function App() {
         <Route path="/telefonos">
           <Telefono />
         </Route>
+
         <Route path="/pedidos">
           <Pedido />
+        </Route>
+
+        <Route path="/clientes">
+          <Clientes />
         </Route>
       </Switch>
     </Router>
