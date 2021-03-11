@@ -49,6 +49,8 @@ function TelefonoEdit() {
             })
       }
 
+      console.log(datos.color)
+
     return (
         <Fragment>
             <section className="container">

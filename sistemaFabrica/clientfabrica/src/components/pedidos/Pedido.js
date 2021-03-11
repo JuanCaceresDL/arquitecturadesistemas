@@ -1,7 +1,7 @@
 import React from 'react';
-import TelefonoRead from './TelefonoRead'
-import TelefonoNew from './TelefonoNew'
-import TelefonoEdit from './TelefonoEdit'
+import PedidoRead from './PedidoRead'
+import PedidoNew from './PedidoNew'
+import PedidoEdit from './PedidoEdit'
 import {
   Switch,
   Route,
@@ -10,13 +10,13 @@ import {
 } from "react-router-dom";
 
 
-function Telefono() {
+function Pedido() {
     let match = useRouteMatch();
     return (
       <div >
         <center className="container">
           <br/>
-          <h1>Telefonos</h1>
+          <h1>Pedidos</h1>
           <Link to={`${match.url}`}><button className="btn btn-primary">Lista</button></Link>&nbsp;&nbsp;&nbsp;
           <Link to={`${match.url}/nuevo`}><button className="btn btn-primary">Crear</button></Link>
           <br/>
@@ -24,13 +24,13 @@ function Telefono() {
         </center>
         <Switch>
           <Route exact={true} path={match.path}>
-            <TelefonoRead />
+            <PedidoRead />
           </Route>
           <Route exact={true} path={`${match.path}/nuevo`}>
-            <TelefonoNew />
+            <PedidoNew />
           </Route>
           <Route exact={true} path={`${match.path}/edit/:id`}>
-            <TelefonoEdit />
+            <PedidoEdit />
           </Route>
         </Switch>
         
@@ -38,4 +38,4 @@ function Telefono() {
     );
   }
   
-  export default Telefono;
+  export default Pedido;

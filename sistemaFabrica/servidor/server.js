@@ -4,6 +4,7 @@ const cors = require("cors")
 const mongoose = require("mongoose");
 const FriendModel = require("./models/Test");
 const TelefonoModel = require("./models/Telefono");
+const PedidoModel = require("./models/Pedido");
 
 app.use(cors());
 app.use(express.json());
@@ -70,27 +71,17 @@ app.post("/addTelefono", async (req, res) => {
 
 app.put("/updateTelefono", async (req, res) => {
   const id = req.body._id;
-  const codigo = req.body.codigo;
-  const modelo = req.body.modelo;
-  const color = req.body.color; 
-  const ram = Number(req.body.ram);
-  const memoria = Number(req.body.memoria);
-  const procesador = Number(req.body.procesador);
-  const cores = Number(req.body.cores);
-  const descripcion = req.body.descripcion;
-  const precio = Number(req.body.precio);
-
   try {
     TelefonoModel.findById(id, (err, result) => {
-      result.codigo = codigo;
-      result.modelo = modelo;
-      result.color = color;
-      result.ram = ram;
-      result.memoria = memoria;
-      result.procesador = procesador;
-      result.cores = cores;
-      result.descripcion = descripcion;
-      result.precio = precio;
+      result.codigo = req.body.codigo;
+      result.modelo = req.body.modelo;
+      result.color = req.body.color;
+      result.ram = Number(req.body.ram);
+      result.memoria = Number(req.body.memoria);
+      result.procesador = Number(req.body.procesador);
+      result.cores = Number(req.body.cores);
+      result.descripcion = req.body.descripcion;;
+      result.precio = Number(req.body.precio);
       result.save();
     });
   } catch(err){
@@ -104,6 +95,58 @@ app.delete("/deleteTelefono/:id", async (req, res) =>{
   await TelefonoModel.findByIdAndRemove(id).exec();
   res.send("item deleted");
 })
+
+//PEDIDOS---------------------------------------------------------------------
+app.get("/getPedido/:id", async (req, res) => {
+  const id = req.params.id;
+  PedidoModel.findById(id, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.get("/listPedidos", async (req, res) => {
+  PedidoModel.find({}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.post("/addPedido", async (req, res) => {
+  const pedido = new PedidoModel({ 
+    telId: req.body.telId,
+    cantidad: req.body.cantidad,
+    ventaTotal: req.body.ventaTotal,
+    estado: req.body.estado,
+    cliente: req.body.cliente,
+    fechaCompra: new Date(req.body.fechaCompra),
+    fechaEntrega: new Date(req.body.fechaEntrega),});
+  await pedido.save();
+  res.send("Inserted DATA");
+});
+
+app.put("/updatePedido", async (req, res) => {
+  const id = req.body._id;
+  const estado = req.body.estado;
+  const fechaEntrega = req.body.fechaEntrega;
+
+  try {
+    PedidoModel.findById(id, (err, result) => {
+      result.estado = estado;
+      result.fechaEntrega = fechaEntrega;
+      result.save();
+    });
+  } catch(err){
+    console.log(err);
+  }
+  res.send("updated")
+});
 
 app.listen(3001, () => {
   console.log("You are connected! port 3001");

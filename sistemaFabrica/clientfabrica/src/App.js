@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import './App.css';
 import Telefono from './components/telefonos/Telefono'
+import Pedido from './components/pedidos/Pedido'
 
 
 function App() {
@@ -19,8 +20,8 @@ function App() {
           <Nav className="mr-auto">
             <Nav.Link href="/telefonos">Telefonos</Nav.Link>
             <Nav.Link href="/clientes">Clintes</Nav.Link>
-            <Nav.Link href="/pedidos">Reportes</Nav.Link>
-            <Nav.Link href="/Usuarios">Pedidos</Nav.Link>
+            <Nav.Link href="/usuarios">Reportes</Nav.Link>
+            <Nav.Link href="/pedidos">Pedidos</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href="#deets">/</Nav.Link>
@@ -34,6 +35,9 @@ function App() {
       <Switch>
         <Route path="/telefonos">
           <Telefono />
+        </Route>
+        <Route path="/pedidos">
+          <Pedido />
         </Route>
       </Switch>
     </Router>
