@@ -4,6 +4,7 @@ const cors = require("cors")
 const mongoose = require("mongoose");
 const FriendModel = require("./models/Test");
 const TelefonoModel = require("./models/Telefono");
+const ClientesModelo = require("./models/Clientes");
 
 app.use(cors());
 app.use(express.json());
@@ -102,6 +103,34 @@ app.put("/updateTelefono", async (req, res) => {
 app.delete("/deleteTelefono/:id", async (req, res) =>{
   const id = req.params.id;
   await TelefonoModel.findByIdAndRemove(id).exec();
+  res.send("item deleted");
+})
+
+//CLIENTES------------------------------------------------------------------
+
+app.post("/insertCliente", async (req, res) => {
+  const clientes = new ClientesModelo({ 
+    nombre: req.body.nombre,
+    url: req.body.url,
+    password: req.body.password
+   });
+  await clientes.save();
+  res.send("data insertada");
+});
+
+app.get("/readCliente", async (req, res) => {
+  ClientesModelo.find({}, (err, result) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(result)
+    }
+  });
+});
+
+app.delete("/deleteClientes/:id", async (req, res) =>{
+  const id = req.params.id;
+  await ClientesModelo.findByIdAndRemove(id).exec();
   res.send("item deleted");
 })
 

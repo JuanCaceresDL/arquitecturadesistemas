@@ -6,7 +6,8 @@ import {
   Route
 } from "react-router-dom";
 import './App.css';
-import Telefono from './components/telefonos/Telefono'
+import Telefono from './components/telefonos/Telefono';
+import Clientes from './components/clientes/clientes';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/telefonos">Telefonos</Nav.Link>
-            <Nav.Link href="/clientes">Clintes</Nav.Link>
+            <Nav.Link href="/clientes">Clientes</Nav.Link>
             <Nav.Link href="/pedidos">Reportes</Nav.Link>
             <Nav.Link href="/Usuarios">Pedidos</Nav.Link>
           </Nav>
@@ -34,6 +35,9 @@ function App() {
       <Switch>
         <Route path="/telefonos">
           <Telefono />
+        </Route>
+        <Route path="/clientes">
+          <Clientes />
         </Route>
       </Switch>
     </Router>
