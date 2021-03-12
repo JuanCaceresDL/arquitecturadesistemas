@@ -11,6 +11,7 @@ function ClientEdit() {
         nombre: '',
         url: '',
         password: '',
+        estado: '',
         _id:'',
         __v: ''
       })
@@ -72,6 +73,16 @@ function ClientEdit() {
                                 <label className="col-sm-2 col-form-label">Password</label>
                                 <div className="col-sm-10">
                                     <input type="text" value={datos.password} className="form-control" name="password" placeholder="Password" onChange={handleInputChange}/>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-sm-2 col-form-label">Estado</label>
+                                <div className="col-sm-10">
+                                    <select onChange={handleInputChange} className="form-control" name="estado">
+                                        <option value="">seleccione</option>
+                                        <option value="activo">activo</option>
+                                        <option value="inactivo">inactivo</option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="form-group row">

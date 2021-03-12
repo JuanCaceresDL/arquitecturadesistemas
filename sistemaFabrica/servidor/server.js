@@ -155,10 +155,38 @@ app.post("/insertCliente", async (req, res) => {
   const clientes = new ClientesModelo({ 
     nombre: req.body.nombre,
     url: req.body.url,
-    password: req.body.password
+    password: req.body.password,
+    estado: req.body.estado
    });
   await clientes.save();
   res.send("data insertada");
+});
+
+app.get("/getclientes/:id", async (req, res) => {
+  const id = req.params.id;
+  ClientesModelo.findById(id, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.put("/updateclientes", async (req, res) => {
+  const id = req.body._id;
+  try {
+    ClientesModelo.findById(id, (err, result) => {
+      result.nombre = req.body.nombre;
+      result.url = req.body.url;
+      result.password = req.body.password;
+      result.estado = req.body.estado;
+      result.save();
+    });
+  } catch(err){
+    console.log(err);
+  }
+  res.send("updated")
 });
 
 app.get("/readCliente", async (req, res) => {
