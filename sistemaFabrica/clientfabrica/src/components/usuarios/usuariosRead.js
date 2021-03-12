@@ -52,8 +52,8 @@ function UsuariosRead() {
     if(search === "")
         return data
     else if(data.nombre.toLowerCase().includes(search.toLowerCase()) || 
-    data.url.toLowerCase().includes(search.toLowerCase()) || 
-    data.password.toLowerCase().includes(search.toLowerCase())){
+    data.password.toLowerCase().includes(search.toLowerCase()) || 
+    data.estado.toLowerCase().includes(search.toLowerCase())){
         return data
     }
   }).map((us, index)=>{
@@ -61,6 +61,7 @@ function UsuariosRead() {
       <tr key={index}>
         <th>{highlightText(us.nombre, search)}</th>
         <td>{highlightText(us.password, search)}</td>
+        <td>{highlightText(us.estado, search)}</td>
         <td className="d-flex justify-content-center">
           <Link to={`/usuarios/edit/${us._id}`}><button className="btn btn-info"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></Link>
           &nbsp;
@@ -90,6 +91,7 @@ function UsuariosRead() {
               <tr>
                 <th scope="col" onClick={e => onSort(e, "nombre")}>Nombre <i hidden={"nombre" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
                 <th scope="col" onClick={e => onSort(e, "password")}>Password <i hidden={"password" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                <th scope="col" onClick={e => onSort(e, "estado")}>Estado <i hidden={"estado" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
                 <th scope="col" className="d-flex justify-content-center">Actions</th>
               </tr>
             </thead>
