@@ -12,6 +12,10 @@ const Clienteschema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    estado: {
+        type: String,
+        required: true
     }
 });
 

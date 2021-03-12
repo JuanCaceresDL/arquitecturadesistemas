@@ -8,7 +8,8 @@ function ClienteNew() {
     const [datos, setDatos] = useState({
         nombre: '',
         url: '',
-        password: ''
+        password: '',
+        estado: ''
       })
       
       const handleInputChange = (event) => {
@@ -23,7 +24,8 @@ function ClienteNew() {
         Axios.post('http://localhost:3001/insertCliente', {
             nombre: datos.nombre,
             url: datos.url,
-            password: datos.password}).then(() => {
+            password: datos.password,
+            estado: datos.estado}).then(() => {
                 alert('Se ha añadido un nuevo cliente')
                 history.push("/clientes")
             }).catch(() => {
@@ -60,6 +62,16 @@ function ClienteNew() {
                                 <label className="col-sm-2 col-form-label">password</label>
                                 <div className="col-sm-10">
                                     <input type="text" className="form-control" name="password" placeholder="Password" onChange={handleInputChange}/>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-sm-2 col-form-label">Estado</label>
+                                <div className="col-sm-10">
+                                    <select onChange={handleInputChange} className="form-control" name="estado">
+                                        <option value="">seleccione</option>
+                                        <option value="activo">activo</option>
+                                        <option value="inactivo">inactivo</option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="form-group row">
