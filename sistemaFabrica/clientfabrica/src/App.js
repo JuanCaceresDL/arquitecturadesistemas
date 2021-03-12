@@ -23,6 +23,7 @@ function App() {
             <Nav.Link href="/clientes">Clientes</Nav.Link>
             <Nav.Link href="/reportes">Reportes</Nav.Link>
             <Nav.Link href="/pedidos">Pedidos</Nav.Link>
+            <Nav.Link href="/usuarios">Usuarios</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href="#deets">/</Nav.Link>

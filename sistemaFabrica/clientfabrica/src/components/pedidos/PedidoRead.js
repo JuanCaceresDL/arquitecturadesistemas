@@ -1,4 +1,5 @@
 import React, {useEffect, useState, Fragment} from 'react';
+import {highlightText} from '../publicElements/functions'
 import Axios from 'axios'
 import {
   Link
@@ -40,17 +41,23 @@ function PedidoRead() {
   const items = listItems.filter((data)=>{
     if(search === "")
         return data
-    else if(data._id.toLowerCase().includes(search.toLowerCase())){
+    else if(data._id.toLowerCase().includes(search.toLowerCase()) ||
+    data.estado.toLowerCase().includes(search.toLowerCase()) ||
+    data.cliente.toLowerCase().includes(search.toLowerCase()) ||
+    new Date(data.fechaCompra).toLocaleDateString().toLowerCase().includes(search.toLowerCase()) ||
+    new Date(data.fechaEntrega).toLocaleDateString().toLowerCase().includes(search.toLowerCase())){
         return data
     }
   }).map((p, index)=>{
+    let fc = new Date(p.fechaCompra).toLocaleDateString();
+      let fe = new Date(p.fechaEntrega).toLocaleDateString()
     return(
       <tr key={index}>
         <th scope="row">{p._id}</th>
-        <td>{p.estado}</td>
-        <td>{p.cliente}</td>
-        <td>{(new Date(p.fechaCompra)).toLocaleDateString()}</td>
-        <td>{(new Date(p.fechaEntrega)).toLocaleDateString()}</td>
+        <td>{highlightText(p.estado, search)}</td>
+        <td>{highlightText(p.cliente, search)}</td>
+        <td>{highlightText(fc, search)}</td>
+        <td>{highlightText(fe, search)}</td>
         <td className="d-flex justify-content-center">
           <Link to={`/pedidos/edit/${p._id}`}><button className="btn btn-info"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></Link>
         </td>
@@ -62,9 +69,9 @@ function PedidoRead() {
       <Fragment>
         <section className="container">
           <center>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="basic-addon1"><i className="fa fa-search" aria-hidden="true"></i></span>
               </div>
               <input onChange={handleSearch} type="text" class="form-control" placeholder="Busqueda" aria-label="Username" aria-describedby="basic-addon1" />
             </div>
