@@ -6,6 +6,7 @@ const FriendModel = require("./models/Test");
 const TelefonoModel = require("./models/Telefono");
 const PedidoModel = require("./models/Pedido");
 const ClientesModelo = require("./models/Clientes");
+const UsuariosModelo = require("./models/Usuarios");
 
 app.use(cors());
 app.use(express.json());
@@ -202,6 +203,60 @@ app.get("/readCliente", async (req, res) => {
 app.delete("/deleteClientes/:id", async (req, res) =>{
   const id = req.params.id;
   await ClientesModelo.findByIdAndRemove(id).exec();
+  res.send("item deleted");
+})
+
+//USUARIOS------------------------------------------------------------------
+
+app.post("/insertUsuarios", async (req, res) => {
+  const usuarios = new UsuariosModelo({ 
+    nombre: req.body.nombre,
+    password: req.body.password,
+    estado: req.body.estado
+   });
+  await usuarios.save();
+  res.send("data insertada");
+});
+
+app.get("/getusuarios/:id", async (req, res) => {
+  const id = req.params.id;
+  UsuariosModelo.findById(id, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.put("/updateusuarios", async (req, res) => {
+  const id = req.body._id;
+  try {
+    UsuariosModelo.findById(id, (err, result) => {
+      result.nombre = req.body.nombre;
+      result.password = req.body.password;
+      result.estado = req.body.estado;
+      result.save();
+    });
+  } catch(err){
+    console.log(err);
+  }
+  res.send("updated")
+});
+
+app.get("/readUsuarios", async (req, res) => {
+  UsuariosModelo.find({}, (err, result) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(result)
+    }
+  })
+  });
+
+app.delete("/deleteUsuarios/:id", async (req, res) =>{
+  const id = req.params.id;
+  await UsuariosModelo.findByIdAndRemove(id).exec();
   res.send("item deleted");
 })
 

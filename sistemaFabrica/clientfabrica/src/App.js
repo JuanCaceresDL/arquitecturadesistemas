@@ -9,6 +9,7 @@ import './App.css';
 import Telefono from './components/telefonos/Telefono'
 import Pedido from './components/pedidos/Pedido'
 import Clientes from './components/clientes/clientes'
+import Usuarios from './components/usuarios/usuarios'
 
 
 function App() {
@@ -45,6 +46,10 @@ function App() {
 
         <Route path="/clientes">
           <Clientes />
+        </Route>
+
+        <Route path="/usuarios">
+          <Usuarios />
         </Route>
       </Switch>
     </Router>
