@@ -16,15 +16,23 @@ function PedidoNew() {
         fechaEntrega: '',
       })
     
-    const [valor, setValor] = useState(0)
-    const [tel, setTel] = useState([])
+    const [valor, setValor] = useState(0);
+    const [tel, setTel] = useState([]);
+    const [cli, setCli] = useState([]);
 
     useEffect(() =>{
     Axios.get('http://localhost:3001/readTelefono')
         .then((response) => {
             setTel(response.data)
         }).catch(() => {
-            alert('ERR')
+            alert('ERR Telefonos')
+        })
+
+        Axios.get('http://localhost:3001/readCliente')
+        .then((response) => {
+            setCli(response.data)
+        }).catch(() => {
+            alert('ERR Clientes')
         })
     }, [])
 
@@ -111,8 +119,8 @@ function PedidoNew() {
                                 <label className="col-sm-2 col-form-label">Cliente</label>
                                 <div className="col-sm-10">
                                     <select onChange={handleInputChange} className="form-control" name="cliente">
-                                        <option value="1">Cliente</option>
-                                        {tel.map((t, index) => <option key={index} value={t._id}>{t.codigo}</option>)}
+                                        <option value="">Seleccione un cliente</option>
+                                        {cli.filter(c => c.estado === "activo").map((c, index) => <option key={index} value={c._id}>{c.nombre}</option>)}
                                     </select>
                                 </div>
                             </div>

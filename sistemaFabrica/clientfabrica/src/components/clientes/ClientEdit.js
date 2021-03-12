@@ -78,7 +78,7 @@ function ClientEdit() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Estado</label>
                                 <div className="col-sm-10">
-                                    <select onChange={handleInputChange} className="form-control" name="estado">
+                                    <select onChange={handleInputChange} value={datos.estado} className="form-control" name="estado">
                                         <option value="">seleccione</option>
                                         <option value="activo">activo</option>
                                         <option value="inactivo">inactivo</option>
