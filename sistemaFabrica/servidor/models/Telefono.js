@@ -37,6 +37,10 @@ const TelefonoShema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    imagenes: {
+        type: [String],
+        required: false
+    }
 });
 
 const TelefonoModel = mongoose.model("telefonos", TelefonoShema);

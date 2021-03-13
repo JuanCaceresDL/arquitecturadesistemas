@@ -66,7 +66,8 @@ app.post("/addTelefono", async (req, res) => {
     procesador: req.body.procesador,
     cores: req.body.cores,
     descripcion: req.body.descripcion,
-    precio: req.body.precio});
+    precio: req.body.precio,
+    imagenes: req.body.imagenes});
   await telefono.save();
   res.send("Inserted DATA");
 });
@@ -82,8 +83,9 @@ app.put("/updateTelefono", async (req, res) => {
       result.memoria = Number(req.body.memoria);
       result.procesador = Number(req.body.procesador);
       result.cores = Number(req.body.cores);
-      result.descripcion = req.body.descripcion;;
+      result.descripcion = req.body.descripcion;
       result.precio = Number(req.body.precio);
+      result.imagenes = req.body.imagenes
       result.save();
     });
   } catch(err){

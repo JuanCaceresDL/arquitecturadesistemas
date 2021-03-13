@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 import './App.css';
+import './styles/styles.scss'
 import Telefono from './components/telefonos/Telefono'
 import Pedido from './components/pedidos/Pedido'
 import Clientes from './components/clientes/clientes'

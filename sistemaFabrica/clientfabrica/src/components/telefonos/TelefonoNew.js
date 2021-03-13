@@ -5,6 +5,7 @@ import Axios from 'axios'
 function TelefonoNew() {
     const history = useHistory()
 
+    const [imgs, setImg] = useState([]);
     const [datos, setDatos] = useState({
         codigo: '',
         modelo: '',
@@ -35,12 +36,25 @@ function TelefonoNew() {
             procesador: datos.procesador,
             cores: Number(datos.cores),
             descripcion: datos.descripcion,
-            precio: Number(datos.precio)}).then(() => {
+            precio: Number(datos.precio),
+            imagenes: imgs}).then(() => {
                 alert('Se ha añadido un nuevo teléfono')
                 history.push("/telefonos")
             }).catch(() => {
                 alert('No se ha podido guardar')
             })
+      }
+
+      const enviarImagen = (event) => {
+        event.preventDefault();
+        if(datos.actualImagen !== ""){
+            setImg([...imgs, datos.actualImagen])
+            setDatos({...datos, ["actualImagen"] : ''});
+        }
+      }
+
+      const deleteImagen = (index) =>{
+          setImg(i => i.filter((m, ind) => ind !== index));
       }
 
     return (
@@ -49,7 +63,21 @@ function TelefonoNew() {
                 <div className="row">
     
                     <article className="col-sm-4 justify-content-center">
-                        <a href="/telefonos"><button className="btn btn-secondary">Regresar</button></a>
+                        <center>
+                            <h3>Imagenes</h3>
+                            <form onSubmit={enviarImagen} class="d-flex justify-content-center">
+                                <input className="form-control" name="actualImagen" placeholder="Imagen Url" value={datos.actualImagen} autoComplete="off" onChange={handleInputChange}/>
+                                <br/>
+                                <button className="btn btn-secondary" type="submit"><i className="fa fa-plus-circle" aria-hidden="true"></i></button>
+                            </form>
+                            <br/>
+                            {imgs.map((i, index) => 
+                                <div key={index} className="divImg">
+                                    <img className="imagen" src={i} alt="img" /><br/>
+                                    <button onClick={() => deleteImagen(index)} className="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </div>
+                            )}   
+                        </center>
                     </article>
 
                     <article className="col-sm-8">
