@@ -23,21 +23,11 @@ xmlns:th="http://www.thymeleaf.org">
           
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/telefonos">Teléfonos</a>   
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/clientes">Clientes</a> 
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/fabricas">Fábricas</a> 
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/carrito">Carrito</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/usuarios">Carrito</a>
-              </li>
+                <li class="nav-item"><a class="nav-link" href="/telefonos">Teléfonos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/fabricas">Fábricas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/carrito">Carrito</a></li>
+                <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
               </ul>
               <span class="form-inline my-2 my-lg-0">
                 <a href="/logout"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log Out</button></a>
@@ -64,7 +54,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{telcodigo}" placeholder="Código" />
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Modelo</label>
@@ -72,7 +61,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{modelo}" placeholder="Modelo">
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Marca</label>
@@ -82,7 +70,6 @@ xmlns:th="http://www.thymeleaf.org">
                         </select>
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Color</label>
@@ -90,7 +77,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{color}" placeholder="Color">
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Ram</label>
@@ -98,7 +84,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="number" class="form-control" th:field="*{ram}" placeholder="Memora Ram GB">
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Almacenamiento</label>
@@ -106,7 +91,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="number" class="form-control" th:field="*{almacenamiento}" placeholder="Almacenamiento GB">
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Procesador</label>
@@ -114,7 +98,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{procesador}" placeholder="Procesador">
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Cores</label>
@@ -122,7 +105,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="number" class="form-control" th:field="*{cores}" placeholder="Cores">
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Descripción</label>
@@ -130,7 +112,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{descripcion}" placeholder="Descripción">
                     </div>
                 </div>
-                <br>
                 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Precio de Fábrica</label>
@@ -138,7 +119,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" id="precio" th:field="*{preciofabrica}" oninput="precioventa()" onchange="precioventa()" onclick="precioventa()" placeholder="Precio de fábrica">
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Precio de venta</label>
@@ -146,7 +126,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" id="venta" th:field="*{precioventa}" placeholder="Precio de venta">
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Inventario</label>
@@ -154,7 +133,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{inventario}" placeholder="Inventario">
                     </div>
                 </div>
-                <br>
 
                 <fieldset class="form-group">
                 <div class="row">

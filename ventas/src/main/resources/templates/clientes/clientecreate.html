@@ -16,17 +16,25 @@ xmlns:th="http://www.thymeleaf.org">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-xl navbar_intems navbar-dark bg-dark" id="l"> <a class="navbar-brand" href="/">HOME</a> 
-            <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"> 
-            <span class="navbar-toggler-icon" id="narv"></span> </button> 
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav"> 
-                    <a class="nav-item nav-link" href="/telefonos">Teléfonos</a>    
-                    <a class="nav-item nav-link active" href="/clientes">Clientes</a> 
-                    <a class="nav-item nav-link" href="/fabricas">Fábricas</a> 
-                </div>
-            </div> 
-        </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">HOME</a> 
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="/telefonos">Teléfonos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/fabricas">Fábricas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/carrito">Carrito</a></li>
+                <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+              </ul>
+              <span class="form-inline my-2 my-lg-0">
+                <a href="/logout"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log Out</button></a>
+              </span>
+            </div>
+          </nav>
         <br>
         <h1 class="d-flex justify-content-center">Insertar clientes</h1>
         <br>
