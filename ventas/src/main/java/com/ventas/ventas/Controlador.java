@@ -8,6 +8,7 @@ import com.ventas.ventas.telefonos.*;
 import com.ventas.ventas.clientes.*;
 import com.ventas.ventas.fabricas.*;
 import com.ventas.ventas.tutorial.*;
+import com.ventas.ventas.users.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class Controlador {
 
     private Carrito carrito = new Carrito();
+    private boolean login = false;
+    private Usuario user = new Usuario();
+    private String msg = "";
 
     @Autowired
     private Dao dao;
@@ -36,14 +40,17 @@ public class Controlador {
     @Autowired
     private ClienteDao daoc;
 
+    @Autowired
+    private UsuarioDao userDao;
+
     //TEMPLATE
-    @RequestMapping("/")
+    /*@RequestMapping("/")
     public String viewHomePage(final Model model) {
         final List<Modelo> listPrueba = dao.list();
         model.addAttribute("listPrueba", listPrueba);
         
         return "index.html";
-    }
+    }*/
 
     @RequestMapping("/new")
     public String showNewForm(Model model) {
@@ -230,26 +237,96 @@ public class Controlador {
     @RequestMapping("/deleteCliente/{nit}")
     public String deleteCliente(@PathVariable(name = "nit") int nit) {
         daoc.delete(nit);
-        return "clientes/ClienteRead.html";       
+        return "redirect:/clientes";       
     }
 
     @RequestMapping(value = "/savec", method = RequestMethod.POST)
         public String save(@ModelAttribute("nuevoClient") ModeloCliente nuevoClient) {
         daoc.save(nuevoClient);
-        return "clientes/ClienteRead.html";
+        return "redirect:/clientes";
     }
-/*
+
     @RequestMapping("/editCliente/{nit}")
-    public ModelAndView ClientEdit(@PathVariable(name = "nit") int nit) {
-        ModelAndView mc = new ModelAndView("clienteupdate.html");
-         = daoc.get(nit);
-        mc.addObject("ModeloCliente", editCliente);
-        return mc;
-    }*/
+    public ModelAndView clienteEdit(@PathVariable(name = "nit") int nit) {
+        ModelAndView mav = new ModelAndView("clientes/clienteupdate.html");
+        ModeloCliente modelo = daoc.get(nit);
+        mav.addObject("modelo", modelo);
+        return mav;
+    }
     
     @RequestMapping(value = "/updatec", method = RequestMethod.POST)
-    public String clienteUpdate(@ModelAttribute("updateClient") ModeloCliente updateClient) {
-        daoc.update(updateClient);
-        return "clientes/ClienteRead.html";
+    public String clienteUpdate(@ModelAttribute("modelo") ModeloCliente modelo, @RequestParam String fechaVen) {
+        modelo.setVencimiento(fechaVen);
+        daoc.update(modelo);
+        return "redirect:/clientes";
     }
+
+    //USUARIOS---------------------------------------------------------------------------------------------------------------------
+    @RequestMapping("/")
+    public String viewLogIn(final Model model) {
+        if(this.login){
+            model.addAttribute("user", this.user);
+            return "home.html";
+        }else{
+            model.addAttribute("msg", this.msg);
+            return "index.html";
+        }
+    }
+
+    @RequestMapping(value = "/comprobar", method = RequestMethod.POST)
+    public String comprobarUsuario(@RequestParam String name, @RequestParam String pass) {
+        Usuario usuario = userDao.logIn(name, pass);
+        if(usuario != null){
+            this.msg ="";
+            this.user = usuario;
+            this.login = true;
+        }else{
+            this.msg ="Nombre o password incorrecto";
+        }
+        return "redirect:/";
+    }
+
+    @RequestMapping("/logout")
+    public String logOutUser() {
+        this.login = false;
+        return "redirect:/";
+    }
+    /*
+
+    @RequestMapping("/new")
+    public String showNewForm(Model model) {
+        Modelo nuevo = new Modelo();
+        model.addAttribute("nuevo", nuevo);
+      
+        return "new";
+    }
+    
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String save(@ModelAttribute("modelo") Modelo modelo) {
+    dao.save(modelo);
+    return "redirect:/";
+    }
+
+    @RequestMapping("/edit/{id}")
+    public ModelAndView showEditForm(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("update");
+        Modelo modelo = dao.get(id);
+        mav.addObject("modelo", modelo);
+            
+        return mav;
+    }
+        
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("modelo") Modelo modelo) {
+        dao.update(modelo);
+            
+        return "redirect:/";
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") int id) {
+        dao.delete(id);
+        return "redirect:/";       
+    }*/
+
 }

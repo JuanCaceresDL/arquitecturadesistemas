@@ -5,3 +5,21 @@
 .divImg{
     margin-bottom: 10px;
 }
+
+.fondo{
+    background:rgb(112, 112, 112);
+}
+
+.card{
+    filter: drop-shadow(0px 2px 5px rgb(0, 0, 0));
+    width: 400px;
+    margin: auto;
+}
+
+.centrar-vertical{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

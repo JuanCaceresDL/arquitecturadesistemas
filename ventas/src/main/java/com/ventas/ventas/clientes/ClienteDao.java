@@ -32,28 +32,28 @@ public class ClienteDao {
 
     public void save(ModeloCliente nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-        insertActor.withTableName("clientes").usingColumns("nombre","nit","email","telefono","patente","suscripcion", "fechav");
+        insertActor.withTableName("clientes").usingColumns("nombre","nit","email","telefono","patente","suscripcion", "vencimiento");
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
          
         insertActor.execute(param);    
     }
 
     public ModeloCliente get(int nit) {
-		String sql = "SELECT * FROM "+ dbuser +"CLIENTES WHERE nit = ?";
+		String sql = "SELECT * FROM "+ dbuser +"CLIENTES WHERE NIT = ?";
 		Object[] args = {nit};
 		ModeloCliente sale = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(ModeloCliente.class));
 		return sale;
 	}
 
     public void update(ModeloCliente modelo) {
-		String sql = "UPDATE "+ dbuser +"CLIENTES SET nombre=:nombre, email=:email, telefono=:telefono, patente=:patente, suscripcion=:suscripcion, fechav=:fechav WHERE nit=:nit";
+		String sql = "UPDATE "+ dbuser +"CLIENTES SET nombre=:nombre, email=:email, telefono=:telefono, patente=:patente, suscripcion=:suscripcion, vencimiento=:vencimiento WHERE nit=:nit";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		
 	}
 
     public void delete(int nit) {
-		String sql = "DELETE FROM "+ dbuser +"CLIENTES WHERE nit = ?";
+		String sql = "DELETE FROM "+ dbuser +"CLIENTES WHERE NIT = ?";
 		jdbcTemplate.update(sql, nit);
 	}
 
