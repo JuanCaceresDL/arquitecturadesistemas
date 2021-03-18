@@ -9,6 +9,12 @@ function UsuariosLogin() {
         nombre: '',
         password: ''
       })
+    const [usuario, setUsuario] = useState({
+        _id : '',
+        nombre: '',
+        password: ''
+    })
+
       
       const handleInputChange = (event) => {
         setDatos({
@@ -19,13 +25,21 @@ function UsuariosLogin() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.get('http://localhost:3001/login', {
-            nombre: datos.nombre,
-            password: datos.password}).then((response) => {
-                console.log(response.data)
+        if(datos.nombre != '' && datos.password != ''){
+            Axios.get(`http://localhost:3001/login/${datos.nombre}/${datos.password}`)
+            .then((response) => {
+                if(response.data.log){
+                    setUsuario({...usuario, ["_id"]: response.data._id, ["nombre"]: response.data.nombre, ["password"]: response.data.password})
+                    alert(response.data.msg)
+                }else{
+                    alert(response.data.msg)
+                }
             }).catch(() => {
                 alert('no ha podido iniciar sesión')
             })
+        }else{
+            alert('Ingrese todos los campos')
+        }
       }
 
     return (

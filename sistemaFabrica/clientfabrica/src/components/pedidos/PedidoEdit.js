@@ -11,8 +11,8 @@ function PedidoNew() {
         telId: '',
         cantidad: '',
         ventaTotal: '',
-        estado: 'Fabricacion',
-        cliente: '1',
+        estado: '',
+        cliente: '',
         fechaCompra: '',
         fechaEntrega: '',
       })
@@ -113,7 +113,7 @@ function PedidoNew() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Estado</label>
                                 <div className="col-sm-10">
-                                    <select onChange={handleInputChange} className="form-control" name="estado">
+                                    <select onChange={handleInputChange} value={datos.estado} className="form-control" name="estado">
                                         <option value="Fabriacion">Fabricación</option>
                                         <option value="Terminado">Terminado</option>
                                         <option value="Entregado">Entregado</option>

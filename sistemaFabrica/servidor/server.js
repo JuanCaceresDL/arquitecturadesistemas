@@ -264,28 +264,26 @@ app.delete("/deleteUsuarios/:id", async (req, res) =>{
 
 //LOGIN ------------------------------------------------------
 
-app.get("/login", async (req, res) => {
-  try {
-      const {nombre, password} = req.body;
+app.get("/login/:nom/:pass", async (req, res) => {
+  const nombre = req.params.nom;
+  const password = req.params.pass;
 
-      // validate
-      if (!nombre || !password) 
-          return res.status(400).json({ msg: "no todos los campos han sido ingresados"});
+  UsuariosModelo.findOne({nombre: nombre, password: password}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      if(result){
+        if(result.estado === "activo"){
+          res.send({msg: "Seción iniciada", log: true, _id: result._id, nombre: result.nombre, password: result.password, estado: result.estado});
+        }else{
+          res.send({log: false, msg : "Usuario o contraseña incorrecta"})
+        }
+      }else{
+        res.send({log: false, msg : "Usuario o contraseña incorrecta"})
+      }
+    }
+  });
 
-      await UsuariosModelo.findOne({nombre: nombre, password: password});
-      if (!nombre)
-          return res.status(400).json({ msg: "usuario incorrecto"});
-
-      if (!password)
-          return res.status(400).json({ msg: "contraseña incorrecta"});
-
-      const token = jwt.sign({ id: user._id });
-      res.json({
-          token
-      })
-  } catch (err) {
-      res.status(500).json({ error: err.message });
-  }
 })
 
 app.listen(3001, () => {
