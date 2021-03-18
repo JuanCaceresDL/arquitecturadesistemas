@@ -2,6 +2,7 @@ import React from 'react';
 import UsuariosRead from './usuariosRead'
 import UsuariosNew from './usuariosNew'
 import UsuariosEdit from './usuariosEdit'
+import UsuariosLogin from './usuarioslogin'
 import {
   Switch,
   Route,
@@ -31,6 +32,9 @@ function Usuarios() {
           </Route>
           <Route exact={true} path={`${match.path}/edit/:id`}>
             <UsuariosEdit />
+          </Route>
+          <Route exact={true} path={`${match.path}/usuarioslogin`}>
+            <UsuariosLogin />
           </Route>
         </Switch>
         

@@ -262,6 +262,32 @@ app.delete("/deleteUsuarios/:id", async (req, res) =>{
   res.send("item deleted");
 })
 
+//LOGIN ------------------------------------------------------
+
+app.get("/login", async (req, res) => {
+  try {
+      const {nombre, password} = req.body;
+
+      // validate
+      if (!nombre || !password) 
+          return res.status(400).json({ msg: "no todos los campos han sido ingresados"});
+
+      await UsuariosModelo.findOne({nombre: nombre, password: password});
+      if (!nombre)
+          return res.status(400).json({ msg: "usuario incorrecto"});
+
+      if (!password)
+          return res.status(400).json({ msg: "contraseña incorrecta"});
+
+      const token = jwt.sign({ id: user._id });
+      res.json({
+          token
+      })
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+})
+
 app.listen(3001, () => {
   console.log("You are connected! port 3001");
 });

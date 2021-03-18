@@ -49,7 +49,7 @@ function UsuariosEdit() {
                 <div className="row">
     
                     <article className="col-sm-4 justify-content-center">
-                        <a href="/clientes"><button className="btn btn-secondary">Regresar</button></a>
+                        <a href="/usuarios"><button className="btn btn-secondary">Regresar</button></a>
                     </article>
 
                     <article className="col-sm-8">
