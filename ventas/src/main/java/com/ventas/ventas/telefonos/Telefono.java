@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class Telefono {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int telcodigo;
+    private String telcodigo;
 
     @Column
     private String modelo;
@@ -49,7 +49,7 @@ public class Telefono {
        
     }
 
-    public Telefono(int telcodigo, String modelo, float ram, float almacenamiento, String procesador, int cores,
+    public Telefono(String telcodigo, String modelo, float ram, float almacenamiento, String procesador, int cores,
         String descripcion, int fabricaid, String fabrica, float preciofabrica, float precioventa, int disponible,
         int inventario, String color, int fotoid, String foto) {
       this.telcodigo = telcodigo;
@@ -70,11 +70,11 @@ public class Telefono {
       this.foto = foto;
     }
 
-    public int getTelcodigo() {
+    public String getTelcodigo() {
       return telcodigo;
     }
 
-    public void setTelcodigo(int telcodigo) {
+    public void setTelcodigo(String telcodigo) {
       this.telcodigo = telcodigo;
     }
 

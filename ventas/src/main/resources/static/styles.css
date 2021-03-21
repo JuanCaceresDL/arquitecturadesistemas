@@ -23,4 +23,20 @@
     justify-content: center;
 }
 
+.cart{
+    font-size: 25px;
+    margin-right: 20px;
+    color: rgb(160, 160, 160);
+    background: none;
+    border: none;
+}
+
+.cartActive{
+    font-size: 25px;
+    margin-right: 20px;
+    color: white;
+    background: none;
+    border: none;
+}
+
 

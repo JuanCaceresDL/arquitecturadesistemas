@@ -25,9 +25,9 @@ xmlns:th="http://www.thymeleaf.org">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link" href="/telefonos">Teléfonos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
-                <li class="nav-item active"><a class="nav-link" href="/fabricas">Fábricas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/fabricas">Fábricas</a></li>
                 <li class="nav-item"><a class="nav-link" href="/pedidos">Pedidos</a></li>
-                <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+                <li class="nav-item active"><a class="nav-link" href="/usuarios">Usuarios</a></li>
               </ul>
               <span class="form-inline my-2 my-lg-0">
                 <a href="/carrito"><button class="cart my-2 my-sm-0"><i class="bi bi-cart"></i></button></a>
@@ -44,43 +44,44 @@ xmlns:th="http://www.thymeleaf.org">
     <div class="row">
     
         <article class="col-sm-4 justify-content-center">
-            <a href="/fabricas"><button class="btn btn-secondary">Regresar</button></a>
+            <a href="/usuarios"><button class="btn btn-secondary">Regresar</button></a>
         </article>
 
         <article class="col-sm-8">
-            <form action ="#" th:action="@{/updateFabrica}" th:object="${modelo}"  method="post">
+            <form action ="#" th:action="@{/updateUsuario}" th:object="${modelo}"  method="post">
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Fabrica ID</label>
+                    <label class="col-sm-2 col-form-label">Usuario ID</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" th:field="*{fabricaid}" placeholder="Fabrica ID" />
+                        <input type="text" class="form-control" th:field="*{usuarioid}" readonly="readonly" placeholder="Usuario ID" />
                     </div>
                 </div>
                 <br>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Fabrica Nombre</label>
+                    <label class="col-sm-2 col-form-label">Nombre</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" th:field="*{fabrica}" placeholder="Fabrica Nombre" />
+                        <input type="text" class="form-control" th:field="*{nombre}" placeholder="Nombre" />
                     </div>
                 </div>
                 <br>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">IP</label>
+                    <label class="col-sm-2 col-form-label">Password</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" th:field="*{ip}" placeholder="Número de puerto" />
+                        <input type="text" class="form-control" th:field="*{password}" placeholder="Password" />
                     </div>
                 </div>
                 <br>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">No. de Puerto</label>
+                    <label class="col-sm-2 col-form-label">Rol</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" th:field="*{puerto}" placeholder="Número de puerto" />
+                        <select class="form-control" th:field="*{rolid}" >
+                            <option th:each ="r : ${roles}" th:value="${r.rolid}" th:text="${r.rol}" th:selected="${r.rolid==rolid}"></option>
+                        </select>
                     </div>
                 </div>
-                <br>
                 
                 <div class="form-group row">
                 <div class="col-sm-10">
@@ -92,5 +93,8 @@ xmlns:th="http://www.thymeleaf.org">
         </article>
     </div>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
 </body>
 </html>

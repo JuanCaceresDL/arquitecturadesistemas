@@ -1,22 +1,30 @@
 package com.ventas.ventas.pedidos;
 
+import java.text.DecimalFormat;
+
 import com.ventas.ventas.telefonos.*;
 
 public class Pedido {
-    private int cantidad;
+    private DecimalFormat df = new DecimalFormat("#.00"); 
     private Telefono telefono;
 
-    public Pedido(int cantidad, Telefono telefono) {
+    private int compraid;
+    private int ordenid;
+    private String telcodigo;
+    private int cantidad;
+    private float descuento;
+    private float subtotal;
+    private float total;
+    private String estado;
+
+    public Pedido(){
+
+    }
+
+    public Pedido(int cantidad, Telefono telefono, String estado) {
         this.cantidad = cantidad;
         this.telefono = telefono;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+        this.estado = estado;
     }
 
     public Telefono getTelefono() {
@@ -27,8 +35,94 @@ public class Pedido {
         this.telefono = telefono;
     }
 
-    public float subtotal(){
-        return this.cantidad * this.telefono.getPrecioventa();
+    public float subtotalPedido(){
+        float resultado = this.cantidad * this.telefono.getPrecioventa(); 
+        resultado = Float.valueOf(df.format(resultado));
+        return resultado;
     }
+
+    public float descuentoTotal(float descuento){
+        float resultado = this.subtotalPedido() * descuento;
+        resultado = Float.valueOf(df.format(resultado));
+        return resultado;
+    }
+
+    public float totalPedido(float descuento){
+        float resultado = this.subtotalPedido() * (1 - descuento);
+        resultado = Float.valueOf(df.format(resultado));
+        return resultado;
+    }
+
+    public void terminar(float descuento){
+        this.descuento = this.descuentoTotal(descuento);
+        this.total = this.totalPedido(descuento);
+        this.subtotal = this.subtotalPedido();
+        this.telcodigo = this.telefono.getTelcodigo();
+    }
+
+    public int getCompraid() {
+        return compraid;
+    }
+
+    public void setCompraid(int compraid) {
+        this.compraid = compraid;
+    }
+
+    public int getOrdenid() {
+        return ordenid;
+    }
+
+    public void setOrdenid(int ordenid) {
+        this.ordenid = ordenid;
+    }
+
+    public String getTelcodigo() {
+        return telcodigo;
+    }
+
+    public void setTelcodigo(String telcodigo) {
+        this.telcodigo = telcodigo;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public float getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(float descuento) {
+        this.descuento = descuento;
+    }
+
+    public float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(float subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
 
 }
