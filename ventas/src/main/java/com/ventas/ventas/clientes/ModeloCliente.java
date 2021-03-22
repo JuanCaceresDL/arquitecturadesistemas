@@ -13,24 +13,41 @@ import javax.persistence.Id;
 public class ModeloCliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int nit;
+    private int nit = 0;
 
-    public ModeloCliente() {
-       
+    @Column
+    private String nombre;
+    @Column
+    private String email;
+    @Column 
+    private int telefono;
+    @Column
+    private String patente;
+    @Column
+    private int tipoclienteid;
+    @Column
+    private String tipocliente;
+    @Column
+    private Date vencimiento;
+    @Column 
+    private float descuento = 0;
+
+    public ModeloCliente(){
+        
     }
-    
-    
 
-    public ModeloCliente(int nit, String nombre, String email, int telefono, String patente, String suscripcion, Date vencimiento) {
-		super();
-		this.nit = nit;
+    public ModeloCliente(int nit, String nombre, String email, int telefono, String patente, int tipoclienteid,
+            String tipocliente, Date vencimiento, float descuento) {
+        this.nit = nit;
         this.nombre = nombre;
         this.email = email;
         this.telefono = telefono;
         this.patente = patente;
-        this.suscripcion = suscripcion;
+        this.tipoclienteid = tipoclienteid;
+        this.tipocliente = tipocliente;
         this.vencimiento = vencimiento;
-	}
+        this.descuento = descuento;
+    }
 
     public int getNit() {
         return nit;
@@ -39,20 +56,14 @@ public class ModeloCliente {
     public void setNit(int nit) {
         this.nit = nit;
     }
-    
-    @Column   
-    private String nombre;
 
-   
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String data01) {
-        this.nombre = data01;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
-
-    private String email;
 
     public String getEmail() {
         return email;
@@ -62,8 +73,6 @@ public class ModeloCliente {
         this.email = email;
     }
 
-    private int telefono;
-
     public int getTelefono() {
         return telefono;
     }
@@ -71,8 +80,6 @@ public class ModeloCliente {
     public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
-
-    private String patente;
 
     public String getPatente() {
         return patente;
@@ -82,17 +89,21 @@ public class ModeloCliente {
         this.patente = patente;
     }
 
-    private String suscripcion;
-
-    public String getSuscripcion() {
-        return suscripcion;
+    public int getTipoclienteid() {
+        return tipoclienteid;
     }
 
-    public void setSuscripcion(String suscripcion) {
-        this.suscripcion = suscripcion;
+    public void setTipoclienteid(int tipoclienteid) {
+        this.tipoclienteid = tipoclienteid;
     }
 
-    private Date vencimiento;
+    public String getTipocliente() {
+        return tipocliente;
+    }
+
+    public void setTipocliente(String tipocliente) {
+        this.tipocliente = tipocliente;
+    }
 
     public Date getVencimiento() {
         return vencimiento;
@@ -101,5 +112,26 @@ public class ModeloCliente {
     public void setVencimiento(String vencimiento) {
         this.vencimiento = Date.valueOf(vencimiento);
     }
+
+    public float getDescuento(){
+        return descuento;
+    }
     
+    public void setDescuento(float descuento){
+            this.descuento = descuento;
+    }
+
+    public float realdescuento(){
+        Date date = new Date(System.currentTimeMillis());
+        Date venc = this.vencimiento;
+        float respuesta = 0;
+        if(venc != null){
+            if(venc.compareTo(date) < 0){
+                respuesta = 0;
+            }else{
+                respuesta = this.descuento;
+            }
+        }
+        return respuesta;
+    }
 }

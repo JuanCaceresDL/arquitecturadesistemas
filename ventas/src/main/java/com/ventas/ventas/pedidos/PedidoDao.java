@@ -1,0 +1,83 @@
+package com.ventas.ventas.pedidos;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class PedidoDao {
+    private String dbuser = "";
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    public PedidoDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+
+    public List<Orden> listOrden(){
+        String sql = "SELECT * FROM "+ dbuser +"ORDENES ORDER BY FECHA DESC";
+        return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Orden.class));
+    }
+
+    public List<Pedido> listPedido(String ordenid){
+        String sql = "SELECT * FROM "+ dbuser +"COMPRAS WHERE ORDENID = "+ ordenid +" ORDER BY COMPRAID";
+        return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pedido.class));
+    }
+
+    public void save(Orden nuevo) {
+        SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
+        insertActor.withTableName("ordenes").usingColumns("nit","fecha","total", "descuento", "subtotal");
+        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
+        
+        insertActor.execute(param);    
+    }
+
+    public void savePedido(Pedido nuevo) {
+        SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
+        insertActor.withTableName("compras").usingColumns("ordenid","telcodigo","cantidad", "descuento", "subtotal", "total", "estado");
+        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
+        insertActor.execute(param);    
+    }
+
+    public Orden get(int id) {
+		String sql = "SELECT * FROM "+ dbuser +"ORDENES WHERE ORDENID = ?";
+		Object[] args = {id};
+		Orden orden = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Orden.class));
+		return orden;
+	}
+
+    public void generarOrden(Orden orden){
+        SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
+        insertActor.withTableName("ordenes").usingColumns("nit","fecha","total", "descuento", "subtotal");
+        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(orden);
+        insertActor.execute(param); 
+    }
+
+    public Orden getLast(int nit){
+        String sql = "SELECT * FROM "+ dbuser +"ORDENES WHERE NIT = ? ORDER BY ORDENID DESC FETCH FIRST 1 ROWS ONLY";
+		Object[] args = {nit};
+		Orden orden = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Orden.class));
+		return orden;
+    }
+
+    public void cancelar(int id) {
+        String updateQuery = "UPDATE COMPRAS SET ESTADO = 'Cancelado' WHERE COMPRAID = ?";
+        jdbcTemplate.update(updateQuery, id);
+	}
+
+    public void recibir(int id) {
+        String updateQuery = "UPDATE COMPRAS SET ESTADO = 'Recibido' WHERE COMPRAID = ?";
+        jdbcTemplate.update(updateQuery, id);
+	}
+
+    public void delete(int id) {
+		String sql = "DELETE FROM "+ dbuser +"ORDENES WHERE ORDENID = ?";
+		jdbcTemplate.update(sql, id);
+	}
+}

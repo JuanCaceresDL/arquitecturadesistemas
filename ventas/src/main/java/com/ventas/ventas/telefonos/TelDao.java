@@ -33,8 +33,8 @@ public class TelDao {
         return listTel;
     }
 
-    public List<Telefono> listFotos(int id){
-        String sql = "SELECT * FROM "+ dbuser +"FOTOS WHERE TELCODIGO = "+ id;
+    public List<Telefono> listFotos(String id){
+        String sql = "SELECT * FROM "+ dbuser +"FOTOS WHERE TELCODIGO = '"+ id +"'";
         List<Telefono> listTel = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Telefono.class));
         return listTel;
     }
@@ -55,12 +55,12 @@ public class TelDao {
         insertActor.execute(param);    
     }
 
-    public void deleteFoto(int id) {
+    public void deleteFoto(String id) {
 		String sql = "DELETE FROM "+ dbuser +"FOTOS WHERE FOTOID = ?";
 		jdbcTemplate.update(sql, id);
 	}
 
-    public Telefono get(int id) {
+    public Telefono get(String id) {
 		String sql = "SELECT * FROM "+ dbuser +"TELEFONOS WHERE TELCODIGO = ?";
 		Object[] args = {id};
 		Telefono tel = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Telefono.class));
@@ -68,13 +68,13 @@ public class TelDao {
 	}
 
     public void update(Telefono modelo) {
-		String sql = "UPDATE "+ dbuser +"TELEFONOS SET modelo=:modelo, ram=:ram, almacenamiento=:almacenamiento, procesador=:procesador, cores=:cores, descripcion=:descripcion, fabricaid=:fabricaid, preciofabrica=:preciofabrica, precioventa=:precioventa, disponible=:disponible, inventario=:inventario, color=:color WHERE telcodigo=:telcodigo";
+		String sql = "UPDATE "+ dbuser +"TELEFONOS SET modelo=:modelo, ram=:ram, almacenamiento=:almacenamiento, procesador=:procesador, cores=:cores, descripcion=:descripcion, fabricaid=:fabricaid, preciofabrica=:preciofabrica, precioventa=:precioventa, disponible=:disponible, inventario=:inventario, color=:color WHERE telcodigo=':telcodigo'";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		
 	}
 
-    public void delete(int id) {
+    public void delete(String id) {
 		String sql = "DELETE FROM "+ dbuser +"TELEFONOS WHERE TELCODIGO = ?";
 		jdbcTemplate.update(sql, id);
 	}

@@ -29,7 +29,7 @@ public class FabDao {
 
     public void save(Fabricante nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-        insertActor.withTableName("fabricantes").usingColumns("fabricaid","fabrica","puerto", "ip");
+        insertActor.withTableName("fabricantes").usingColumns("fabrica","puerto", "ip");
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
          
         insertActor.execute(param);    

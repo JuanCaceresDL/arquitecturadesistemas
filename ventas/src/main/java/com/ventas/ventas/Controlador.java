@@ -1,16 +1,18 @@
 package com.ventas.ventas;
 
-/*import java.text.SimpleDateFormat;
-import java.util.Date;*/
 import java.util.List;
 
 import com.ventas.ventas.telefonos.*;
+import com.fasterxml.jackson.databind.ser.impl.StringArraySerializer;
 import com.ventas.ventas.clientes.*;
 import com.ventas.ventas.fabricas.*;
 import com.ventas.ventas.tutorial.*;
 import com.ventas.ventas.users.*;
+import com.ventas.ventas.pedidos.*;
 
+import org.hibernate.hql.spi.id.IdTableHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,6 +30,9 @@ public class Controlador {
     private Usuario user = new Usuario();
     private String msg = "";
 
+    private boolean existeCliente = false;
+    private ModeloCliente cliente = new ModeloCliente();
+
     @Autowired
     private Dao dao;
 
@@ -43,52 +48,10 @@ public class Controlador {
     @Autowired
     private UsuarioDao userDao;
 
-    //TEMPLATE
-    /*@RequestMapping("/")
-    public String viewHomePage(final Model model) {
-        final List<Modelo> listPrueba = dao.list();
-        model.addAttribute("listPrueba", listPrueba);
-        
-        return "index.html";
-    }*/
+    @Autowired
+    private PedidoDao pedidoDao;
 
-    @RequestMapping("/new")
-    public String showNewForm(Model model) {
-        Modelo nuevo = new Modelo();
-        model.addAttribute("nuevo", nuevo);
-      
-        return "new";
-    }
-    
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(@ModelAttribute("modelo") Modelo modelo) {
-    dao.save(modelo);
-    return "redirect:/";
-    }
-
-    @RequestMapping("/edit/{id}")
-    public ModelAndView showEditForm(@PathVariable(name = "id") int id) {
-        ModelAndView mav = new ModelAndView("update");
-        Modelo modelo = dao.get(id);
-        mav.addObject("modelo", modelo);
-            
-        return mav;
-    }
-        
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("modelo") Modelo modelo) {
-        dao.update(modelo);
-            
-        return "redirect:/";
-    }
-
-    @RequestMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") int id) {
-        dao.delete(id);
-        return "redirect:/";       
-    }
-    
-    //TELEFONO CONTROL
+    //TELEFONO------------------------------------------------------------------------------------------------
     @RequestMapping("/telefonos")
     public String telefonosPage(final Model telefono) {
         final List<Telefono> listTel = teldao.list();
@@ -108,11 +71,12 @@ public class Controlador {
     @RequestMapping(value = "/saveTel", method = RequestMethod.POST)
     public String telefonoSave(@ModelAttribute("newtel") Telefono newtel) {
     teldao.save(newtel);
+    userDao.newLog("Nuevo telefono Codigo:  " + newtel.getTelcodigo(), this.user.getUsuarioid(), "TELEFONOS");
     return "redirect:/telefonos";
     }
 
     @RequestMapping("/editTel/{id}")
-    public ModelAndView telefonoEdit(@PathVariable(name = "id") int id) {
+    public ModelAndView telefonoEdit(@PathVariable(name = "id") String id) {
         ModelAndView mav = new ModelAndView("telefonos/telefonosUpdate.html");
         Telefono telefono = teldao.get(id);
         List<Telefono> listMar = teldao.listMarcas();
@@ -128,39 +92,43 @@ public class Controlador {
     @RequestMapping(value = "/saveFoto", method = RequestMethod.POST)
     public String fotoSave(@RequestParam String idtel, @ModelAttribute("fotoVacia") Telefono fotoVacia) {
         if(fotoVacia.getFoto() != ""){
-            fotoVacia.setTelcodigo(Integer.parseInt(idtel));
+            fotoVacia.setTelcodigo(idtel);
             teldao.saveFoto(fotoVacia);
         }
+        userDao.newLog("Nueva foto para telefono Codigo:  " + fotoVacia.getTelcodigo(), this.user.getUsuarioid(), "FOTOS");
         return "redirect:/editTel/"+idtel;
     }
 
     @RequestMapping("/deleteFoto/{id}/{idtel}")
-    public String fotoDelete(@PathVariable(name = "id") int id, @PathVariable(name = "idtel") int idtel) {
+    public String fotoDelete(@PathVariable(name = "id") String id, @PathVariable(name = "idtel") String idtel) {
         teldao.deleteFoto(id);
+        userDao.newLog("Foto eliminada para telefono Codigo:  " + id, this.user.getUsuarioid(), "FOTOS");
         return "redirect:/editTel/"+idtel;
     }
         
     @RequestMapping(value = "/updateTel", method = RequestMethod.POST)
     public String telefonoUpdate(@ModelAttribute("modelo") Telefono modelo) {
         teldao.update(modelo);
+        userDao.newLog("Telefono editado Codigo:  " + modelo.getTelcodigo(), this.user.getUsuarioid(), "TELEFONOS");
         return "redirect:/telefonos";
     }
 
     @RequestMapping("/deleteTel/{id}")
-    public String telefonoDelete(@PathVariable(name = "id") int id) {
+    public String telefonoDelete(@PathVariable(name = "id") String id) {
         teldao.delete(id);
+        userDao.newLog("Telefono eliminado Codigo:  " + id, this.user.getUsuarioid(), "TELEFONOS");
         return "redirect:/telefonos";       
     }
 
     @RequestMapping(value = "/addCarrito/{id}", method = RequestMethod.POST)
-    public String addCarrito(@PathVariable(name = "id") int id, @RequestParam String cantidadTel) {
+    public String addCarrito(@PathVariable(name = "id") String id, @RequestParam String cantidadTel, @RequestParam String estado) {
         Telefono telefono = teldao.get(id);
         int cant = Integer.parseInt(cantidadTel);
-        this.carrito.addPedido(cant, telefono);
+        this.carrito.addPedido(cant, telefono, estado);
         return "redirect:/telefonos";       
     }
 
-    //FABRICA CONTROL
+    //FABRICA--------------------------------------------------------------------------------------------
     @RequestMapping("/fabricas")
     public String fabricasPage(final Model model) {
         final List<Fabricante> listFab = fabDao.list();
@@ -179,6 +147,7 @@ public class Controlador {
     @RequestMapping(value = "/saveFabrica", method = RequestMethod.POST)
     public String fabricaSave(@ModelAttribute("modelo") Fabricante modelo) {
     fabDao.save(modelo);
+    userDao.newLog("Nueva fabrica " + modelo.getFabrica(), this.user.getUsuarioid(), "FABRICANTES");
     return "redirect:/fabricas";
     }
 
@@ -193,33 +162,89 @@ public class Controlador {
     @RequestMapping(value = "/updateFabrica", method = RequestMethod.POST)
     public String fabricaUpdate(@ModelAttribute("modelo") Fabricante modelo) {
         fabDao.update(modelo);
-            
+        userDao.newLog("Fabrica editada " + modelo.getFabrica(), this.user.getUsuarioid(), "FABRICANTES");
         return "redirect:/fabricas";
     }
 
     @RequestMapping("/deleteFabrica/{id}")
     public String fabricaDelete(@PathVariable(name = "id") int id) {
         fabDao.delete(id);
+        userDao.newLog("Fabrica eliminada ID:  " + id, this.user.getUsuarioid(), "FABRICANTES");
         return "redirect:/fabricas";       
     }
 
-    //CARRITO
+    //CARRITO------------------------------------------------------------------------------------------
     @RequestMapping("/carrito")
     public String carritoPage(final Model carrito) {
         carrito.addAttribute("carrito", this.carrito);
+        carrito.addAttribute("cliente", this.cliente);
+        carrito.addAttribute("msg", this.msg);
+        this.msg = "";
         return "pedidos/carrito.html";
     }
 
-    @RequestMapping("/deleteCarrito/{id}")
-    public String carritoDel(@PathVariable(name = "id") int id) {
-        carrito.deletePedido(id);
+    @RequestMapping("/deleteCarrito/{id}/{estado}")
+    public String carritoDel(@PathVariable(name = "id") String id, @PathVariable(name = "estado") String estado) {
+        carrito.deletePedido(id, estado);
         return "redirect:/carrito";
     }
 
-    //PEDIDOS
-    
+    @RequestMapping(value = "/carritoCliente", method = RequestMethod.POST)
+    public String carritoClientePage(@RequestParam String nitCliente) {
+        if(!nitCliente.equals("")){
+            ModeloCliente clienteOrden = daoc.get(Integer.parseInt(nitCliente));
+            this.cliente = new ModeloCliente();
+            this.existeCliente = false;
+            if(clienteOrden != null){
+                this.cliente = clienteOrden;
+                this.carrito.setClient(clienteOrden);
+                this.existeCliente = true;
+            }else{
+                this.cliente = new ModeloCliente();
+                this.carrito.setClient(cliente);
+                this.msg = "No existe el cliente";
+            }
+        }
+        return "redirect:/carrito";
+    }
 
-    //CLIENTES
+    @RequestMapping("/ordenar")
+    public String ordenarCarrito() {
+        Orden orden = new Orden(this.cliente.getNit(), this.carrito);
+        pedidoDao.generarOrden(orden);
+        Orden lastOrden = pedidoDao.getLast(this.cliente.getNit());
+        this.carrito.terminar(lastOrden.getOrdenid());
+        userDao.newLog("Nueva orden No:  " + lastOrden.getOrdenid(), this.user.getUsuarioid(), "ORDENES");
+        for(Pedido element : this.carrito.getCarro()){
+            pedidoDao.savePedido(element);
+            userDao.newLog("NuevA compra para orden No:  " + element.getCompraid(), this.user.getUsuarioid(), "COMPRAS");
+        }
+        this.carrito = new Carrito();
+        this.cliente = new ModeloCliente();
+        this.existeCliente = false;
+        return "redirect:/carrito";
+    }
+
+
+    //PEDIDOS-----------------------------------------------------------------------------
+    
+    @RequestMapping("/pedidos")
+    public String pedidosPage(final Model model) {
+        final List<Orden> listOrden = pedidoDao.listOrden();
+        model.addAttribute("listOrden", listOrden);
+        return "pedidos/pedidos.html";
+    }
+
+    @RequestMapping("/verOrden/{id}")
+    public String detallesOrden(Model model, @PathVariable(name = "id") String id) {
+        List<Pedido> listPedidos = pedidoDao.listPedido(id);
+        Orden orden = pedidoDao.get(Integer.parseInt(id));
+        model.addAttribute("listPedidos", listPedidos);
+        model.addAttribute("orden", orden);
+        return "pedidos/pedidosDetalle.html";
+    }
+
+    //CLIENTES-----------------------------------------------------------------------------------------
     @RequestMapping("/clientes")
     public String clientesPage(final Model model) {
         final List<ModeloCliente> listClient = daoc.list();
@@ -231,18 +256,22 @@ public class Controlador {
     public String clienteNew(Model model) {
         ModeloCliente nuevoClient = new ModeloCliente();
         model.addAttribute("nuevoClient", nuevoClient);
+        List<ModeloCliente> listTipos = daoc.listTipo();
+        model.addAttribute("listTipos", listTipos);
         return "clientes/clientecreate.html";
     }
 
     @RequestMapping("/deleteCliente/{nit}")
     public String deleteCliente(@PathVariable(name = "nit") int nit) {
         daoc.delete(nit);
+        userDao.newLog("Cliente eliminado nit:  " + nit, this.user.getUsuarioid(), "CLIENTES");
         return "redirect:/clientes";       
     }
 
     @RequestMapping(value = "/savec", method = RequestMethod.POST)
         public String save(@ModelAttribute("nuevoClient") ModeloCliente nuevoClient) {
         daoc.save(nuevoClient);
+        userDao.newLog("Nuevo cliente Nit:  " + nuevoClient.getNit(), this.user.getUsuarioid(), "CLIENTES");
         return "redirect:/clientes";
     }
 
@@ -250,7 +279,9 @@ public class Controlador {
     public ModelAndView clienteEdit(@PathVariable(name = "nit") int nit) {
         ModelAndView mav = new ModelAndView("clientes/clienteupdate.html");
         ModeloCliente modelo = daoc.get(nit);
+        List<ModeloCliente> listTipos = daoc.listTipo();
         mav.addObject("modelo", modelo);
+        mav.addObject("listTipos", listTipos);
         return mav;
     }
     
@@ -258,6 +289,7 @@ public class Controlador {
     public String clienteUpdate(@ModelAttribute("modelo") ModeloCliente modelo, @RequestParam String fechaVen) {
         modelo.setVencimiento(fechaVen);
         daoc.update(modelo);
+        userDao.newLog("Cliente modificado Nit:  " + modelo.getNit(), this.user.getUsuarioid(), "CLIENTES");
         return "redirect:/clientes";
     }
 
@@ -265,6 +297,7 @@ public class Controlador {
     @RequestMapping("/")
     public String viewLogIn(final Model model) {
         if(this.login){
+            
             model.addAttribute("user", this.user);
             return "home.html";
         }else{
@@ -280,6 +313,7 @@ public class Controlador {
             this.msg ="";
             this.user = usuario;
             this.login = true;
+            userDao.newLog("Inicio de sesion", usuario.getUsuarioid(), "USERS");
         }else{
             this.msg ="Nombre o password incorrecto";
         }
@@ -289,44 +323,55 @@ public class Controlador {
     @RequestMapping("/logout")
     public String logOutUser() {
         this.login = false;
+        userDao.newLog("Cierre de sesion", this.user.getUsuarioid(), "USERS");
         return "redirect:/";
     }
-    /*
 
-    @RequestMapping("/new")
-    public String showNewForm(Model model) {
-        Modelo nuevo = new Modelo();
+    @RequestMapping("/usuarios")
+    public String usuariosPage(final Model model) {
+        final List<Usuario> listUsuario = userDao.list();
+        model.addAttribute("listUsuario", listUsuario);
+        return "usuarios/usuarios.html";
+    }
+
+    @RequestMapping("/newUsuario")
+    public String usuarioNew(Model model) {
+        Usuario nuevo = new Usuario();
+        List<Usuario> roles = userDao.listRol();
         model.addAttribute("nuevo", nuevo);
-      
-        return "new";
+        model.addAttribute("roles", roles);
+        return "usuarios/usuariosNew.html";
     }
     
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(@ModelAttribute("modelo") Modelo modelo) {
-    dao.save(modelo);
-    return "redirect:/";
+    @RequestMapping(value = "/saveUsuario", method = RequestMethod.POST)
+    public String usuariosave(@ModelAttribute("modelo") Usuario modelo) {
+    userDao.save(modelo);
+    userDao.newLog("Nuevo usuario: " + modelo.getNombre(), this.user.getUsuarioid(), "USERS");
+    return "redirect:/usuarios";
     }
 
-    @RequestMapping("/edit/{id}")
-    public ModelAndView showEditForm(@PathVariable(name = "id") int id) {
-        ModelAndView mav = new ModelAndView("update");
-        Modelo modelo = dao.get(id);
+    @RequestMapping("/editUsuario/{id}")
+    public ModelAndView usuarioEdit(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("usuarios/usuariosUpdate.html");
+        Usuario modelo = userDao.get(id);
+        List<Usuario> roles = userDao.listRol();
         mav.addObject("modelo", modelo);
-            
+        mav.addObject("roles", roles);
         return mav;
     }
         
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("modelo") Modelo modelo) {
-        dao.update(modelo);
-            
-        return "redirect:/";
+    @RequestMapping(value = "/updateUsuario", method = RequestMethod.POST)
+    public String usuarioUpdate(@ModelAttribute("modelo") Usuario modelo) {
+        userDao.update(modelo);
+        userDao.newLog("Usuario modificado: " + modelo.getNombre(), this.user.getUsuarioid(), "USERS");
+        return "redirect:/usuarios";
     }
 
-    @RequestMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") int id) {
-        dao.delete(id);
-        return "redirect:/";       
-    }*/
+    @RequestMapping("/deleteUsuario/{id}")
+    public String usuarioDelete(@PathVariable(name = "id") int id) {
+        userDao.delete(id);
+        userDao.newLog("Usuario borado ID: " + id, this.user.getUsuarioid(), "USERS");
+        return "redirect:/usuarios";       
+    }
 
 }
