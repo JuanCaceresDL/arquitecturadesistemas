@@ -46,26 +46,30 @@ function UsuariosLogin() {
         <Fragment>
             <section className="container">
                 <div className="row">
-                    <article className="col-sm-8">
+                    <article className="col-sm-12">
                         <form onSubmit={enviarDatos}>
-                            <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Nombre</label>
-                                <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="nombre" placeholder="Nombre" onChange={handleInputChange}/>
-                                </div>
-                            </div>
 
-                            <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">password</label>
-                                <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="password" placeholder="Password" onChange={handleInputChange}/>
+                        <div className="center">
+                            <div className="card ">
+                                <article className="card-body">
+                                <h4 className="card-title text-center mb-4 mt-1">Sign in</h4>
+                                <p className="text-success text-center" text="${msg}"></p>
+                                <div className="input-group input-group-lg">
+                                    <span className="input-group-text" id="basic-addon1"><i className="fa fa-user"></i></span>
+                                    <input type="text" name="nombre" class="form-control" placeholder="Username" aria-label="Username" autocomplete="off" aria-describedby="basic-addon1"  onChange={handleInputChange}/>
                                 </div>
+                                <div className="input-group input-group-lg">
+                                    <span className="input-group-text" id="basic-addon2"><i className="fa fa-lock"></i></span>
+                                    <input type="password" name="password" className="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon2" onChange={handleInputChange}/>
+                                </div>
+                                <div className="form-group">
+                                <button type="submit" className="btn btn-primary btn-block"> Login  </button>
+                                </div>
+                                <a href="#" className="btn">Forgot password?</a>
+               
+                                </article>
                             </div>
-                            <div className="form-group row">
-                            <div className="col-sm-10">
-                                <button type="submit" className="btn btn-secondary">Iniciar</button>
-                            </div>
-                            </div>
+                        </div>
                         </form>
                     </article>
                 </div>
