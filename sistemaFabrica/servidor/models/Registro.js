@@ -17,3 +17,4 @@ const Registroschema = new mongoose.Schema({
 
 const RegistroModelo = mongoose.model('log', Registroschema);
 module.exports = RegistroModelo;
+//
