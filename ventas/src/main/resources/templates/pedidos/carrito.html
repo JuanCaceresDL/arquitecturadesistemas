@@ -25,9 +25,9 @@ xmlns:th="http://www.thymeleaf.org">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a class="nav-link" href="/telefonos">Teléfonos</a></li>
             <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
-            <li class="nav-item"><a class="nav-link" href="/fabricas">Fábricas</a></li>
+            <li th:if="${usuario.rolid == 1}" class="nav-item"><a class="nav-link" href="/fabricas">Fábricas</a></li>
             <li class="nav-item"><a class="nav-link" href="/pedidos">Pedidos</a></li>
-            <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+            <li th:if="${usuario.rolid == 1}" class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
           </ul>
           <span class="form-inline my-2 my-lg-0">
             <a href="/carrito"><button class="cartActive my-12 my-sm-6"><i class="bi bi-cart"></i></button></a>
@@ -35,19 +35,75 @@ xmlns:th="http://www.thymeleaf.org">
           </span>
         </div>
       </nav>
-
-      <h1 class="d-flex justify-content-center">Carrito</h1>
-      <h2 th:text="${cliente.nombre}"></h2>
-      <h2 th:text="${msg}"></h2>
     </header>
 
+    <section class="titulos">
+      <h1>Carrito</h1>
+    </section>
+
     <section>
-      <form class="d-flex justify-content-center" action ="#" th:action="@{'/carritoCliente'}" method="post">
-        <input type="text" name="nitCliente" placeholder="Unidades al carrito" />
-        &nbsp;
-          <button type="submit" class="btn btn-dark" ><i class="bi bi-search"></i>
-          </button>
-      </form>
+      <center>
+        <form class="d-flex justify-content-center" action ="#" th:action="@{'/carritoCliente'}" method="post">
+          <div class="input-group search">
+            <input type="text" name="nitCliente" class="form-control" placeholder="Search NIT">
+            <div class="input-group-append">
+                <button class="btn btn-dark" type="submit">
+                  <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+        </form>
+        <h6 th:text="${msg}"></h6>
+    </center>
+    </section>
+
+    <section class="container">
+        <article class="form-row">
+          <div class="col-md-3 mb-3">
+            <label for="i1">Nombre</label>
+            <input type="text" id="i1" class="form-control" th:value="${cliente.nombre}" disabled>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="i2">Nit</label>
+            <input type="text" class="form-control" id="i2" th:value="${cliente.nit}" disabled>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="i3">Email</label>
+            <input type="text" class="form-control" id="i3" th:value="${cliente.email}" disabled>
+          </div>
+
+        </article>
+
+      <article class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="i4">Telefono</label>
+          <input type="text" class="form-control" id="i4" th:value="${cliente.telefono}" disabled>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="i5">Fecha vencimiento</label>
+          <input type="text" class="form-control" id="i5" th:value="${cliente.vencimiento}" disabled>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="i7">Descuento</label>
+          <input type="text" class="form-control" id="i7" th:value="${cliente.descuento}" disabled>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="i6">Estado</label>
+          <input type="text" class="form-control" id="i6" th:value="${cliente.estadoCuenta}" disabled>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="i8">Descuento real</label>
+          <input type="text" class="form-control" id="i8" th:value="${cliente.realdescuento}" disabled>
+        </div>
+
+      </article>
+
     </section>
 
     <section class="table-responsive container-fluid">

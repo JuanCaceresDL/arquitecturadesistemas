@@ -3,12 +3,12 @@ package com.ventas.ventas;
 import java.util.List;
 
 import com.ventas.ventas.telefonos.*;
-import com.fasterxml.jackson.databind.ser.impl.StringArraySerializer;
 import com.ventas.ventas.clientes.*;
 import com.ventas.ventas.fabricas.*;
 import com.ventas.ventas.tutorial.*;
 import com.ventas.ventas.users.*;
 import com.ventas.ventas.pedidos.*;
+import com.ventas.ventas.vista.*;
 
 import org.hibernate.hql.spi.id.IdTableHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +51,15 @@ public class Controlador {
     @Autowired
     private PedidoDao pedidoDao;
 
+    @Autowired
+    private VistaDao vistaDao;
+
     //TELEFONO------------------------------------------------------------------------------------------------
     @RequestMapping("/telefonos")
     public String telefonosPage(final Model telefono) {
         final List<Telefono> listTel = teldao.list();
         telefono.addAttribute("listTel", listTel);
+        telefono.addAttribute("usuario", this.user);
         return "telefonos/telefonos.html";
     }
     
@@ -89,6 +93,21 @@ public class Controlador {
         return mav;
     }
 
+    @RequestMapping("/verTel/{id}")
+    public ModelAndView telefonoVer(@PathVariable(name = "id") String id) {
+        ModelAndView mav = new ModelAndView("telefonos/telefonosVer.html");
+        Telefono telefono = teldao.get(id);
+        List<Telefono> listMar = teldao.listMarcas();
+        List<Telefono> listFotos = teldao.listFotos(id);
+        Telefono fotoVacia = new Telefono();
+        mav.addObject("listMar", listMar);
+        mav.addObject("telefono", telefono);
+        mav.addObject("listFotos", listFotos);
+        mav.addObject("fotoVacia", fotoVacia);
+        mav.addObject("usuario", this.user);
+        return mav;
+    }
+
     @RequestMapping(value = "/saveFoto", method = RequestMethod.POST)
     public String fotoSave(@RequestParam String idtel, @ModelAttribute("fotoVacia") Telefono fotoVacia) {
         if(fotoVacia.getFoto() != ""){
@@ -107,9 +126,10 @@ public class Controlador {
     }
         
     @RequestMapping(value = "/updateTel", method = RequestMethod.POST)
-    public String telefonoUpdate(@ModelAttribute("modelo") Telefono modelo) {
-        teldao.update(modelo);
-        userDao.newLog("Telefono editado Codigo:  " + modelo.getTelcodigo(), this.user.getUsuarioid(), "TELEFONOS");
+    public String telefonoUpdate(@ModelAttribute("telefono") Telefono telefono) {
+        teldao.update(telefono);
+        System.out.println(telefono.getPreciofabrica());
+        userDao.newLog("Telefono editado Codigo:  " + telefono.getTelcodigo(), this.user.getUsuarioid(), "TELEFONOS");
         return "redirect:/telefonos";
     }
 
@@ -133,7 +153,7 @@ public class Controlador {
     public String fabricasPage(final Model model) {
         final List<Fabricante> listFab = fabDao.list();
         model.addAttribute("listFab", listFab);
-        
+        model.addAttribute("usuario", this.user);
         return "fabricas/fabricas.html";
     }
 
@@ -141,6 +161,7 @@ public class Controlador {
     public String fabricaNew(Model model) {
         Fabricante nuevo = new Fabricante();
         model.addAttribute("nuevo", nuevo);
+        model.addAttribute("usuario", this.user);
         return "fabricas/fabricasNew.html";
     }
     
@@ -156,6 +177,7 @@ public class Controlador {
         ModelAndView mav = new ModelAndView("fabricas/fabricasUpdate.html");
         Fabricante modelo = fabDao.get(id);
         mav.addObject("modelo", modelo);
+        mav.addObject("usuario", this.user);
         return mav;
     }
         
@@ -176,6 +198,7 @@ public class Controlador {
     //CARRITO------------------------------------------------------------------------------------------
     @RequestMapping("/carrito")
     public String carritoPage(final Model carrito) {
+        carrito.addAttribute("usuario", this.user);
         carrito.addAttribute("carrito", this.carrito);
         carrito.addAttribute("cliente", this.cliente);
         carrito.addAttribute("msg", this.msg);
@@ -216,8 +239,16 @@ public class Controlador {
         this.carrito.terminar(lastOrden.getOrdenid());
         userDao.newLog("Nueva orden No:  " + lastOrden.getOrdenid(), this.user.getUsuarioid(), "ORDENES");
         for(Pedido element : this.carrito.getCarro()){
-            pedidoDao.savePedido(element);
-            userDao.newLog("NuevA compra para orden No:  " + element.getCompraid(), this.user.getUsuarioid(), "COMPRAS");
+            if(element.getEstado().equals("credito")){
+                if(this.cliente.getTipoclienteid() == 1){
+                    pedidoDao.savePedido(element);
+                    userDao.newLog("Nueva compra para orden No:  " + element.getOrdenid(), this.user.getUsuarioid(), "COMPRAS");
+                }
+            }else{
+                pedidoDao.savePedido(element);
+                userDao.newLog("Nueva compra para orden No:  " + element.getOrdenid(), this.user.getUsuarioid(), "COMPRAS");
+            }
+            
         }
         this.carrito = new Carrito();
         this.cliente = new ModeloCliente();
@@ -232,6 +263,7 @@ public class Controlador {
     public String pedidosPage(final Model model) {
         final List<Orden> listOrden = pedidoDao.listOrden();
         model.addAttribute("listOrden", listOrden);
+        model.addAttribute("usuario", this.user);
         return "pedidos/pedidos.html";
     }
 
@@ -239,8 +271,11 @@ public class Controlador {
     public String detallesOrden(Model model, @PathVariable(name = "id") String id) {
         List<Pedido> listPedidos = pedidoDao.listPedido(id);
         Orden orden = pedidoDao.get(Integer.parseInt(id));
+        ModeloCliente cli = daoc.get(orden.getNit());
         model.addAttribute("listPedidos", listPedidos);
         model.addAttribute("orden", orden);
+        model.addAttribute("cliente", cli);
+        model.addAttribute("usuario", this.user);
         return "pedidos/pedidosDetalle.html";
     }
 
@@ -249,6 +284,7 @@ public class Controlador {
     public String clientesPage(final Model model) {
         final List<ModeloCliente> listClient = daoc.list();
         model.addAttribute("listClient", listClient);
+        model.addAttribute("usuario", this.user);
         return "clientes/ClienteRead.html";
     }
 
@@ -258,6 +294,7 @@ public class Controlador {
         model.addAttribute("nuevoClient", nuevoClient);
         List<ModeloCliente> listTipos = daoc.listTipo();
         model.addAttribute("listTipos", listTipos);
+        model.addAttribute("usuario", this.user);
         return "clientes/clientecreate.html";
     }
 
@@ -282,6 +319,7 @@ public class Controlador {
         List<ModeloCliente> listTipos = daoc.listTipo();
         mav.addObject("modelo", modelo);
         mav.addObject("listTipos", listTipos);
+        mav.addObject("usuario", this.user);
         return mav;
     }
     
@@ -297,8 +335,15 @@ public class Controlador {
     @RequestMapping("/")
     public String viewLogIn(final Model model) {
         if(this.login){
-            
-            model.addAttribute("user", this.user);
+            List<Acciones> acciones = userDao.listAccion();
+            List<Vista> vistaTel = vistaDao.listVentatel();
+            List<Vista> vistaMes = vistaDao.listVentames();
+            List<Vista> ganancias = vistaDao.listGananciames();
+            model.addAttribute("ganancias", ganancias);
+            model.addAttribute("ventaTel", vistaTel);
+            model.addAttribute("ventaMes", vistaMes);
+            model.addAttribute("usuario", this.user);
+            model.addAttribute("acciones", acciones);
             return "home.html";
         }else{
             model.addAttribute("msg", this.msg);

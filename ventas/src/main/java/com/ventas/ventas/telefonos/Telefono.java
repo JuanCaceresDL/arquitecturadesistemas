@@ -198,5 +198,10 @@ public class Telefono {
       this.foto = foto;
     }
 
+    public void calcularPrecio(){
+      float resultado = (float) (this.preciofabrica * 1.9);
+      this.precioventa = resultado;
+    }
+
     
 }

@@ -134,4 +134,18 @@ public class ModeloCliente {
         }
         return respuesta;
     }
+
+    public String estadoCuenta(){
+        Date date = new Date(System.currentTimeMillis());
+        Date venc = this.vencimiento;
+        String respuesta = "";
+        if(venc != null){
+            if(venc.compareTo(date) < 0){
+                respuesta = "Vencido";
+            }else{
+                respuesta = "Vigente";
+            }
+        }
+        return respuesta;
+    }
 }

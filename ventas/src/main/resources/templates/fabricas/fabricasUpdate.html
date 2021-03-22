@@ -35,16 +35,17 @@ xmlns:th="http://www.thymeleaf.org">
               </span>
             </div>
           </nav>
-        <br>
-        <h1 class="d-flex justify-content-center">Nuevo Teléfono</h1>
-        <br>
     </header>
+
+    <section class="titulos">
+        <h1 th:inline="text">Fabrica [[${modelo.fabricaid}]]</h1>
+      </section>
 
     <section class="container">
     <div class="row">
     
         <article class="col-sm-4 justify-content-center">
-            <a href="/fabricas"><button class="btn btn-secondary">Regresar</button></a>
+            <a href="/fabricas"><button class="btn btn-dark">Regresar</button></a>
         </article>
 
         <article class="col-sm-8">
@@ -64,7 +65,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{fabrica}" placeholder="Fabrica Nombre" />
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">IP</label>
@@ -72,7 +72,6 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{ip}" placeholder="Número de puerto" />
                     </div>
                 </div>
-                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">No. de Puerto</label>
@@ -80,11 +79,10 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="text" class="form-control" th:field="*{puerto}" placeholder="Número de puerto" />
                     </div>
                 </div>
-                <br>
-                
+
                 <div class="form-group row">
                 <div class="col-sm-10">
-                    <button type="submit" class="btn btn-secondary">Agregar</button>
+                    <button type="submit" class="btn btn-dark">Agregar</button>
                 </div>
                 </div>
 

@@ -24,9 +24,9 @@ xmlns:th="http://www.thymeleaf.org">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active"><a class="nav-link" href="/telefonos">Teléfonos</a></li>
             <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
-            <li class="nav-item"><a class="nav-link" href="/fabricas">Fábricas</a></li>
-            <li class="nav-item"><a class="nav-link" href="/pedidos">pedidos</a></li>
-            <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+            <li th:if="${usuario.rolid == 1}" class="nav-item"><a class="nav-link" href="/fabricas">Fábricas</a></li>
+            <li class="nav-item"><a class="nav-link" href="/pedidos">Pedidos</a></li>
+            <li th:if="${usuario.rolid == 1}" class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
           </ul>
           <span class="form-inline my-2 my-lg-0">
             <a href="/carrito"><button class="cart my-2 my-sm-0"><i class="bi bi-cart"></i></button></a>
@@ -34,12 +34,14 @@ xmlns:th="http://www.thymeleaf.org">
           </span>
         </div>
       </nav>
-
-      <h1 class="d-flex justify-content-center">Teléfonos</h1>
     </header>
 
+    <section class="titulos">
+      <h1>Teléfonos</h1>
+    </section>
+
     <section class="container d-flex justify-content-center">
-      <a href="/newTel"><button class="btn btn-secondary">Nuevo Teléfono</button></a>
+      <a th:if="${usuario.rolid == 1}" href="/newTel"><button class="btn btn-dark">Nuevo Teléfono</button></a>
     </section>
 
     <section class="table-responsive container-fluid">
@@ -51,6 +53,7 @@ xmlns:th="http://www.thymeleaf.org">
             <th scope="col">Modelo</th>
             <th scope="col">Disponible</th>
             <th scope="col">PrecioVenta</th>
+            <th scope="col">Inventario</th>
             <th scope="col" class="d-flex justify-content-center">Actions</th>
           </tr>
         </thead>
@@ -60,12 +63,16 @@ xmlns:th="http://www.thymeleaf.org">
             <td th:text="${tel.modelo}">Modelo</td>
             <td th:text="${tel.disponible} ? 'Si':'No' ">Disponible</td>
             <td th:text="${tel.precioventa}">PrecioVenta</td>
+            <td th:text="${tel.inventario}">PrecioVenta</td>
             <td class="d-flex justify-content-center">
-              <a th:href="@{'/editTel/' + ${tel.telcodigo}}"><Button class="btn btn-info"><i class="bi bi-pencil-square"></i>
+              <a th:if="${usuario.rolid == 1}" th:href="@{'/editTel/' + ${tel.telcodigo}}"><Button class="btn btn-info"><i class="bi bi-pencil-square"></i>
               </Button></a>
               &nbsp;
-              <a th:href="@{'/deleteTel/' + ${tel.telcodigo}}"><button class="btn btn-danger"><i class="bi bi-trash"></i>
+              <a th:if="${usuario.rolid == 1}" th:href="@{'/deleteTel/' + ${tel.telcodigo}}"><button class="btn btn-danger"><i class="bi bi-trash"></i>
               </button></a>
+              &nbsp;
+              <a th:href="@{'/verTel/' + ${tel.telcodigo}}"><Button class="btn btn-info"><i class="bi bi-eye-fill"></i>
+              </Button></a>
               &nbsp;
               <form class="d-flex justify-content-center" action ="#" th:action="@{'/addCarrito/' + ${tel.telcodigo}}" method="post">
                 <input type="text" name="cantidadTel" placeholder="Unidades al carrito" th:value="${cantidadTel}"/>

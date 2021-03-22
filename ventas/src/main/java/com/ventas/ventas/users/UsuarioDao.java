@@ -21,12 +21,19 @@ public class UsuarioDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    //LOG----------------------------------------------------------------------------------------
     public void newLog(String accion, int user, String tabla){
         Date date = new Date(System.currentTimeMillis());
         String sql = "INSERT INTO ACCIONES (ACCION, USUARIOID, TABLA, FECHA) VALUES(?, ?, ?, ?)";
         jdbcTemplate.update( sql, accion, user, tabla, date);
     }
 
+    public List<Acciones> listAccion(){
+        String sql = "SELECT * FROM "+ dbuser +"ACCIONES JOIN USERS USING(USUARIOID) ORDER BY FECHA DESC";
+        return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Acciones.class));
+    }
+
+    //LOGIN--------------------------------------------------------------------------------------
     public Usuario logIn(String nombre, String password) {
         try {
             String sql = "SELECT * FROM "+ dbuser +"USERS WHERE NOMBRE = ? AND PASSWORD = ? ";
@@ -40,6 +47,7 @@ public class UsuarioDao {
 
 	}
 
+    //USUARIO CRUD-----------------------------------------------------------------------------------
     public List<Usuario> list(){
         String sql = "SELECT * FROM "+ dbuser +"USERS JOIN ROL USING(ROLID) ORDER BY USUARIOID";
         List<Usuario> listPrueba = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Usuario.class));
