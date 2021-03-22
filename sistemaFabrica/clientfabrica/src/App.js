@@ -1,42 +1,33 @@
+import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Nav, Navbar } from 'react-bootstrap';
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
-import './App.css';
 import './styles/styles.scss'
+import Login from './login'
+import Home from './Home'
 import Telefono from './components/telefonos/Telefono'
 import Pedido from './components/pedidos/Pedido'
 import Clientes from './components/clientes/clientes'
 import Usuarios from './components/usuarios/usuarios'
-
+import Reportes from './components/reportes/Reportes'
 
 function App() {
+
   return (
     <Router >
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand href="/">HOME</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/telefonos">Telefonos</Nav.Link>
-            <Nav.Link href="/clientes">Clientes</Nav.Link>
-            <Nav.Link href="/reportes">Reportes</Nav.Link>
-            <Nav.Link href="/pedidos">Pedidos</Nav.Link>
-            <Nav.Link href="/usuarios">Usuarios</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href="#deets">/</Nav.Link>
-            <Nav.Link eventKey={2} href="#memes">
-              Log Out
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-
       <Switch>
+
+        <Route exact={true} path="/">
+          <Login />
+        </Route>
+
+        <Route exact={true} path="/home">
+          <Home />
+        </Route>
+
         <Route path="/telefonos">
           <Telefono />
         </Route>
@@ -51,6 +42,14 @@ function App() {
 
         <Route path="/usuarios">
           <Usuarios />
+        </Route>
+
+        <Route path="/reportes">
+          <Reportes />
+        </Route>
+
+        <Route path="*">
+          <div>404 not found</div>
         </Route>
       </Switch>
     </Router>

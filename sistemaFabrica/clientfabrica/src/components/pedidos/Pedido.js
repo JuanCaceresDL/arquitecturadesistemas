@@ -1,4 +1,5 @@
 import React from 'react';
+import Navigation from '../publicElements/Navigation'
 import PedidoRead from './PedidoRead'
 import PedidoNew from './PedidoNew'
 import PedidoEdit from './PedidoEdit'
@@ -6,17 +7,24 @@ import {
   Switch,
   Route,
   Link,
-  useRouteMatch
+  useRouteMatch,
+  useHistory
 } from "react-router-dom";
 
 
 function Pedido() {
     let match = useRouteMatch();
+    const history = useHistory();
+    if(localStorage.getItem('login') !== 'true'){
+      history.push('/')
+    }
     return (
       <div >
-        <center className="container">
-          <br/>
+        <Navigation />
+        <section className="titulos">
           <h1>Pedidos</h1>
+        </section>
+        <center className="container">
           <Link to={`${match.url}`}><button className="btn btn-primary">Lista</button></Link>&nbsp;&nbsp;&nbsp;
           <Link to={`${match.url}/nuevo`}><button className="btn btn-primary">Crear</button></Link>
           <br/>

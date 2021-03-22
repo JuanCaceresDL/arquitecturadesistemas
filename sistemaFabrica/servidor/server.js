@@ -359,6 +359,17 @@ app.get("/login/:nom/:pass", async (req, res) => {
 
 })
 
+app.get("/registros", async (req, res) => {
+  RegistroModelo.find({}, null, {sort: {fecha: 1}}, (err, result) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(result)
+    }
+  })
+  });
+
+
 //PRUEBAS AGGREGATION --------------------------------
 
 //app.get("/listPedidos", (req, res) => {
