@@ -8,6 +8,7 @@ const PedidoModel = require("./models/Pedido");
 const ClientesModelo = require("./models/Clientes");
 const UsuariosModelo = require("./models/Usuarios");
 const RegistroModelo = require("./models/Registro");
+//const VentaModelo = require("./models/Venta");
 
 app.use(cors());
 app.use(express.json());
@@ -370,18 +371,23 @@ app.get("/registros", async (req, res) => {
   });
 
 
-//PRUEBAS AGGREGATION --------------------------------
+//AGGREGATION ---------------------------------------
 
-//app.get("/listPedidos", (req, res) => {
- // pedidos.aggregate([{
-   // $lookup: {
-  //    from: 'telefonos',
-   //   localField: 'telId',
-   //   foreignField: 'id',
-   //   as: 'output'
-   // }
- // }]).then(result => res.json(result)).catch(err => console.log(err))
-//})
+app.get("/listVentas", async (req, res) => {
+  PedidoModel.aggregate([
+    {$group: {
+      "_id": "$telId",
+      "total": {$sum: "$ventaTotal"},
+      "cantidad": {$sum: "$cantidad"}
+    }}
+  ])
+  .then((response) => {
+    res.send(response)
+  })
+  .catch((err) => {
+    res.send(err);
+  })
+})
 
 
 app.listen(3001, () => {

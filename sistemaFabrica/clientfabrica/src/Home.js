@@ -11,6 +11,8 @@ function Home(){
     }
 
     const [registro, setRegistros] = useState([]);
+    const [ventas, setVentas] = useState([]);
+    const [searchVentas, setSearchVentas] = useState("");
     const [search, setSearch] = useState("");
     const [updown, setUpdown] = useState({up: false, sortkey: ""})
 
@@ -21,15 +23,26 @@ function Home(){
           }).catch(() => {
               alert('ERR')
           })
+        
+        Axios.get('http://localhost:3001/listVentas')
+        .then((response) => {
+          setVentas(response.data)
+        }).catch(() => {
+            alert('ERR')
+        })
       }, [])
 
     const handleSearch = (event) => {
     setSearch(event.target.value);
     }
 
-    const onSort = (event, sortKey) => {
+    const handleSearchVentas = (event) => {
+      setSearchVentas(event.target.value);
+      }
+
+    const onSort = (event, sortKey, dato) => {
     
-        const data = registro;
+        const data = dato;
         if(updown.up){
           data.sort((a,b) => a[sortKey].toString().localeCompare(b[sortKey]));
           setUpdown({up: false, sortkey: sortKey})
@@ -57,6 +70,37 @@ function Home(){
           </tr>
         )
       })
+
+      const onSortVentas = (event, sortKey) => {
+    
+        const data = ventas;
+        if(updown.up){
+          data.sort((a,b) => a[sortKey].toString().localeCompare(b[sortKey]));
+          setUpdown({up: false, sortkey: sortKey})
+        }else{
+          data.sort((a,b) => b[sortKey].toString().localeCompare(a[sortKey]));
+          setUpdown({up: true, sortkey: sortKey})
+        }
+        setVentas(data);
+      }
+    
+      const itemsVentas = ventas.filter((data)=>{
+        if(searchVentas === "")
+            return data
+        else if(data._id.toLowerCase().includes(searchVentas.toLowerCase()) || 
+        data.cantidad.toString().toLowerCase().includes(searchVentas.toLowerCase()) || 
+        data.total.toString().toLowerCase().includes(searchVentas.toLowerCase())){
+            return data
+        }
+      }).map((a, index)=>{
+        return(
+          <tr key={index}>
+            <th scope="row"><a href={`/telefonos/edit/${a._id}`}>{a._id}</a></th>
+            <td>{highlightText(a.cantidad.toString(), searchVentas)}</td>
+            <td>{highlightText(a.total.toString(), searchVentas)}</td>
+          </tr>
+        )
+      })
       
     return(
         <Fragment>
@@ -80,9 +124,9 @@ function Home(){
                     <table className="table table-striped table-hover table-sm">
                         <thead className="thead-dark">
                         <tr>
-                            <th scope="col" onClick={e => onSort(e, "usuario")}>Usuario <i hidden={"usuario" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
-                            <th scope="col" onClick={e => onSort(e, "accion")}>Accion <i hidden={"accion" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
-                            <th scope="col" onClick={e => onSort(e, "fecha")}>Fecha <i hidden={"fecha" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                            <th scope="col" onClick={e => onSort(e, "usuario", registro)}>Usuario <i hidden={"usuario" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                            <th scope="col" onClick={e => onSort(e, "accion", registro)}>Accion <i hidden={"accion" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                            <th scope="col" onClick={e => onSort(e, "fecha", registro)}>Fecha <i hidden={"fecha" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -91,6 +135,40 @@ function Home(){
                     </table>
                 </article>
             </section>
+            <hr/>
+            <div className="container">
+            <section className="row">
+              <article className="col-sm-6">
+              <section>
+                    <center>
+                        <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon1"><i className="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                        <input onChange={handleSearchVentas} type="text" class="form-control" placeholder="Busqueda Ventas" aria-label="Username" aria-describedby="basic-addon1" />
+                        </div>
+                    </center>
+                </section>
+                <section className="separador">
+                    <table className="table table-striped table-hover table-sm">
+                        <thead className="thead-dark">
+                        <tr>
+                            <th scope="col" onClick={e => onSortVentas(e, "_id")}>Telefono <i hidden={"_id" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                            <th scope="col" onClick={e => onSortVentas(e, "cantidad")}>Cantidad <i hidden={"cantidad" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                            <th scope="col" onClick={e => onSortVentas(e, "total")}>Total <i hidden={"total" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {itemsVentas}
+                        </tbody>
+                    </table>
+                </section>
+
+              </article>
+
+            </section>
+
+            </div>
         </Fragment> 
     )
 }
