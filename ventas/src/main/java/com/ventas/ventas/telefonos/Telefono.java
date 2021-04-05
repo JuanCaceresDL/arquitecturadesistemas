@@ -49,6 +49,12 @@ public class Telefono {
        
     }
 
+    public Telefono(String telcodigo, float preciofabrica) {
+      this.telcodigo = telcodigo;
+      this.preciofabrica = preciofabrica;
+      this.calcularPrecio();
+    }
+
     public Telefono(String telcodigo, String modelo, float ram, float almacenamiento, String procesador, int cores,
         String descripcion, int fabricaid, String fabrica, float preciofabrica, float precioventa, int disponible,
         int inventario, String color, int fotoid, String foto) {

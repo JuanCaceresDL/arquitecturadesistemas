@@ -30,14 +30,6 @@ public class PedidoDao {
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pedido.class));
     }
 
-    public void save(Orden nuevo) {
-        SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-        insertActor.withTableName("ordenes").usingColumns("nit","fecha","total", "descuento", "subtotal");
-        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(nuevo);
-        
-        insertActor.execute(param);    
-    }
-
     public void savePedido(Pedido nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
         insertActor.withTableName("compras").usingColumns("ordenid","telcodigo","cantidad", "descuento", "subtotal", "total", "estado");

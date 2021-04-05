@@ -17,6 +17,14 @@ public class Orden {
     public Orden(){
 
     }
+
+    public Orden(int nit, float total, float descuento, float subtotal){
+        this.nit = nit;
+        this.fecha = new Date(System.currentTimeMillis());
+        this.subtotal = subtotal;
+        this.descuento = descuento;
+        this.total = total;
+    }
     
     public Orden(int nit , Carrito carrito) {
         this.nit = nit;
