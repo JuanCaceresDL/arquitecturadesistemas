@@ -420,7 +420,7 @@ app.get("/listVentas", async (req, res) => {
 })
 
 //REPORTES-------------------------
-app.get("/restReportes", async (req, res) => {
+app.post("/restReportes", async (req, res) => {
   Axios.get('http://localhost:8080/reportes?name=Huawei')
       .then((response) => {
           res.send(response.data)

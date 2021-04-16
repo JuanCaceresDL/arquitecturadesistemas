@@ -1,7 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Navigation from '../publicElements/Navigation'
 import {useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
+
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 function Reportes() {
 
@@ -16,10 +23,27 @@ function Reportes() {
       Axios.get(urlNode() + '/getReportes')
         .then((response) => {
           setReportes(response.data)
+          console.log(response.data)
         }).catch(() => {
             alert('ERR')
         })
     }, [])
+
+    const pedirReportes = () => {
+      Axios.post(urlNode() + '/restReportes').then(() => {
+            alert('Se han añadido datos')
+        }).catch(() => {
+            alert('No se ha podido consultar')
+        })
+      Axios.get(urlNode() + '/getReportes')
+        .then((response) => {
+          setReportes(response.data)
+          console.log(response.data)
+        }).catch(() => {
+            alert('ERR')
+        })
+
+    }
 
     return (
       <div >
@@ -34,7 +58,7 @@ function Reportes() {
             <article className="col-sm-4">
 
               <center>
-                <button className="btn btn-secondary">Pedir informe a tiendas</button>
+                <button onClick={pedirReportes} className="btn btn-secondary">Pedir informe a tiendas</button>
               </center>
 
             </article>
@@ -42,12 +66,21 @@ function Reportes() {
             <article className="col-sm-8">
               <center>
                   <h3>Enviar arhivo de excel</h3>
-                  <form  class="d-flex justify-content-center">
+                  <form  className="d-flex justify-content-center">
                       <input className="form-control" name="actualImagen" placeholder="Enviar a correo" autoComplete="off"/>
                       <br/>
                       <button className="btn btn-secondary" type="submit">Enviar</button>
                   </form>
                   <br/> 
+
+                <ExcelFile element={<button className="btn btn-secondary">Exportar Excel</button>} filename="ReporteVentas">
+                  <ExcelSheet data={reportes} name="ReporteVentas">
+                      <ExcelColumn label="TelCodigo" value="telcodigo"/>
+                      <ExcelColumn label="Cantidad" value="cantidad"/>
+                      <ExcelColumn label="Tienda" value="tienda"/>
+                      <ExcelColumn label="Fecha" value="fecha"/>
+                  </ExcelSheet>
+              </ExcelFile>
               </center>
 
             </article>
