@@ -1,5 +1,6 @@
 import React, {useState, Fragment, useEffect} from 'react';
 import {useParams, useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
 function PedidoNew() {
@@ -8,9 +9,9 @@ function PedidoNew() {
     const history = useHistory()
 
     const [datos, setDatos] = useState({
-        telId: '',
+        telcodigo: '',
         cantidad: '',
-        ventaTotal: '',
+        total: '',
         estado: '',
         cliente: '',
         fechaCompra: '',
@@ -19,12 +20,13 @@ function PedidoNew() {
     
     useEffect(() =>{
 
-    Axios.get(`http://localhost:3001/getPedido/${id}`).then((response) => {
+    Axios.get(urlNode() + `/getPedido/${id}`).then((response) => {
         let dat = response.data;
+        console.log(dat)
         let newData = {
-            telId: dat.telId,
+            telcodigo: dat.telcodigo,
             cantidad: dat.cantidad,
-            ventaTotal: dat.ventaTotal,
+            ventaTotal: dat.total,
             estado: dat.estado,
             cliente: dat.cliente,
             fechaCompra: formatoFechas(dat.fechaCompra),
@@ -59,10 +61,9 @@ function PedidoNew() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.put('http://localhost:3001/updatePedido', {
+        Axios.put(urlNode() + '/updatePedido', {
             _id: id,
-            estado: datos.estado,
-            fechaEntrega: Date(datos.fechaEntrega)}).then(() => {
+            estado: datos.estado}).then(() => {
                 alert('Se ha modificado el pedido')
                 history.push("/pedidos")
             }).catch(() => {
@@ -85,7 +86,7 @@ function PedidoNew() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Codigo Teléfono</label>
                                 <div className="col-sm-10">
-                                    <label className="form-control" ><a href={`/telefonos/edit/${datos.telId}`}>{datos.telId}</a></label>
+                                    <label className="form-control" >{datos.telcodigo}</label>
                                 </div>
                             </div>
 
@@ -106,7 +107,7 @@ function PedidoNew() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Codigo Teléfono</label>
                                 <div className="col-sm-10">
-                                    <label className="form-control" ><a href={`/clientes/edit/${datos.cliente}`}>{datos.cliente}</a></label>
+                                    <label className="form-control" >{datos.cliente}</label>
                                 </div>
                             </div>
 
@@ -116,7 +117,7 @@ function PedidoNew() {
                                     <select onChange={handleInputChange} value={datos.estado} className="form-control" name="estado">
                                         <option value="Fabriacion">Fabricación</option>
                                         <option value="Terminado">Terminado</option>
-                                        <option value="Entregado">Entregado</option>
+                                        <option value="Recibido">Recibido</option>
                                         <option value="Cancelado">Cancelado</option>
                                     </select>
                                 </div>

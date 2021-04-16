@@ -1,3 +1,4 @@
+const Axios = require('axios');
 const express = require("express");
 const app = express();
 const cors = require("cors")
@@ -8,7 +9,17 @@ const PedidoModel = require("./models/Pedido");
 const ClientesModelo = require("./models/Clientes");
 const UsuariosModelo = require("./models/Usuarios");
 const RegistroModelo = require("./models/Registro");
+const RegistroRestModelo = require("./models/RegistroRest");
+const ReporteModel = require("./models/Reporte");
 //const VentaModelo = require("./models/Venta");
+
+async function saveRestLog(tienda, accion){
+  const registro = new RegistroRestModelo({
+    tienda: tienda,
+    accion: accion,
+  });
+  await registro.save();
+}
 
 app.use(cors());
 app.use(express.json());
@@ -28,13 +39,14 @@ app.get("/insert", async (req, res) => {
 });
 
 app.get("/read", async (req, res) => {
-  FriendModel.find({}, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
+  const reporte = new ReporteModel({
+    telcodigo: "P2020",
+    cantidad: 5,
+    total: 20,
+    fecha: new Date(),
+    tienda: "Tigo"
   });
+  await reporte.save();
 });
 
 //TELEFONOS------------------------------------------------------------------
@@ -60,17 +72,16 @@ app.get("/readTelefono", async (req, res) => {
 });
 
 app.post("/addTelefono", async (req, res) => {
-  const codigo = req.body.codigo;
   const telefono = new TelefonoModel({ 
-    codigo: codigo,
+    telcodigo: req.body.codigo,
     modelo: req.body.modelo,
     color: req.body.color,
     ram: req.body.ram,
-    memoria: req.body.memoria,
+    almacenamiento: req.body.memoria,
     procesador: req.body.procesador,
     cores: req.body.cores,
     descripcion: req.body.descripcion,
-    precio: req.body.precio,
+    preciofabrica: req.body.precio,
     imagenes: req.body.imagenes});
   await telefono.save();
   const registro = new RegistroModelo({
@@ -86,15 +97,15 @@ app.put("/updateTelefono", async (req, res) => {
   const id = req.body._id;
   try {
     TelefonoModel.findById(id, (err, result) => {
-      result.codigo = req.body.codigo;
+      result.telcodigo = req.body.telcodigo;
       result.modelo = req.body.modelo;
       result.color = req.body.color;
       result.ram = Number(req.body.ram);
-      result.memoria = Number(req.body.memoria);
-      result.procesador = Number(req.body.procesador);
+      result.almacenamiento = Number(req.body.almacenamiento);
+      result.procesador = req.body.procesador;
       result.cores = Number(req.body.cores);
       result.descripcion = req.body.descripcion;
-      result.precio = Number(req.body.precio);
+      result.preciofabrica = Number(req.body.preciofabrica);
       result.imagenes = req.body.imagenes
       result.save();
     });
@@ -146,15 +157,24 @@ app.get("/listPedidos", async (req, res) => {
   });
 
 app.post("/addPedido", async (req, res) => {
-  const pedido = new PedidoModel({ 
-    telId: req.body.telId,
-    cantidad: req.body.cantidad,
-    ventaTotal: req.body.ventaTotal,
-    estado: req.body.estado,
-    cliente: req.body.cliente,
-    fechaCompra: new Date(req.body.fechaCompra),
-    fechaEntrega: new Date(req.body.fechaEntrega),});
-  await pedido.save();
+  
+  ClientesModelo.find({nombre: req.body.cliente, estado: "activo"}, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      let entrega = new Date();
+      entrega.setDate(entrega.getDate() + (Number(result[0].tiempoEntrega) * 7));
+      const pedido = new PedidoModel({ 
+        telcodigo: req.body.telId,
+        cantidad: req.body.cantidad,
+        total: req.body.ventaTotal,
+        cliente: req.body.cliente,
+        fechaCompra: new Date(),
+        fechaEntrega: entrega,});
+      pedido.save();
+    }
+  })
+  
   const registro = new RegistroModelo({
     usuario: infosesion._id,
     accion: "añadió el pedido con el ID:  " + req.body.telId,
@@ -167,12 +187,10 @@ app.post("/addPedido", async (req, res) => {
 app.put("/updatePedido", async (req, res) => {
   const id = req.body._id;
   const estado = req.body.estado;
-  const fechaEntrega = req.body.fechaEntrega;
 
   try {
     PedidoModel.findById(id, (err, result) => {
       result.estado = estado;
-      result.fechaEntrega = fechaEntrega;
       result.save();
     });
     const registro = new RegistroModelo({
@@ -194,7 +212,8 @@ app.post("/insertCliente", async (req, res) => {
     nombre: req.body.nombre,
     url: req.body.url,
     password: req.body.password,
-    estado: req.body.estado
+    estado: req.body.estado, 
+    tiempoEntrega: Number(req.body.tiempoEntrega)
    });
   await clientes.save();
   const registro = new RegistroModelo({
@@ -360,8 +379,19 @@ app.get("/login/:nom/:pass", async (req, res) => {
 
 })
 
+//LOGS----------------------------------------------------
 app.get("/registros", async (req, res) => {
   RegistroModelo.find({}, null, {sort: {fecha: 1}}, (err, result) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(result)
+    }
+  })
+  });
+
+app.get("/registrosRest", async (req, res) => {
+  RegistroRestModelo.find({}, null, {sort: {fecha: 1}}, (err, result) => {
     if (err) {
       res.send(err)
     } else {
@@ -376,7 +406,7 @@ app.get("/registros", async (req, res) => {
 app.get("/listVentas", async (req, res) => {
   PedidoModel.aggregate([
     {$group: {
-      "_id": "$telId",
+      "_id": "$telcodigo",
       "total": {$sum: "$ventaTotal"},
       "cantidad": {$sum: "$cantidad"}
     }}
@@ -388,6 +418,168 @@ app.get("/listVentas", async (req, res) => {
     res.send(err);
   })
 })
+
+//REPORTES-------------------------
+app.get("/restReportes", async (req, res) => {
+  Axios.get('http://localhost:8080/reportes?name=Huawei')
+      .then((response) => {
+          res.send(response.data)
+          response.data.map(r => {
+            const reporte = new ReporteModel({
+              telcodigo: r.telcodigo,
+              cantidad: Number(r.cantidad),
+              total: Number(r.total),
+              fecha: new Date(),
+              tienda: r.tienda
+            });
+            reporte.save();
+          })
+      }).catch(() => {
+          console.log("err")
+      })
+});
+
+app.get("/getReportes", async (req, res) => {
+  
+  ReporteModel.find({}, (err, result) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(result)
+    }
+  })
+  });
+
+//REST-----------------------------------------------
+app.get("/test", async (req, res) => {
+  res.send([{fabrica: "testhello", puerto: 8080, ip: "190"}])
+  });
+
+  app.post("/post", async (req, res) => {
+    console.log(req.body);
+    res.sendStatus(201)
+    });
+
+app.get("/restTelefonos/:us/:pass", async (req, res) => {
+  const us = req.params.us;
+  const pass = req.params.pass;
+  ClientesModelo.exists({nombre: us, password: pass, estado: "activo"}, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if(result){
+
+        TelefonoModel.find({}, (error, resultado) => {
+          if (error) {
+            res.send(error);
+          } else {
+            res.send(resultado);
+          }
+        });
+      }
+    }
+  });
+  saveRestLog(us, "Consulta de teléfonos");
+});
+
+app.get("/oneTel/:id/:us/:pass", async (req, res) => {
+  const id = req.params.id;
+  const us = req.params.us;
+  const pass = req.params.pass;
+  ClientesModelo.exists({nombre: us, password: pass, estado: "activo"}, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if(result){
+        TelefonoModel.find({telcodigo: id}, (error, resultado) => {
+          if (error) {
+            res.send(error);
+          } else {
+            res.send(resultado);
+          }
+        });
+      }
+    }
+  });
+  saveRestLog(us, "Telefono codigo " + id + " guardado");
+});
+
+app.get("/restOrdenes/:us/:pass", async (req, res) => {
+  const us = req.params.us;
+  const pass = req.params.pass;
+  ClientesModelo.exists({nombre: us, password: pass, estado: "activo"}, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if(result){
+        PedidoModel.find({cliente: us, $or: [{estado: "Terminado"}, {estado: "Fabricacion"}]}, (error, resultado) => {
+          if (error) {
+            res.send(error);
+          } else {
+            var respuesta = resultado.map(r => 
+               ({id: r._id, fechaEntrega: r.fechaEntrega, telcodigo: r.telcodigo, cantidad: r.cantidad, fechaCompra: r.fechaCompra, total: r.total, estado: r.estado, fabrica: r.fabrica})
+            )
+            res.send(respuesta);
+          }
+        });
+      }
+    }
+  });
+  saveRestLog(us, "Consulta de pedidos");
+});
+
+app.post("/restActualizarPedido/:us/:pass", async (req, res) => {
+  const us = req.params.us;
+  const pass = req.params.pass;
+  ClientesModelo.exists({nombre: us, password: pass, estado: "activo"}, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if(result){
+          PedidoModel.findById(req.body.id, (error, resultado) => {
+            if(error){
+              console.log(error)
+            }else{
+              resultado.estado = req.body.estado;
+              resultado.save();
+            }
+          });
+        res.sendStatus(201)
+      }
+    }
+  });
+  saveRestLog(us, "Pedido " + req.body.estado);
+});
+
+app.post("/restAddPedido/:us/:pass", async (req, res) => {
+  const us = req.params.us;
+  const pass = req.params.pass;
+  ClientesModelo.exists({nombre: us, password: pass, estado: "activo"}, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if(result){
+        ClientesModelo.find({nombre: us, password: pass, estado: "activo"}, (e, r) => {
+          if (e) {
+            console.log(e);
+          } else {
+            let entrega = new Date();
+            entrega.setDate(entrega.getDate() + (Number(r[0].tiempoEntrega) * 7));
+            const pedido = new PedidoModel({ 
+              telcodigo: req.body.telcodigo,
+              cantidad: req.body.cantidad,
+              total: (req.body.telefono.preciofabrica * req.body.cantidad),
+              cliente: req.body.tienda,
+              fechaEntrega: entrega,});
+            pedido.save();
+          }
+        })
+        res.sendStatus(201)
+      }
+    }
+  });
+  saveRestLog(us, "Nuevo pedido de teléfono codigo " + req.body.telcodigo);
+});
 
 
 app.listen(3001, () => {

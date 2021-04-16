@@ -1,6 +1,7 @@
 import React, {useState, Fragment} from 'react';
 import {useHistory} from "react-router-dom";
 import Axios from 'axios'
+import {urlNode} from './components/publicElements/Url'
 
 function Login() {
 
@@ -27,7 +28,7 @@ function Login() {
       const enviarDatos = (event) => {
         event.preventDefault()
         if(datos.nombre !== '' && datos.password !== ''){
-            Axios.get(`http://localhost:3001/login/${datos.nombre}/${datos.password}`)
+            Axios.get(urlNode() + `/login/${datos.nombre}/${datos.password}`)
             .then((response) => {
                 if(response.data.log){
                     setMsg(response.data.msg);

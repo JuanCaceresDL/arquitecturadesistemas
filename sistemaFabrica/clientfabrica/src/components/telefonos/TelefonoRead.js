@@ -1,5 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {highlightText} from '../publicElements/functions'
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 import {
   Link
@@ -13,7 +14,7 @@ function TelefonoRead() {
   const [updown, setUpdown] = useState({up: false, sortkey: ""})
 
   useEffect(() =>{
-    Axios.get('http://localhost:3001/readTelefono')
+    Axios.get(urlNode() + '/readTelefono')
       .then((response) => {
           setList(response.data)
       }).catch(() => {
@@ -22,7 +23,7 @@ function TelefonoRead() {
   }, [])
 
   const deleteTel = (id) => {
-    Axios.delete(`http://localhost:3001/deleteTelefono/${id}`).then(() =>{
+    Axios.delete(urlNode() + `/deleteTelefono/${id}`).then(() =>{
       setList(listTelefonos.filter(val => 
          val._id !== id
       ))
@@ -60,10 +61,10 @@ function TelefonoRead() {
   }).map((tel, index)=>{
     return(
       <tr key={index}>
-        <th scope="row">{tel.codigo}</th>
+        <th scope="row">{tel.telcodigo}</th>
         <td>{highlightText(tel.modelo, search)}</td>
         <td>{highlightText(tel.descripcion, search)}</td>
-        <td>{highlightText(tel.precio.toString(), search)}</td>
+        <td>{highlightText(tel.preciofabrica.toString(), search)}</td>
         <td className="d-flex justify-content-center">
           <Link to={`/telefonos/edit/${tel._id}`}><button className="btn btn-info"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></Link>
           &nbsp;
@@ -92,10 +93,10 @@ function TelefonoRead() {
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-dark">
               <tr>
-              <th scope="col" onClick={e => onSort(e, "codigo")}>Código <i hidden={"codigo" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+              <th scope="col" onClick={e => onSort(e, "telcodigo")}>Código <i hidden={"telcodigo" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
                 <th scope="col" onClick={e => onSort(e, "modelo")}>Modelo <i hidden={"modelo" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
                 <th scope="col" onClick={e => onSort(e, "descripcion")}>Descripción <i hidden={"descripcion" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
-                <th scope="col" onClick={e => onSort(e, "precio")}>Precio <i hidden={"precio" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                <th scope="col" onClick={e => onSort(e, "preciofabrica")}>Precio <i hidden={"preciofabrica" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
                 <th scope="col" className="d-flex justify-content-center">Actions</th>
               </tr>
             </thead>

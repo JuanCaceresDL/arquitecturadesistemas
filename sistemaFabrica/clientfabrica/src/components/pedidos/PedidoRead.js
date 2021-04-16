@@ -1,5 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {highlightText} from '../publicElements/functions'
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 import {
   Link
@@ -13,7 +14,7 @@ function PedidoRead() {
   const [updown, setUpdown] = useState({up: false, sortkey: ""})
 
   useEffect(() =>{
-    Axios.get('http://localhost:3001/listPedidos')
+    Axios.get(urlNode() + '/listPedidos')
       .then((response) => {
           setList(response.data)
       }).catch(() => {

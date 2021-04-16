@@ -22,7 +22,7 @@ public class TelDao {
     }
 
     public List<Telefono> list(){
-        String sql = "SELECT * FROM "+ dbuser +"TELEFONOS";
+        String sql = "SELECT * FROM "+ dbuser +"TELEFONOS JOIN FABRICANTES USING(FABRICAID)";
         List<Telefono> listTel = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Telefono.class));
         return listTel;
     }
@@ -62,7 +62,7 @@ public class TelDao {
 	}
 
     public Telefono get(String id) {
-		String sql = "SELECT * FROM "+ dbuser +"TELEFONOS WHERE TELCODIGO = ?";
+		String sql = "SELECT * FROM "+ dbuser +"TELEFONOS JOIN FABRICANTES USING(FABRICAID) WHERE TELCODIGO = ?";
 		Object[] args = {id};
 		Telefono tel = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Telefono.class));
 		return tel;
@@ -74,6 +74,10 @@ public class TelDao {
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		
+	}
+
+    public void actualizarInventario(int cantidad, String tel) {
+        jdbcTemplate.update("CALL SUMAINVENTARIO(?, ?)", cantidad, tel);
 	}
 
     public void delete(String id) {

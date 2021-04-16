@@ -1,5 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {highlightText} from '../publicElements/functions'
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 import {
   Link
@@ -13,7 +14,7 @@ function ClienteRead() {
   const [updown, setUpdown] = useState({up: false, sortkey: ""})
 
   useEffect(() =>{
-    Axios.get('http://localhost:3001/readCliente')
+    Axios.get(urlNode() + '/readCliente')
       .then((response) => {
           setList(response.data)
       }).catch(() => {
@@ -22,7 +23,7 @@ function ClienteRead() {
   }, [])
 
   const deletecli = (id) => {
-    Axios.delete(`http://localhost:3001/deleteClientes/${id}`).then(() =>{
+    Axios.delete(urlNode() + `/deleteClientes/${id}`).then(() =>{
       setList(listClientes.filter(val => 
          val._id !== id
       ))

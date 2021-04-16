@@ -1,5 +1,6 @@
 import React, {useState, Fragment} from 'react';
 import {useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
 function ClienteNew() {
@@ -9,7 +10,8 @@ function ClienteNew() {
         nombre: '',
         url: '',
         password: '',
-        estado: ''
+        estado: '',
+        tiempoEntrega: 0
       })
       
       const handleInputChange = (event) => {
@@ -21,11 +23,7 @@ function ClienteNew() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.post('http://localhost:3001/insertCliente', {
-            nombre: datos.nombre,
-            url: datos.url,
-            password: datos.password,
-            estado: datos.estado}).then(() => {
+        Axios.post(urlNode() + '/insertCliente', datos).then(() => {
                 alert('Se ha añadido un nuevo cliente')
                 history.push("/clientes")
             }).catch(() => {
@@ -64,6 +62,14 @@ function ClienteNew() {
                                     <input type="text" className="form-control" name="password" placeholder="Password" onChange={handleInputChange}/>
                                 </div>
                             </div>
+
+                            <div className="form-group row">
+                                <label className="col-sm-2 col-form-label">Tiempo entrega Semanas</label>
+                                <div className="col-sm-10">
+                                    <input type="number" className="form-control" name="tiempoEntrega" placeholder="Tiempo entrega en semanas" onChange={handleInputChange}/>
+                                </div>
+                            </div>
+
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Estado</label>
                                 <div className="col-sm-10">

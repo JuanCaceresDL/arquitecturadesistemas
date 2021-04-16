@@ -3,6 +3,7 @@ package com.ventas.ventas.fabricas;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -27,6 +28,12 @@ public class FabDao {
         return listPrueba;
     }
 
+    public List<Fabricante> listDisponibles(){
+        String sql = "SELECT * FROM "+ dbuser +"FABRICANTES WHERE PUERTO != 0";
+        List<Fabricante> listPrueba = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Fabricante.class));
+        return listPrueba;
+    }
+
     public void save(Fabricante nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
         insertActor.withTableName("fabricantes").usingColumns("fabrica","puerto", "ip");
@@ -40,6 +47,18 @@ public class FabDao {
 		Object[] args = {id};
 		Fabricante fabrica = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Fabricante.class));
 		return fabrica;
+	}
+
+    public Fabricante getByName(String fabrica) {
+        try{
+		String sql = "SELECT * FROM "+ dbuser +"FABRICANTES WHERE FABRICA = ? AND PUERTO != 0";
+		Object[] args = {fabrica};
+		Fabricante sale = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Fabricante.class));
+		return sale;
+        }
+        catch (EmptyResultDataAccessException e) {
+           return null;
+        }
 	}
 
     public void update(Fabricante modelo) {

@@ -1,6 +1,15 @@
 package com.ventas.ventas;
 
+import java.net.ConnectException;
+import java.time.*;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import com.ventas.ventas.telefonos.*;
 import com.ventas.ventas.clientes.*;
@@ -8,11 +17,17 @@ import com.ventas.ventas.fabricas.*;
 import com.ventas.ventas.tutorial.*;
 import com.ventas.ventas.users.*;
 import com.ventas.ventas.pedidos.*;
+import com.ventas.ventas.service.MailService;
 import com.ventas.ventas.vista.*;
 
 import org.hibernate.hql.spi.id.IdTableHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +35,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -32,6 +49,12 @@ public class Controlador {
 
     private boolean existeCliente = false;
     private ModeloCliente cliente = new ModeloCliente();
+
+    private String tiendaActual = "Tigo";
+    private String contr = "123";
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private Dao dao;
@@ -233,6 +256,7 @@ public class Controlador {
 
     @RequestMapping("/ordenar")
     public String ordenarCarrito() {
+        List<Fabricante> fabricas = fabDao.listDisponibles();
         Orden orden = new Orden(this.cliente.getNit(), this.carrito);
         pedidoDao.generarOrden(orden);
         Orden lastOrden = pedidoDao.getLast(this.cliente.getNit());
@@ -241,8 +265,19 @@ public class Controlador {
         for(Pedido element : this.carrito.getCarro()){
             if(element.getEstado().equals("credito")){
                 if(this.cliente.getTipoclienteid() == 1){
-                    pedidoDao.savePedido(element);
-                    userDao.newLog("Nueva compra para orden No:  " + element.getOrdenid(), this.user.getUsuarioid(), "COMPRAS");
+                    for(Fabricante fab : fabricas){
+                        if(fab.getFabricaid() == element.getTelefono().getFabricaid()){
+
+                            RestTemplate restTemplate = new RestTemplate();
+                            ResponseEntity<Void> response = restTemplate.postForEntity(fab.generateUrl() + "restAddPedido/" + tiendaActual + "/"+ contr, element, Void.class);
+                            if (response.getStatusCode() == HttpStatus.CREATED) {
+                                pedidoDao.savePedido(element);
+                                userDao.newLog("Nueva compra para orden No:  " + element.getOrdenid(), this.user.getUsuarioid(), "COMPRAS");
+                            } else {
+                                System.out.println("Request Failed");
+                            }
+                        }
+                    }
                 }
             }else{
                 pedidoDao.savePedido(element);
@@ -280,6 +315,31 @@ public class Controlador {
     }
 
     //CLIENTES-----------------------------------------------------------------------------------------
+    @RequestMapping("/sendMail")
+    public String sendMail(){
+
+        Month mes = LocalDate.now().getMonth();
+        String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+
+        List<ModeloCliente> clientes = daoc.list();
+
+        for(ModeloCliente clienteInd : clientes){
+            String header = "Hola " + clienteInd.getNombre() + "\nEstas son tus compras del mes de " + nombre.toUpperCase() + "\n\n";
+            String message = header;
+            List<Compra> compras = pedidoDao.getListByClient(clienteInd.getNit());
+            for(Compra compra : compras){
+                message = message + compra.toString();
+            }
+
+            message = message + "\n\nSaludos desde la tienda de Tigo";
+
+            mailService.sendMail(clienteInd.getEmail(), nombre.toUpperCase(), message);
+        }
+        
+
+        return "redirect:/clientes";
+    }
+
     @RequestMapping("/clientes")
     public String clientesPage(final Model model) {
         final List<ModeloCliente> listClient = daoc.list();
@@ -417,6 +477,111 @@ public class Controlador {
         userDao.delete(id);
         userDao.newLog("Usuario borado ID: " + id, this.user.getUsuarioid(), "USERS");
         return "redirect:/usuarios";       
+    }
+
+    //REST--------------------------------------------------------
+    @RequestMapping(value = "/test")
+	public String getDispo(final Model model){
+        /*String uri = "http://localhost:3001/test";
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<Fabricante[]> response = restTemplate.getForEntity(uri,Fabricante[].class);
+        Fabricante[] employees = response.getBody();	  
+        model.addAttribute("listTest", employees);  
+            return "test.html";*/
+            String url = "http://localhost:3001/post";
+
+// create an instance of RestTemplate
+RestTemplate restTemplate = new RestTemplate();
+
+// create a post object
+Fabricante post = new Fabricante(101, "testfinal", 8080,
+                "A powerful tool for building web apps.");
+
+// send POST request
+restTemplate.postForEntity(url, post, Void.class);
+
+
+return "redirect:/";
+	}
+
+    @RequestMapping(value = "/restTel",method = RequestMethod.GET)
+    public String restTelPage(final Model model) {
+        List<Telefono> telefonos = new ArrayList<Telefono>();
+        List<Fabricante> fabricas = fabDao.listDisponibles();
+        for(Fabricante fab : fabricas){
+
+            String uri = fab.generateUrl() + "restTelefonos/" + tiendaActual + "/"+ contr;
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Telefono[]> response = restTemplate.getForEntity(uri,Telefono[].class);
+            Telefono[] tel = response.getBody();
+            telefonos.addAll(Arrays.asList(tel));
+            
+        }
+        model.addAttribute("listTel", telefonos);  
+        model.addAttribute("usuario", this.user);
+        return "telefonos/telefonosFabrica.html";
+    }
+
+    @RequestMapping("/saveRestTel/{codigo}/{fabrica}")
+    public String saveRestTel(@PathVariable(name = "codigo") String codigo, @PathVariable(name = "fabrica") String fabrica) {
+        Fabricante fabricante = fabDao.getByName(fabrica);
+        String uri = fabricante.generateUrl() + "oneTel/" + codigo + "/" + tiendaActual + "/"+ contr;
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Telefono[]> response = restTemplate.getForEntity(uri,Telefono[].class);
+            Telefono[] tel = response.getBody();
+            Telefono guardar = tel[0];
+            guardar.setFabricaid(fabricante.getFabricaid());
+            teldao.save(guardar);
+            for(String foto : guardar.getImagenes()){
+                Telefono te = new Telefono(guardar.getTelcodigo(), foto);
+                teldao.saveFoto(te);
+            }
+        return "redirect:/telefonos";       
+    }
+
+    @RequestMapping("/restPedidos")
+    public String restPedidosPage(final Model model) {
+        List<Pedido> orden = new ArrayList<Pedido>();
+        List<Fabricante> fabricas = fabDao.listDisponibles();
+        for(Fabricante fab : fabricas){
+
+            String uri = fab.generateUrl() + "restOrdenes/" + tiendaActual + "/"+ contr;
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Pedido[]> response = restTemplate.getForEntity(uri,Pedido[].class);
+            Pedido[] ord = response.getBody();
+            orden.addAll(Arrays.asList(ord));
+            
+        }
+        model.addAttribute("listOrden", orden);
+        model.addAttribute("usuario", this.user);
+        return "pedidos/pedidosFabrica.html";
+    }
+
+    @RequestMapping("/restAccion/{id}/{fabrica}/{accion}/{cantidad}/{tel}")
+    public String restPedidoAceptarPage(@PathVariable(name = "id") String id, 
+                                        @PathVariable(name = "fabrica") String fabrica, 
+                                        @PathVariable(name = "accion") int accion, 
+                                        @PathVariable(name = "cantidad") int cant,
+                                        @PathVariable(name = "tel") String tel) {
+        Fabricante fabric = fabDao.getByName(fabrica);
+        RestTemplate restTemplate = new RestTemplate();
+		Map<String, String> map = new HashMap<>();
+		map.put("id", id);
+		if(accion == 1){
+		    map.put("estado", "Recibido");
+        }else{
+            map.put("estado", "Cancelado");
+        }
+		ResponseEntity<Void> response = restTemplate.postForEntity(fabric.generateUrl() + "restActualizarPedido/" + tiendaActual + "/"+ contr, map, Void.class);
+
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+			teldao.actualizarInventario(cant, tel);
+		} else {
+			System.out.println("Request Failed");
+		}
+
+        return "redirect:/restPedidos";
     }
 
 }

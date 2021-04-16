@@ -1,5 +1,6 @@
 import React, {useState, Fragment, useEffect} from 'react';
 import {useParams, useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
 function UsuariosEdit() {
@@ -17,7 +18,7 @@ function UsuariosEdit() {
 
     useEffect(() =>{
 
-        Axios.get(`http://localhost:3001/getusuarios/${id}`).then((response) => {
+        Axios.get(urlNode() + `/getusuarios/${id}`).then((response) => {
               setDatos(response.data)
           }).catch(() => {
               alert('ERR')
@@ -35,7 +36,7 @@ function UsuariosEdit() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.put('http://localhost:3001/updateusuarios', datos).then(() => {
+        Axios.put(urlNode() + '/updateusuarios', datos).then(() => {
                 alert('Se ha actualizado correctamente')
                 history.push("/usuarios");
             }).catch(() => {

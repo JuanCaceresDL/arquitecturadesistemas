@@ -16,6 +16,10 @@ const Clienteschema = new mongoose.Schema({
     estado: {
         type: String,
         required: true
+    },
+    tiempoEntrega: {
+        type: Number,
+        required: true
     }
 });
 

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const PedidoSchema = new mongoose.Schema({
-    telId: {
+    telcodigo: {
         type: String,
         required: true
     },
@@ -9,13 +9,14 @@ const PedidoSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    ventaTotal: {
+    total: {
         type: Number,
         required: true
     },
     estado: {
         type: String,
-        required: true
+        required: true,
+        default: "Fabricacion"
     },
     cliente: {
         type: String,
@@ -23,11 +24,17 @@ const PedidoSchema = new mongoose.Schema({
     },
     fechaCompra: {
         type: Date,
-        required: true
+        required: true,
+        default: new Date()
     },
     fechaEntrega: {
         type: Date,
         required: true
+    },
+    fabrica: {
+        type: String,
+        required: true,
+        default: "Huawei"
     }
 });
 

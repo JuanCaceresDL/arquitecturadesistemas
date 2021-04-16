@@ -1,4 +1,5 @@
 import React, {Fragment, useEffect, useState} from 'react';
+import {urlNode} from './components/publicElements/Url'
 import Navigation from './components/publicElements/Navigation'
 import {useHistory}  from "react-router-dom";
 import {highlightText} from './components/publicElements/functions'
@@ -11,20 +12,29 @@ function Home(){
     }
 
     const [registro, setRegistros] = useState([]);
+    const [registroRest, setRegistrosRest] = useState([]);
     const [ventas, setVentas] = useState([]);
     const [searchVentas, setSearchVentas] = useState("");
     const [search, setSearch] = useState("");
+    const [searchRest, setSearchRest] = useState("");
     const [updown, setUpdown] = useState({up: false, sortkey: ""})
 
     useEffect(() =>{
-        Axios.get('http://localhost:3001/registros')
+        Axios.get(urlNode() + '/registros')
           .then((response) => {
             setRegistros(response.data.sort((a,b) => b['fecha'].toString().localeCompare(a['fecha'])))
           }).catch(() => {
               alert('ERR')
           })
+
+        Axios.get(urlNode() + '/registrosRest')
+        .then((response) => {
+          setRegistrosRest(response.data.sort((a,b) => b['fecha'].toString().localeCompare(a['fecha'])))
+        }).catch(() => {
+            alert('ERR')
+        })
         
-        Axios.get('http://localhost:3001/listVentas')
+        Axios.get(urlNode() +  '/listVentas')
         .then((response) => {
           setVentas(response.data)
         }).catch(() => {
@@ -36,10 +46,15 @@ function Home(){
     setSearch(event.target.value);
     }
 
+    const handleSearchRest = (event) => {
+      setSearchRest(event.target.value);
+      }
+
     const handleSearchVentas = (event) => {
       setSearchVentas(event.target.value);
       }
 
+//LOGS---------------------
     const onSort = (event, sortKey, dato) => {
     
         const data = dato;
@@ -71,6 +86,37 @@ function Home(){
         )
       })
 
+      const onSortRest = (event, sortKey, dato) => {
+    
+        const data = dato;
+        if(updown.up){
+          data.sort((a,b) => a[sortKey].toString().localeCompare(b[sortKey]));
+          setUpdown({up: false, sortkey: sortKey})
+        }else{
+          data.sort((a,b) => b[sortKey].toString().localeCompare(a[sortKey]));
+          setUpdown({up: true, sortkey: sortKey})
+        }
+        setRegistrosRest(data);
+      }
+    
+      const items2 = registroRest.filter((data)=>{
+        if(searchRest === "")
+            return data
+        else if(data.tienda.toLowerCase().includes(searchRest.toLowerCase()) || 
+        data.accion.toLowerCase().includes(searchRest.toLowerCase()) || 
+        data.fecha.toLowerCase().includes(searchRest.toLowerCase())){
+            return data
+        }
+      }).map((a, index)=>{
+        return(
+          <tr key={index}>
+            <th scope="row">{highlightText(a.tienda, search)}</th>
+            <td>{highlightText(a.accion, searchRest)}</td>
+            <td>{highlightText(a.fecha, searchRest)}</td>
+          </tr>
+        )
+      })
+//Agregation--------------------------------
       const onSortVentas = (event, sortKey) => {
     
         const data = ventas;
@@ -116,7 +162,7 @@ function Home(){
                         <div className="input-group-prepend">
                             <span className="input-group-text" id="basic-addon1"><i className="fa fa-search" aria-hidden="true"></i></span>
                         </div>
-                        <input onChange={handleSearch} type="text" class="form-control" placeholder="Busqueda Log" aria-label="Username" aria-describedby="basic-addon1" />
+                        <input onChange={handleSearch} type="text" className="form-control" placeholder="Busqueda Log" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
                     </center>
                 </article>
@@ -136,6 +182,35 @@ function Home(){
                 </article>
             </section>
             <hr/>
+
+            <section className="container">
+                <article>
+                    <center>
+                        <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon"><i className="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                        <input onChange={handleSearchRest} type="text" className="form-control" placeholder="Busqueda LogRest" aria-label="Username" aria-describedby="basic-addon" />
+                        </div>
+                    </center>
+                </article>
+                <article className="separador">
+                    <table className="table table-striped table-hover table-sm">
+                        <thead className="thead-dark">
+                        <tr>
+                            <th scope="col" onClick={e => onSortRest(e, "tienda", registroRest)}>Tienda <i hidden={"tienda" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                            <th scope="col" onClick={e => onSortRest(e, "accion", registroRest)}>Accion <i hidden={"accion" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                            <th scope="col" onClick={e => onSortRest(e, "fecha", registroRest)}>Fecha <i hidden={"fecha" === updown.sortkey ? false : true} className={updown.up ? "fa fa-arrow-up" : "fa fa-arrow-down"} aria-hidden="true"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {items2}
+                        </tbody>
+                    </table>
+                </article>
+            </section>
+            <hr/>
+
             <div className="container">
             <section className="row">
               <article className="col-sm-6">
@@ -145,7 +220,7 @@ function Home(){
                         <div className="input-group-prepend">
                             <span className="input-group-text" id="basic-addon1"><i className="fa fa-search" aria-hidden="true"></i></span>
                         </div>
-                        <input onChange={handleSearchVentas} type="text" class="form-control" placeholder="Busqueda Ventas" aria-label="Username" aria-describedby="basic-addon1" />
+                        <input onChange={handleSearchVentas} type="text" className="form-control" placeholder="Busqueda Ventas" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
                     </center>
                 </section>

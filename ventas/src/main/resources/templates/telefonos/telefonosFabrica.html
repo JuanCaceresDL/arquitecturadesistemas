@@ -41,8 +41,7 @@ xmlns:th="http://www.thymeleaf.org">
     </section>
 
     <section class="container d-flex justify-content-center">
-      <a th:if="${usuario.rolid == 1}" href="/newTel"><button class="btn btn-dark">Nuevo Teléfono</button></a>&nbsp;
-      <a th:if="${usuario.rolid == 1}" href="/restTel"><button class="btn btn-dark">Consultar Fabricas</button></a>
+      
     </section>
 
     <section class="table-responsive container-fluid">
@@ -52,40 +51,19 @@ xmlns:th="http://www.thymeleaf.org">
           <tr>
             <th scope="col">Codigo</th>
             <th scope="col">Modelo</th>
-            <th scope="col">Disponible</th>
-            <th scope="col">PrecioVenta</th>
-            <th scope="col">Inventario</th>
-            <th scope="col" class="d-flex justify-content-center">Actions</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Guardar</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each ="tel : ${listTel}">
             <th scope="row" th:text="${tel.telcodigo}">Codigo</th>
             <td th:text="${tel.modelo}">Modelo</td>
-            <td th:text="${tel.disponible} ? 'Si':'No' ">Disponible</td>
-            <td th:text="${tel.precioventa}">PrecioVenta</td>
-            <td th:text="${tel.inventario}">PrecioVenta</td>
-            <td class="d-flex justify-content-center">
-              <a th:if="${usuario.rolid == 1}" th:href="@{'/editTel/' + ${tel.telcodigo}}"><Button class="btn btn-info"><i class="bi bi-pencil-square"></i>
-              </Button></a>
-              &nbsp;
-              <a th:if="${usuario.rolid == 1}" th:href="@{'/deleteTel/' + ${tel.telcodigo}}"><button class="btn btn-danger"><i class="bi bi-trash"></i>
-              </button></a>
-              &nbsp;
-              <a th:href="@{'/verTel/' + ${tel.telcodigo}}"><Button class="btn btn-info"><i class="bi bi-eye-fill"></i>
-              </Button></a>
-              &nbsp;
-              <form class="d-flex justify-content-center" action ="#" th:action="@{'/addCarrito/' + ${tel.telcodigo}}" method="post">
-                <input type="text" name="cantidadTel" placeholder="Unidades al carrito" th:value="${cantidadTel}"/>
-                <select name="estado">
-                  <option value="contado">Contado</option>
-                  <option value="credito">Credito</option>
-                </select>
-                &nbsp;
-                  <button type="submit" class="btn btn-dark" ><i class="bi bi-plus-circle"></i>
-                  </button>
-              </form>
-          </td>
+            <td><img class="restImagen" th:src="${tel.imagenes.length > 0} ? ${tel.imagenes[0]} : 'https://rubendtb.cubava.cu/wp-content/themes/childcare/images/default.png'"></td>
+            <td th:text="${tel.fabrica}">Fabrica</td>
+            <td><a th:href="@{'/saveRestTel/' + ${tel.telcodigo} + '/' + ${tel.fabrica}}"><button class="btn btn-info"><i class="bi bi-save-fill"></i>
+            </button></a></td>
           </tr>
         </tbody>
       </table>

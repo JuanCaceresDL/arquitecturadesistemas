@@ -1,5 +1,6 @@
 import React, {useState, Fragment} from 'react';
 import {useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
 function TelefonoNew() {
@@ -27,7 +28,7 @@ function TelefonoNew() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.post('http://localhost:3001/addTelefono', {
+        Axios.post(urlNode() + '/addTelefono', {
             codigo: datos.codigo,
             modelo: datos.modelo,
             color: datos.color,

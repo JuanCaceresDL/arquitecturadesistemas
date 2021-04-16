@@ -49,5 +49,9 @@ public class Fabricante {
     public void setIp(String ip) {
         this.ip = ip;
     }
+
+    public String generateUrl() {
+        return "http://" + ip + ":" + puerto + "/";
+    }
     
 }

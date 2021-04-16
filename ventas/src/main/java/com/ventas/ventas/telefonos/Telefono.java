@@ -44,8 +44,16 @@ public class Telefono {
 
     @Column
     private String foto;
+
+    private String[] imagenes;
     
     public Telefono() {
+       
+    }
+
+    public Telefono(String telcodigo, String foto) {
+      this.telcodigo = telcodigo;
+      this.foto = foto;
        
     }
 
@@ -202,6 +210,14 @@ public class Telefono {
 
     public void setFoto(String foto) {
       this.foto = foto;
+    }
+
+    public String[] getImagenes(){
+      return imagenes;
+    }
+
+    public void setImagenes (String[] imagenes){
+      this.imagenes = imagenes;
     }
 
     public void calcularPrecio(){

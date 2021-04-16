@@ -1,5 +1,6 @@
 import React, {useState, Fragment, useEffect} from 'react';
 import {useParams, useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
 function TelefonoEdit() {
@@ -9,15 +10,15 @@ function TelefonoEdit() {
 
     const [imgs, setImg] = useState([]);
     const [datos, setDatos] = useState({
-        codigo: '',
+        telcodigo: '',
         modelo: '',
         color: '',
         ram: '',
-        memoria: '',
+        almacenamiento: '',
         procesador: '',
         cores: '',
         descripcion: '',
-        precio: '',
+        preciofabrica: '',
         imagenes: [],
         _id:'',
         __v: '',
@@ -26,7 +27,7 @@ function TelefonoEdit() {
 
     useEffect(() =>{
 
-        Axios.get(`http://localhost:3001/getTelefono/${id}`).then((response) => {
+        Axios.get(urlNode() + `/getTelefono/${id}`).then((response) => {
               setDatos(response.data)
               setImg(response.data.imagenes)
           }).catch(() => {
@@ -47,7 +48,7 @@ function TelefonoEdit() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.put('http://localhost:3001/updateTelefono', datos).then(() => {
+        Axios.put(urlNode() + '/updateTelefono', datos).then(() => {
                 alert('Se ha actualizado correctamente')
                 history.push("/telefonos");
             }).catch(() => {
@@ -95,7 +96,7 @@ function TelefonoEdit() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Código</label>
                                 <div className="col-sm-10">
-                                    <input type="text" value={datos.codigo} className="form-control" name="codigo" placeholder="Código" onChange={handleInputChange}/>
+                                    <input type="text" value={datos.telcodigo} className="form-control" name="telcodigo" placeholder="Código" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
@@ -123,7 +124,7 @@ function TelefonoEdit() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Almacenamiento</label>
                                 <div className="col-sm-10">
-                                    <input type="number" value={datos.memoria} className="form-control" name="memoria" placeholder="Almacenamiento GB" onChange={handleInputChange}/>
+                                    <input type="number" value={datos.almacenamiento} className="form-control" name="almacenamiento" placeholder="Almacenamiento GB" onChange={handleInputChange}/>
                                 </div>
                             </div>
 
@@ -152,7 +153,7 @@ function TelefonoEdit() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Precio de fábrica</label>
                                 <div className="col-sm-10">
-                                    <input type="text" value={datos.precio} className="form-control" name="precio" placeholder="Precio de Fabrica" onChange={handleInputChange}/>
+                                    <input type="text" value={datos.preciofabrica} className="form-control" name="preciofabrica" placeholder="Precio de Fabrica" onChange={handleInputChange}/>
                                 </div>
                             </div>
                             

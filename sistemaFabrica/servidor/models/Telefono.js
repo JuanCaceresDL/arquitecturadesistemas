@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const TelefonoShema = new mongoose.Schema({
-    codigo: {
+    telcodigo: {
         type: String,
         required: true
     },
@@ -17,7 +17,7 @@ const TelefonoShema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    memoria: {
+    almacenamiento: {
         type: Number,
         required: true
     },
@@ -33,13 +33,17 @@ const TelefonoShema = new mongoose.Schema({
         type: String,
         required: true
     },
-    precio: {
+    preciofabrica: {
         type: Number,
         required: true
     },
     imagenes: {
         type: [String],
         required: false
+    },
+    fabrica: {
+        type: String,
+        default: "Huawei"
     }
 });
 

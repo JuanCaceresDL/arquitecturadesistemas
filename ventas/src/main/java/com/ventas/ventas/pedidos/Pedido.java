@@ -1,5 +1,6 @@
 package com.ventas.ventas.pedidos;
 
+import java.sql.Date;
 import java.text.DecimalFormat;
 
 import com.ventas.ventas.telefonos.*;
@@ -16,6 +17,13 @@ public class Pedido {
     private float subtotal;
     private float total;
     private String estado;
+    private Date fecha;
+    private Date fechaCompra;
+    private Date fechaEntrega;
+    private String id;
+    private String tienda = "Tigo";
+    private String fabrica;
+    private float preciofabrica;
 
     public Pedido(){
 
@@ -25,6 +33,17 @@ public class Pedido {
         this.cantidad = cantidad;
         this.telefono = telefono;
         this.estado = estado;
+    }
+
+    public Pedido(String telcodigo, int cantidad, float total, String estado, Date fechaCompra, Date fechaEntrega,
+            String tienda) {
+        this.telcodigo = telcodigo;
+        this.cantidad = cantidad;
+        this.total = total;
+        this.estado = estado;
+        this.fechaCompra = fechaCompra;
+        this.fechaEntrega = fechaEntrega;
+        this.tienda = tienda;
     }
 
     public Telefono getTelefono() {
@@ -58,6 +77,7 @@ public class Pedido {
         this.total = this.totalPedido(descuento);
         this.subtotal = this.subtotalPedido();
         this.telcodigo = this.telefono.getTelcodigo();
+        this.preciofabrica = this.telefono.getPreciofabrica();
     }
 
     public int getCompraid() {
@@ -124,5 +144,60 @@ public class Pedido {
         this.estado = estado;
     }
 
+    public String getTienda() {
+        return tienda;
+    }
+
+    public void setTienda(String tienda) {
+        this.tienda = tienda;
+    }
+
+    public Date getFechaCompra() {
+        return fechaCompra;
+    }
+
+    public void setFechaCompra(Date fechacompra) {
+        this.fechaCompra = fechacompra;
+    }
+
+    public Date getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(Date fechacompra) {
+        this.fechaEntrega = fechacompra;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public String getFabrica(){
+        return fabrica;
+    }
+
+    public void setFabrica(String fabrica){
+        this.fabrica = fabrica;
+    }
+
+    public float gerPreciofabrica(){
+        return preciofabrica;
+    }
+
+    public void setPreciofabrica(float precioFabrica){
+        this.preciofabrica = precioFabrica;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
 }

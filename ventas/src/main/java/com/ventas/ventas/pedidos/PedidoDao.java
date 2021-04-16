@@ -30,6 +30,16 @@ public class PedidoDao {
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pedido.class));
     }
 
+    public List<Pedido> listPedidosByFabrica(int fabrica){
+        String sql = "SELECT TELCODIGO, SUM(CANTIDAD) CANTIDAD, SUM(TOTAL) TOTAL FROM ( SELECT * FROM COMPRAS JOIN (SELECT ORDENID, FECHA FROM ORDENES) USING(ORDENID) WHERE TRUNC(CURRENT_TIMESTAMP) = TRUNC(FECHA)) JOIN TELEFONOS USING(TELCODIGO) WHERE FABRICAID = " + fabrica + " GROUP BY TELCODIGO";
+        return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pedido.class));
+    }
+
+    public List<Compra> getListByClient(int nit){
+        String sql = "SELECT * FROM "+ dbuser +"COMPRAS JOIN ORDENES USING(ORDENID) WHERE NIT = " + nit + " AND EXTRACT(MONTH FROM FECHA) = EXTRACT(MONTH FROM CURRENT_TIMESTAMP) AND EXTRACT(YEAR FROM FECHA) = EXTRACT(YEAR FROM CURRENT_TIMESTAMP)";
+        return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Compra.class));
+    }
+
     public void savePedido(Pedido nuevo) {
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
         insertActor.withTableName("compras").usingColumns("ordenid","telcodigo","cantidad", "descuento", "subtotal", "total", "estado");

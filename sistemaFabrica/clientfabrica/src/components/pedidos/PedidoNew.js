@@ -1,5 +1,6 @@
 import React, {useState, Fragment, useEffect} from 'react';
 import {useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
 function PedidoNew() {
@@ -7,13 +8,11 @@ function PedidoNew() {
     const history = useHistory()
 
     const [datos, setDatos] = useState({
-        telId: '',
+        telcodigo: '',
         cantidad: '',
         ventaTotal: '',
-        estado: 'Fabricación',
+        estado: 'Fabricacion',
         cliente: '1',
-        fechaCompra: '',
-        fechaEntrega: '',
       })
     
     const [valor, setValor] = useState(0);
@@ -21,14 +20,14 @@ function PedidoNew() {
     const [cli, setCli] = useState([]);
 
     useEffect(() =>{
-    Axios.get('http://localhost:3001/readTelefono')
+    Axios.get(urlNode() + '/readTelefono')
         .then((response) => {
             setTel(response.data)
         }).catch(() => {
             alert('ERR Telefonos')
         })
 
-        Axios.get('http://localhost:3001/readCliente')
+        Axios.get(urlNode() + '/readCliente')
         .then((response) => {
             setCli(response.data)
         }).catch(() => {
@@ -41,10 +40,10 @@ function PedidoNew() {
         }, [valor])
       
       const handleInputChange = (event) => {
-          if(event.target.name === "telId" && event.target.value === ""){
+          if(event.target.name === "telcodigo" && event.target.value === ""){
             setValor(0);
           }
-          if(event.target.name === "telId" && event.target.value !== "" && datos.cantidad !== ""){
+          if(event.target.name === "telcodigo" && event.target.value !== "" && datos.cantidad !== ""){
             let telActual = tel.filter(t => t._id === event.target.value)[0];
             setValor(telActual.precio * Number(datos.cantidad));
           }
@@ -55,9 +54,9 @@ function PedidoNew() {
       }
 
       const setTotal = (event) => {
-          if(datos.telId !== ""){
-          var telActual = tel.filter(t => t._id === datos.telId)[0];
-          setValor(telActual.precio * Number(event.target.value));
+          if(datos.telcodigo !== ""){
+          var telActual = tel.filter(t => t._id === datos.telcodigo)[0];
+          setValor(telActual.preciofabrica * Number(event.target.value));
         }
       }
       
@@ -65,8 +64,9 @@ function PedidoNew() {
         event.preventDefault()
         let fc = new Date(datos.fechaCompra);
         let fe = new Date(datos.fechaEntrega);
-        Axios.post('http://localhost:3001/addPedido', {
-            telId: datos.telId,
+        var telActual = tel.filter(t => t._id === datos.telcodigo)[0];
+        Axios.post(urlNode() + '/addPedido', {
+            telId: telActual.telcodigo,
             cantidad: Number(datos.cantidad),
             ventaTotal: valor,
             estado: datos.estado,
@@ -94,9 +94,9 @@ function PedidoNew() {
                             <div className="form-group row">
                                 <label className="col-sm-2 col-form-label">Código teléfono</label>
                                 <div className="col-sm-10">
-                                    <select onChange={handleInputChange} className="form-control" name="telId">
+                                    <select onChange={handleInputChange} className="form-control" name="telcodigo">
                                         <option value="">Telefonos</option>
-                                        {tel.map((t, index) => <option key={index} value={t._id}>{t.codigo}</option>)}
+                                        {tel.map((t, index) => <option key={index} value={t._id}>{t.telcodigo}</option>)}
                                     </select>
                                 </div>
                             </div>
@@ -120,25 +120,10 @@ function PedidoNew() {
                                 <div className="col-sm-10">
                                     <select onChange={handleInputChange} className="form-control" name="cliente">
                                         <option value="">Seleccione un cliente</option>
-                                        {cli.filter(c => c.estado === "activo").map((c, index) => <option key={index} value={c._id}>{c.nombre}</option>)}
+                                        {cli.filter(c => c.estado === "activo").map((c, index) => <option key={index} value={c.nombre}>{c.nombre}</option>)}
                                     </select>
                                 </div>
                             </div>
-
-                            <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Fecha de compra</label>
-                                <div className="col-sm-10">
-                                    <input type="date" className="form-control" name="fechaCompra" placeholder="Fecha de compra" onChange={handleInputChange} autoComplete="off"/>
-                                </div>
-                            </div>
-
-                            <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Fecha de entrega</label>
-                                <div className="col-sm-10">
-                                    <input type="date" className="form-control" name="fechaEntrega" placeholder="Fecha de entrega" onChange={handleInputChange} autoComplete="off"/>
-                                </div>
-                            </div>
-
                             
                             <div className="form-group row">
                             <div className="col-sm-10">

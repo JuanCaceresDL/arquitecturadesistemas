@@ -1,37 +1,19 @@
 package com.ventas.ventas.pedidos;
 
+import java.sql.Date;
+
 public class Compra {
-    private int compraid;
+
     private int ordenid;
     private String telcodigo;
     private int cantidad;
-    private float descuento;
-    private float subtotal;
     private float total;
     private String estado;
+    private Date fecha;
+    private String tienda = "Tigo";
 
     public Compra(){
 
-    }
-
-    public Compra(int compraid, int ordenid, String telcodigo, int cantidad, float descuento, float subtotal,
-            float total, String estado) {
-        this.compraid = compraid;
-        this.ordenid = ordenid;
-        this.telcodigo = telcodigo;
-        this.cantidad = cantidad;
-        this.descuento = descuento;
-        this.subtotal = subtotal;
-        this.total = total;
-        this.estado = estado;
-    }
-
-    public int getCompraid() {
-        return compraid;
-    }
-
-    public void setCompraid(int compraid) {
-        this.compraid = compraid;
     }
 
     public int getOrdenid() {
@@ -58,22 +40,6 @@ public class Compra {
         this.cantidad = cantidad;
     }
 
-    public float getDescuento() {
-        return descuento;
-    }
-
-    public void setDescuento(float descuento) {
-        this.descuento = descuento;
-    }
-
-    public float getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(float subtotal) {
-        this.subtotal = subtotal;
-    }
-
     public float getTotal() {
         return total;
     }
@@ -90,6 +56,27 @@ public class Compra {
         this.estado = estado;
     }
 
-    
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getTienda() {
+        return tienda;
+    }
+
+    public void setTienda(String tienda) {
+        this.tienda = tienda;
+    }
+
+    @Override
+    public String toString() {
+        return "Orden " + ordenid + ", Teléfono " + telcodigo + ", Cantidad " + cantidad + ", Pago " + total + ", tipo " + estado + ", fecha "
+                + fecha + "\n\n";
+    }
+
     
 }

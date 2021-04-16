@@ -1,5 +1,6 @@
 import React, {useState, Fragment} from 'react';
 import {useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
 function UsuariosNew() {
@@ -20,7 +21,7 @@ function UsuariosNew() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.post('http://localhost:3001/insertUsuarios', {
+        Axios.post(urlNode() + 'http://localhost:3001/insertUsuarios', {
             nombre: datos.nombre,
             password: datos.password,
             estado: datos.estado}).then(() => {

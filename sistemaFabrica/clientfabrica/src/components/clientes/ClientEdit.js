@@ -1,5 +1,6 @@
 import React, {useState, Fragment, useEffect} from 'react';
 import {useParams, useHistory} from "react-router-dom";
+import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
 function ClientEdit() {
@@ -18,7 +19,7 @@ function ClientEdit() {
 
     useEffect(() =>{
 
-        Axios.get(`http://localhost:3001/getclientes/${id}`).then((response) => {
+        Axios.get(urlNode() + `/getclientes/${id}`).then((response) => {
               setDatos(response.data)
           }).catch(() => {
               alert('ERR')
@@ -36,7 +37,7 @@ function ClientEdit() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.put('http://localhost:3001/updateclientes', datos).then(() => {
+        Axios.put(urlNode() + '/updateclientes', datos).then(() => {
                 alert('Se ha actualizado correctamente')
                 history.push("/clientes");
             }).catch(() => {
