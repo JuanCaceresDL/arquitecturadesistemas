@@ -1,3 +1,5 @@
+import {ipServer} from '../../../../configuration'
+
 export const urlNode = () => {
-    return "http://localhost:3001"
+    return `http://${ipServer}:3001`
 }

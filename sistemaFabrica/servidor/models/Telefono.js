@@ -1,3 +1,4 @@
+const {fabricaActual} = require("../../configuration")
 const mongoose = require("mongoose");
 
 const TelefonoShema = new mongoose.Schema({
@@ -43,7 +44,7 @@ const TelefonoShema = new mongoose.Schema({
     },
     fabrica: {
         type: String,
-        default: "Huawei"
+        default: fabricaActual
     }
 });
 

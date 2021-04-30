@@ -4,11 +4,12 @@ import {useHistory} from "react-router-dom";
 import {urlNode} from '../publicElements/Url'
 import Axios from 'axios'
 
-import ReactExport from "react-export-excel";
-
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+import Select from 'react-select'
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
 
 function Reportes() {
 
@@ -18,12 +19,14 @@ function Reportes() {
     }
 
     const [reportes, setReportes] = useState([]);
+    const [correo, setCorreo] = useState("");
+    const [fecha, setFecha] = useState("");
+    const [tiendas, setTiendas] = useState([])
 
     useEffect(() =>{
       Axios.get(urlNode() + '/getReportes')
         .then((response) => {
           setReportes(response.data)
-          console.log(response.data)
         }).catch(() => {
             alert('ERR')
         })
@@ -38,12 +41,75 @@ function Reportes() {
       Axios.get(urlNode() + '/getReportes')
         .then((response) => {
           setReportes(response.data)
-          console.log(response.data)
         }).catch(() => {
             alert('ERR')
         })
-
     }
+
+    const tiendasArray = reportes.map(r => r.tienda);
+
+    const tiendasDisponibles = tiendasArray.filter((item,index)=>{
+      return tiendasArray.indexOf(item) === index;
+    }).map(r => {return {value: r, label: r}})
+
+    const manageCorreos = (event) =>{
+      setCorreo(event.target.value)
+    }
+
+    const handleFecha = (event) =>{
+      setFecha(event.target.value)
+    }
+
+    const handleTiendas = (event) =>{
+      setTiendas(event.map(e => e.value))
+    }
+
+    const enviarCorreos = () =>{
+      if(dataFilter.length === 0 || correo === ""){
+        alert('Reporte o correo vacío, no se puede enviar')
+      }else{
+        Axios.post(urlNode() + '/sendReportes', {
+          correo: correo,
+          datos: dataFilter
+        }).then(() => {
+          alert('Se han enviado a los correos')
+          setCorreo("")
+        }).catch(() => {
+            alert('No se ha podido enviar')
+        })
+      }
+      
+    }
+
+    const dataFilter = reportes.filter(r => {
+        if(fecha === ""){
+          return r
+        }else{
+          let fc = new Date(fecha);
+          fc.setDate(fc.getDate() + 1)
+          let rf = new Date(r.fecha)
+          if(rf.toDateString() === fc.toDateString()){
+            return r
+          }
+        }
+      }).filter(r => {
+        if(tiendas.length === 0){
+          return r
+        }else{
+          if(tiendas.indexOf(r.tienda) >= 0){
+            return r
+          }
+        }
+      })
+
+      const items = dataFilter.map((d, index) => (
+        <tr key={index}>
+          <th scope="row">{d.telcodigo}</th>
+          <td>{d.cantidad}</td>
+          <td>{d.tienda}</td>
+          <td>{d.fecha}</td>
+        </tr>
+      ))
 
     return (
       <div >
@@ -59,29 +125,45 @@ function Reportes() {
 
               <center>
                 <button onClick={pedirReportes} className="btn btn-secondary">Pedir informe a tiendas</button>
-              </center>
+              </center><br/>
 
+              <center><h3>Filtros</h3></center>
+              <hr/>
+              <h4>Fecha</h4>
+              <div className="d-flex justify-content-center">
+                <input type="date" className="form-control" name="fecha" value={fecha} onChange={handleFecha} />
+                <button onClick={() => setFecha("")} className="btn btn-danger"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+              </div><br/>
+              <h4>Tiendas</h4>
+              <Select options={tiendasDisponibles} isMulti className="basic-multi-select" classNamePrefix="Tiendas" onChange={handleTiendas}/>
             </article>
 
             <article className="col-sm-8">
               <center>
                   <h3>Enviar arhivo de excel</h3>
-                  <form  className="d-flex justify-content-center">
-                      <input className="form-control" name="actualImagen" placeholder="Enviar a correo" autoComplete="off"/>
+                  <div  className="d-flex justify-content-center">
+                      <input onChange={manageCorreos} value={correo} className="form-control" name="actualImagen" placeholder="Enviar a correo" autoComplete="off"/>
                       <br/>
-                      <button className="btn btn-secondary" type="submit">Enviar</button>
-                  </form>
+                      <button onClick={enviarCorreos} className="btn btn-secondary" type="submit">Enviar</button>
+                  </div>
                   <br/> 
-
-                <ExcelFile element={<button className="btn btn-secondary">Exportar Excel</button>} filename="ReporteVentas">
-                  <ExcelSheet data={reportes} name="ReporteVentas">
-                      <ExcelColumn label="TelCodigo" value="telcodigo"/>
-                      <ExcelColumn label="Cantidad" value="cantidad"/>
-                      <ExcelColumn label="Tienda" value="tienda"/>
-                      <ExcelColumn label="Fecha" value="fecha"/>
-                  </ExcelSheet>
-              </ExcelFile>
               </center>
+              
+              <section className="table-responsive container-fluid">
+                <table className="table table-striped table-hover table-sm">
+                  <thead className="thead-dark">
+                    <tr>
+                      <th scope="col" >TelCodigo</th>
+                      <th scope="col" >Cantidad</th>
+                      <th scope="col" >Tienda</th>
+                      <th scope="col" >Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items}
+                  </tbody>
+                </table>
+              </section>
 
             </article>
           </div>

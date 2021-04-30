@@ -3,6 +3,11 @@ const express = require("express");
 const app = express();
 const cors = require("cors")
 const mongoose = require("mongoose");
+
+const nodemailer = require("nodemailer");
+const { Parser } = require('json2csv');
+const {fabricaActual, correo, passwordCorreo, puertoServer} = require("../configuration")
+
 const FriendModel = require("./models/Test");
 const TelefonoModel = require("./models/Telefono");
 const PedidoModel = require("./models/Pedido");
@@ -11,7 +16,14 @@ const UsuariosModelo = require("./models/Usuarios");
 const RegistroModelo = require("./models/Registro");
 const RegistroRestModelo = require("./models/RegistroRest");
 const ReporteModel = require("./models/Reporte");
-//const VentaModelo = require("./models/Venta");
+
+let transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  auth: {
+    user: correo, // generated ethereal user
+    pass: passwordCorreo, // generated ethereal password
+  },
+});
 
 async function saveRestLog(tienda, accion){
   const registro = new RegistroRestModelo({
@@ -421,7 +433,12 @@ app.get("/listVentas", async (req, res) => {
 
 //REPORTES-------------------------
 app.post("/restReportes", async (req, res) => {
-  Axios.get('http://localhost:8080/reportes?name=Huawei')
+  ClientesModelo.find({estado: "activo"}, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      result.forEach(re => {
+        Axios.get(re.url + '?name=' + fabricaActual)
       .then((response) => {
           res.send(response.data)
           response.data.map(r => {
@@ -437,6 +454,10 @@ app.post("/restReportes", async (req, res) => {
       }).catch(() => {
           console.log("err")
       })
+      })
+    }
+  })
+  
 });
 
 app.get("/getReportes", async (req, res) => {
@@ -448,6 +469,37 @@ app.get("/getReportes", async (req, res) => {
       res.send(result)
     }
   })
+  });
+
+app.post("/sendReportes", async (req, res) => {
+
+  const correosFront = req.body.correo;
+  const datosFiltrados = req.body.datos;
+
+  const fields = ['telcodigo', 'cantidad', 'fecha', 'tienda']
+  const opts = { fields };
+
+  const parser = new Parser(opts);
+  const csv = parser.parse(datosFiltrados);
+
+  try{
+    await transporter.sendMail({
+      from: `"${fabricaActual}" <${correo}>`, // sender address
+      to: correosFront, // list of receivers
+      subject: "Reportes", // Subject line
+      html: `<b>Fabrica ${fabricaActual}</b>\n Reporte de tiendas`, // html body
+      attachments: [
+        {
+          filename: "Reporte.csv",
+          content: csv
+        }
+      ]
+    });
+    res.send("correo enviado")
+  } catch (error){
+    console.log(error)
+    res.send(error)
+  }
   });
 
 //REST-----------------------------------------------
@@ -566,7 +618,7 @@ app.post("/restAddPedido/:us/:pass", async (req, res) => {
             let entrega = new Date();
             entrega.setDate(entrega.getDate() + (Number(r[0].tiempoEntrega) * 7));
             const pedido = new PedidoModel({ 
-              telcodigo: req.body.telcodigo,
+              telcodigo: req.body.telefono.telcodigo,
               cantidad: req.body.cantidad,
               total: (req.body.telefono.preciofabrica * req.body.cantidad),
               cliente: req.body.tienda,
@@ -582,6 +634,6 @@ app.post("/restAddPedido/:us/:pass", async (req, res) => {
 });
 
 
-app.listen(3001, () => {
-  console.log("You are connected! port 3001");
+app.listen(puertoServer, () => {
+  console.log("You are connected! port " + puertoServer);
 });
