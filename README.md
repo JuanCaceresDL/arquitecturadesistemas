@@ -83,7 +83,7 @@ Este archivo se encuentra en la ruta `sistemaVentas/src/main/resources`. Este ar
 | Variable | Ejemplo | Uso |
 | :------- | :------: | :------: |
 | server.port | `8080` | Indica el puerto en el que corre la aplicación |
-| spring.datasource.url | jdbc:oracle:thin:@localhost:1521:xe | Es la conexión a tu base de datos, puedes cambiar localhost con una ip, al igual que puedes cambiar 1521 por el puerto en el que está la base de datos |
+| spring.datasource.url | `jdbc:oracle:thin:@localhost:1521:xe` | Es la conexión a tu base de datos, puedes cambiar localhost con una ip, al igual que puedes cambiar 1521 por el puerto en el que está la base de datos |
 | spring.datasource.username | `system` | Usuario SYSTEM de la base de datos oracle, es preferible no cambiarlo |
 | spring.datasource.password | `contrasena` | Contraseña del usuario SYSTEM |
 | spring.mail.host | `smtp.gmail.com` | Servicio del correo electornico para enviar los reportes de compras. |
@@ -101,5 +101,5 @@ Puedes cambiarlo en la línea 19.
 
 ### Iniciar proyecto
 
-Si estás en Eclipse puedes correrlo de manera normal, si estás en Visual Code puedes ver en el panel lateral un apartado llamado `SPRINGBOOT DASHBOARD`, puedes esperar a que cargue el proyecto con el nombre `ventas` y darle al botón play.
+Si estás en Eclipse puedes correrlo de manera normal, si estás en Visual Code puedes ver en el panel lateral un apartado llamado `SPRING BOOT DASHBOARD`, puedes esperar a que cargue el proyecto con el nombre `ventas` y darle al botón play.
 Si no apareciera este panel y estás en Visual Code, puedes irte al archivo que está en la ruta `sistemaVentas/src/main/java/com/ventas/ventas`, si tienes instalado correctamente las extenciones de Spring Boot, podrás ver un botón que dice `Run`, esto iniciará la aplicación.
