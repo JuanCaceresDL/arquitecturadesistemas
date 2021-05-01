@@ -21,7 +21,7 @@ function UsuariosNew() {
       
       const enviarDatos = (event) => {
         event.preventDefault()
-        Axios.post(urlNode() + 'http://localhost:3001/insertUsuarios', {
+        Axios.post(urlNode() + '/insertUsuarios', {
             nombre: datos.nombre,
             password: datos.password,
             estado: datos.estado}).then(() => {

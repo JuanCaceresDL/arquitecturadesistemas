@@ -81,7 +81,7 @@ public class TelDao {
 	}
 
     public void actualizarInventario(int cantidad, String tel) {
-        jdbcTemplate.update("CALL SUMAINVENTARIO(?, ?)", cantidad, tel);
+        jdbcTemplate.update("CALL "+ dbuser +".SUMAINVENTARIO(?, ?)", cantidad, tel);
 	}
 
     public void delete(String id) {

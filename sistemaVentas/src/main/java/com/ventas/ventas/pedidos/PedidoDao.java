@@ -65,7 +65,7 @@ public class PedidoDao {
 
     public void generarOrden(Orden orden){
         SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-        insertActor.withSchemaName(dbuser.withTableName("ordenes").usingColumns("nit","fecha","total", "descuento", "subtotal");
+        insertActor.withSchemaName(dbuser).withTableName("ordenes").usingColumns("nit","fecha","total", "descuento", "subtotal");
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(orden);
         insertActor.execute(param); 
     }
@@ -93,7 +93,7 @@ public class PedidoDao {
 	}
 
     public Compra comprobar(String telcode, int cantidad){
-        String sql = "SELECT COMPROBAREXISTENCIAS(?, " + cantidad + ") AS CANTIDAD FROM "+ dbuser +"DUAL";
+        String sql = "SELECT "+ dbuser +".COMPROBAREXISTENCIAS(?, " + cantidad + ") AS CANTIDAD FROM DUAL";
 		Object[] args = {telcode};
 		Compra orden = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Compra.class));
 		return orden;

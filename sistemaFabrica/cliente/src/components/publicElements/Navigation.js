@@ -13,7 +13,7 @@ function Navigation(){
 
   return(
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand href="/">HOME</Navbar.Brand>
+        <Navbar.Brand href="/">HUAWEI</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">

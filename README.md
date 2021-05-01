@@ -24,6 +24,11 @@ En este archivo puedes declarar las variables que van a servir para poder correr
 | ipServer | `string` | Es la ip en la que se encuentra el back-end |
 | puertoServer | `Number` | Puerto en el que se encuentra el back-end |
 
+### Carpeta publicElements
+
+Esta carepta se encuentra en `sistemaFabrica/cliente/src/components/publicElements/Navigation.js` en esta carpeta está el archivo llamado `Url.js` aquí debes cambiar la variable `ipServer` y `port` para que tengan los mismos valores que el archivo configuración.
+En esta misma carpeta se encuentra el archivo `Navigation.js` en la línea 16 puedes escribir la etiqueta de la fábrica.
+
 ### Carpeta Servidor
 
 Esta carpeta contiene las funciones del back-end, en esta carpeta solo necesitas la conexión a la base de datos, la cual puedes cambiar en la lĺinea 41, esto debes cambiarlo por tu conexión a tu base de datos.

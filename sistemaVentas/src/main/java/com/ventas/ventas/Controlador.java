@@ -600,6 +600,9 @@ return "redirect:/";
             }
             
         }
+        if(!this.msg.equals("")){
+            this.msg = "Fabricas no conectadas: " + this.msg;
+        }
         model.addAttribute("listOrden", orden);
         model.addAttribute("usuario", this.user);
         model.addAttribute("msg", this.msg);

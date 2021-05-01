@@ -54,7 +54,7 @@ class PedidoDaoTest {
 
     @Test
     void testComprobar() {
-        Compra last = dao.comprobar("P2020", 5);
+        Compra last = dao.comprobar("A2", 5);
         assertEquals(0, last.getCantidad());
     }
 
