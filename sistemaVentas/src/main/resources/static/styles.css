@@ -98,3 +98,7 @@ nav{
 .restImagen{
     height: 100px;
 }
+
+.error{
+    color: red;
+}

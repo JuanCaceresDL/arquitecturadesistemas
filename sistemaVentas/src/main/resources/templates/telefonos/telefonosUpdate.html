@@ -25,6 +25,7 @@ xmlns:th="http://www.thymeleaf.org">
                 &nbsp;
                   <button type="submit" class="btn btn-dark" ><i class="bi bi-plus-circle"></i>
                   </button>
+                  <h5 class="error" th:text="msg"></h5>
               </form>
             <br><br>
             <form class="d-flex justify-content-center" action ="#" th:action="@{'/addCarrito/' + ${telefono.telcodigo} + '/1'}" method="post">

@@ -2,9 +2,9 @@ package com.ventas.ventas;
 
 public class Configuracion {
     
-    private String db = "SYSTEM";
-    private String tienda = "Tigo";
-    private String passwordTienda = "123";
+    private String db = "C##TIGO"; //cambiar
+    private String tienda = "Tigo"; //cambiar
+    private String passwordTienda = "123"; //cambiar
 
     public Configuracion() {
     }

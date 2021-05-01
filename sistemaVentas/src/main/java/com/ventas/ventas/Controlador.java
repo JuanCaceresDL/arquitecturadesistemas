@@ -118,6 +118,8 @@ public class Controlador {
         mav.addObject("listFotos", listFotos);
         mav.addObject("fotoVacia", fotoVacia);
         mav.addObject("usuario", this.user);
+        mav.addObject("msg", this.msg);
+        this.msg = "";
         return mav;
     }
 
@@ -133,6 +135,8 @@ public class Controlador {
         mav.addObject("listFotos", listFotos);
         mav.addObject("fotoVacia", fotoVacia);
         mav.addObject("usuario", this.user);
+        mav.addObject("msg", this.msg);
+        this.msg = "";
         return mav;
     }
 
@@ -543,16 +547,23 @@ return "redirect:/";
         List<Telefono> telefonos = new ArrayList<Telefono>();
         List<Fabricante> fabricas = fabDao.listDisponibles();
         for(Fabricante fab : fabricas){
-
-            String uri = fab.generateUrl() + "restTelefonos/" + tiendaActual + "/"+ contr;
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<Telefono[]> response = restTemplate.getForEntity(uri,Telefono[].class);
-            Telefono[] tel = response.getBody();
-            telefonos.addAll(Arrays.asList(tel));
-            
+            try {
+                String uri = fab.generateUrl() + "restTelefonos/" + tiendaActual + "/"+ contr;
+                RestTemplate restTemplate = new RestTemplate();
+                ResponseEntity<Telefono[]> response = restTemplate.getForEntity(uri,Telefono[].class);
+                Telefono[] tel = response.getBody();
+                telefonos.addAll(Arrays.asList(tel));
+              } catch (Exception e) {
+                this.msg = fab.getFabrica() + ", ";
+              }
         }
+        if(!this.msg.equals("")){
+            this.msg = "Fabricas no conectadas: " + this.msg;
+        }
+        model.addAttribute("msg", this.msg);
         model.addAttribute("listTel", telefonos);  
         model.addAttribute("usuario", this.user);
+        this.msg = "";
         return "telefonos/telefonosFabrica.html";
     }
 
@@ -578,16 +589,21 @@ return "redirect:/";
         List<Pedido> orden = new ArrayList<Pedido>();
         List<Fabricante> fabricas = fabDao.listDisponibles();
         for(Fabricante fab : fabricas){
-
+            try{
             String uri = fab.generateUrl() + "restOrdenes/" + tiendaActual + "/"+ contr;
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<Pedido[]> response = restTemplate.getForEntity(uri,Pedido[].class);
             Pedido[] ord = response.getBody();
             orden.addAll(Arrays.asList(ord));
+            } catch (Exception e) {
+            this.msg = fab.getFabrica() + ", ";
+            }
             
         }
         model.addAttribute("listOrden", orden);
         model.addAttribute("usuario", this.user);
+        model.addAttribute("msg", this.msg);
+        this.msg = "";
         return "pedidos/pedidosFabrica.html";
     }
 
@@ -599,12 +615,24 @@ return "redirect:/";
         Fabricante fabric = fabDao.get(telefono.getFabricaid());
         Pedido element = new Pedido(cantidadTel, telefono);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Void> response = restTemplate.postForEntity(fabric.generateUrl() + "restAddPedido/" + tiendaActual + "/"+ contr, element, Void.class);
-        if (response.getStatusCode() == HttpStatus.CREATED) {
-            this.msg = "Pedido aceptado";
-		} else {
-			System.out.println("Request Failed");
-		}
+        try{
+            ResponseEntity<Void> response = restTemplate.postForEntity(fabric.generateUrl() + "restAddPedido/" + tiendaActual + "/"+ contr, element, Void.class);
+            if (response.getStatusCode() == HttpStatus.CREATED) {
+                this.msg = "Pedido aceptado";
+            } else {
+                System.out.println("Request Failed");
+            }
+
+        } catch (Exception e) {
+            this.msg = "Fabrica no conectada";
+            if(pagina == 1){
+                
+                return "redirect:/editTel/" + idTel;
+            }else{
+                return "redirect:/verTel/" + idTel;
+            }
+        }
+        
         return "redirect:/restPedidos";
     }
 
