@@ -440,7 +440,7 @@ app.post("/restReportes", async (req, res) => {
       result.forEach(re => {
         Axios.get(re.url + '?name=' + fabricaActual)
       .then((response) => {
-          res.send(response.data)
+          //res.send(response.data)
           response.data.map(r => {
             const reporte = new ReporteModel({
               telcodigo: r.telcodigo,
@@ -451,8 +451,8 @@ app.post("/restReportes", async (req, res) => {
             });
             reporte.save();
           })
-      }).catch(() => {
-          console.log("err")
+      }).catch((erre) => {
+          console.log(erre)
       })
       })
     }

@@ -1,0 +1,1087 @@
+--------------------------------------------------------
+-- Archivo creado  - viernes-abril-30-2021   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Sequence AUTOACCION
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOACCION"  MINVALUE 1 MAXVALUE 10000000000000000000000 INCREMENT BY 1 START WITH 416 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence AUTOCOMPRAS
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOCOMPRAS"  MINVALUE 1 MAXVALUE 10000000000000000000000 INCREMENT BY 1 START WITH 256 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence AUTOFOTOS
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOFOTOS"  MINVALUE 1 MAXVALUE 1000000000000000000000 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence AUTOINCREMENT
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOINCREMENT"  MINVALUE 1 MAXVALUE 10000000000 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence AUTOMARCAS
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOMARCAS"  MINVALUE 1 MAXVALUE 1000000 INCREMENT BY 1 START WITH 101 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence AUTOORDEN
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOORDEN"  MINVALUE 1 MAXVALUE 10000000000000000000 INCREMENT BY 1 START WITH 222 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence AUTOROL
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOROL"  MINVALUE 1 MAXVALUE 10000000 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence AUTOTIPOCLIENTE
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOTIPOCLIENTE"  MINVALUE 1 MAXVALUE 10000000000 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence AUTOUSERS
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "C##TIGO"."AUTOUSERS"  MINVALUE 1 MAXVALUE 10000000 INCREMENT BY 1 START WITH 81 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Table ACCIONES
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."ACCIONES" 
+   (	"ACCIONID" NUMBER, 
+	"ACCION" VARCHAR2(1000 BYTE), 
+	"USUARIOID" NUMBER, 
+	"TABLA" VARCHAR2(1000 BYTE), 
+	"FECHA" DATE
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table CLIENTES
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."CLIENTES" 
+   (	"NIT" NUMBER, 
+	"NOMBRE" VARCHAR2(100 BYTE), 
+	"EMAIL" VARCHAR2(100 BYTE), 
+	"TELEFONO" NUMBER, 
+	"PATENTE" VARCHAR2(4000 BYTE), 
+	"TIPOCLIENTEID" NUMBER, 
+	"VENCIMIENTO" DATE
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table COMPRAS
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."COMPRAS" 
+   (	"COMPRAID" NUMBER, 
+	"ORDENID" VARCHAR2(4000 BYTE), 
+	"TELCODIGO" VARCHAR2(1000 BYTE), 
+	"CANTIDAD" NUMBER, 
+	"DESCUENTO" NUMBER, 
+	"SUBTOTAL" NUMBER, 
+	"TOTAL" NUMBER, 
+	"ESTADO" VARCHAR2(100 BYTE)
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table FABRICANTES
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."FABRICANTES" 
+   (	"FABRICAID" NUMBER, 
+	"FABRICA" VARCHAR2(100 BYTE), 
+	"PUERTO" NUMBER, 
+	"IP" VARCHAR2(100 BYTE)
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table FOTOS
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."FOTOS" 
+   (	"FOTOID" NUMBER, 
+	"FOTO" VARCHAR2(2000 BYTE), 
+	"TELCODIGO" VARCHAR2(2000 BYTE)
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table ORDENES
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."ORDENES" 
+   (	"ORDENID" VARCHAR2(3000 BYTE), 
+	"NIT" NUMBER, 
+	"FECHA" DATE, 
+	"TOTAL" NUMBER, 
+	"DESCUENTO" NUMBER, 
+	"SUBTOTAL" NUMBER
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table ROL
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."ROL" 
+   (	"ROLID" NUMBER, 
+	"ROL" VARCHAR2(100 BYTE)
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table TELEFONOS
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."TELEFONOS" 
+   (	"TELCODIGO" VARCHAR2(1000 BYTE), 
+	"MODELO" VARCHAR2(1000 BYTE), 
+	"RAM" NUMBER, 
+	"ALMACENAMIENTO" NUMBER, 
+	"PROCESADOR" VARCHAR2(1000 BYTE), 
+	"CORES" NUMBER, 
+	"DESCRIPCION" VARCHAR2(3000 BYTE), 
+	"FABRICAID" NUMBER, 
+	"PRECIOFABRICA" VARCHAR2(20 BYTE), 
+	"PRECIOVENTA" VARCHAR2(20 BYTE), 
+	"DISPONIBLE" NUMBER, 
+	"INVENTARIO" NUMBER, 
+	"COLOR" VARCHAR2(300 BYTE)
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table TIPOCLIENTES
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."TIPOCLIENTES" 
+   (	"TIPOCLIENTEID" NUMBER, 
+	"TIPOCLIENTE" VARCHAR2(1000 BYTE), 
+	"DESCUENTO" NUMBER
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table USERS
+--------------------------------------------------------
+
+  CREATE TABLE "C##TIGO"."USERS" 
+   (	"USUARIOID" NUMBER, 
+	"NOMBRE" VARCHAR2(1000 BYTE), 
+	"ROLID" NUMBER, 
+	"PASSWORD" VARCHAR2(1000 BYTE)
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for View GANANCIAMES
+--------------------------------------------------------
+
+  CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "C##TIGO"."GANANCIAMES" ("TELCODIGO", "GANANCIA") AS 
+  SELECT TELCODIGO, SUM(C.TOTAL - C.PERDIDA) AS GANANCIA
+FROM (SELECT TELCODIGO, ORDENID, TOTAL, (COMPRAS.CANTIDAD * TELEFONOS.PRECIOFABRICA) AS PERDIDA
+    FROM COMPRAS JOIN TELEFONOS USING(TELCODIGO)) C JOIN ORDENES USING(ORDENID)
+WHERE EXTRACT(MONTH FROM FECHA) = EXTRACT(MONTH FROM CURRENT_TIMESTAMP)
+GROUP BY TELCODIGO
+;
+--------------------------------------------------------
+--  DDL for View VENTAMES
+--------------------------------------------------------
+
+  CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "C##TIGO"."VENTAMES" ("TELCODIGO", "TOTAL", "CANTIDAD") AS 
+  SELECT COMPRAS.TELCODIGO, SUM(COMPRAS.TOTAL) AS TOTAL, SUM(COMPRAS.CANTIDAD) AS CANTIDAD 
+FROM COMPRAS JOIN ORDENES USING(ORDENID)
+WHERE EXTRACT(MONTH FROM FECHA) = EXTRACT(MONTH FROM CURRENT_TIMESTAMP)
+GROUP BY TELCODIGO
+;
+--------------------------------------------------------
+--  DDL for View VENTATELEFONOS
+--------------------------------------------------------
+
+  CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "C##TIGO"."VENTATELEFONOS" ("TELCODIGO", "TOTAL", "CANTIDAD") AS 
+  SELECT TELCODIGO, SUM(TOTAL) AS TOTAL, SUM(CANTIDAD) AS CANTIDAD FROM COMPRAS GROUP BY TELCODIGO
+;
+--------------------------------------------------------
+--  DDL for Index ACCIONES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."ACCIONES_PK" ON "C##TIGO"."ACCIONES" ("ACCIONID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index COMPRAS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."COMPRAS_PK" ON "C##TIGO"."COMPRAS" ("COMPRAID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index FABRICANTES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."FABRICANTES_PK" ON "C##TIGO"."FABRICANTES" ("FABRICAID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index FOTOS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."FOTOS_PK" ON "C##TIGO"."FOTOS" ("FOTOID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index ORDENES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."ORDENES_PK" ON "C##TIGO"."ORDENES" ("ORDENID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index ROL_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."ROL_PK" ON "C##TIGO"."ROL" ("ROLID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index TELEFONO_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."TELEFONO_PK" ON "C##TIGO"."TELEFONOS" ("TELCODIGO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index TIPOCLIENTES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."TIPOCLIENTES_PK" ON "C##TIGO"."TIPOCLIENTES" ("TIPOCLIENTEID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index USERS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."USERS_PK" ON "C##TIGO"."USERS" ("USUARIOID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index USERS_UK1
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."USERS_UK1" ON "C##TIGO"."USERS" ("NOMBRE", "PASSWORD") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index ACCIONES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."ACCIONES_PK" ON "C##TIGO"."ACCIONES" ("ACCIONID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index TABLE1_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."TABLE1_PK" ON "C##TIGO"."CLIENTES" ("NIT") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index COMPRAS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."COMPRAS_PK" ON "C##TIGO"."COMPRAS" ("COMPRAID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index FABRICANTES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."FABRICANTES_PK" ON "C##TIGO"."FABRICANTES" ("FABRICAID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index FOTOS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."FOTOS_PK" ON "C##TIGO"."FOTOS" ("FOTOID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index ORDENES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."ORDENES_PK" ON "C##TIGO"."ORDENES" ("ORDENID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index ROL_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."ROL_PK" ON "C##TIGO"."ROL" ("ROLID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index TELEFONO_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."TELEFONO_PK" ON "C##TIGO"."TELEFONOS" ("TELCODIGO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index TIPOCLIENTES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."TIPOCLIENTES_PK" ON "C##TIGO"."TIPOCLIENTES" ("TIPOCLIENTEID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index USERS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."USERS_PK" ON "C##TIGO"."USERS" ("USUARIOID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index USERS_UK1
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "C##TIGO"."USERS_UK1" ON "C##TIGO"."USERS" ("NOMBRE", "PASSWORD") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Trigger ACCIONAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."ACCIONAUTO" 
+   before insert on "C##TIGO"."ACCIONES" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."ACCIONID" is null then 
+         select AUTOACCION.nextval into :NEW."ACCIONID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."ACCIONAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger COMPRASAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."COMPRASAUTO" 
+   before insert on "C##TIGO"."COMPRAS" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."COMPRAID" is null then 
+         select AUTOCOMPRAS.nextval into :NEW."COMPRAID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."COMPRASAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger DESCARGA
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."DESCARGA" 
+BEFORE INSERT ON COMPRAS FOR EACH ROW
+DECLARE 
+    CANTIDAD NUMBER;
+    RESTA NUMBER;
+    CLIENTETIPE NUMBER;
+    SUB NUMBER;
+    TOT NUMBER;
+    DES NUMBER;
+BEGIN
+  SELECT INVENTARIO INTO CANTIDAD FROM TELEFONOS WHERE TELCODIGO = :NEW.TELCODIGO;
+  SELECT BUSCARTIPOCLIENTE(:NEW.ORDENID) INTO CLIENTETIPE FROM DUAL;
+
+  IF :NEW.ESTADO != 'pendiente' THEN
+      RESTA := CANTIDAD - :NEW.CANTIDAD; 
+        IF RESTA >= 0 THEN 
+            UPDATE TELEFONOS SET INVENTARIO = RESTA WHERE TELCODIGO = :NEW.TELCODIGO; 
+        END IF;
+        IF RESTA < 0 THEN
+            IF CLIENTETIPE = 1 THEN 
+                INSERT INTO COMPRAS ( ORDENID, TELCODIGO, CANTIDAD, DESCUENTO, SUBTOTAL, TOTAL, ESTADO) VALUES(:NEW.ORDENID, :NEW.TELCODIGO, RESTA * -1, (:NEW.DESCUENTO / :NEW.CANTIDAD) * RESTA * -1, (:NEW.SUBTOTAL / :NEW.CANTIDAD) * RESTA * -1, (:NEW.TOTAL / :NEW.CANTIDAD) * RESTA * -1, 'pendiente');
+            END IF; 
+            UPDATE TELEFONOS SET DISPONIBLE = 0 WHERE TELCODIGO = :NEW.TELCODIGO; 
+            UPDATE TELEFONOS SET INVENTARIO = 0 WHERE TELCODIGO = :NEW.TELCODIGO; 
+
+            DES := (:NEW.DESCUENTO / :NEW.CANTIDAD) * CANTIDAD;
+            SUB := (:NEW.SUBTOTAL / :NEW.CANTIDAD) * CANTIDAD;
+            TOT := (:NEW.TOTAL / :NEW.CANTIDAD) * CANTIDAD;
+            :NEW.DESCUENTO := DES;
+            :NEW.SUBTOTAL := SUB;
+            :NEW.TOTAL := TOT;
+
+            :NEW.CANTIDAD := CANTIDAD;
+        END IF;
+    END IF;
+END;
+/
+ALTER TRIGGER "C##TIGO"."DESCARGA" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger FOTOSAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."FOTOSAUTO" 
+   before insert on "C##TIGO"."FOTOS" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."FOTOID" is null then 
+         select AUTOFOTOS.nextval into :NEW."FOTOID" from dual; 
+      end if; 
+   end if; 
+end;
+
+/
+ALTER TRIGGER "C##TIGO"."FOTOSAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger MARCASAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."MARCASAUTO" 
+   before insert on "C##TIGO"."FABRICANTES" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."FABRICAID" is null then 
+         select AUTOMARCAS.nextval into :NEW."FABRICAID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."MARCASAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ORDENESAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."ORDENESAUTO" 
+   before insert on "C##TIGO"."ORDENES" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."ORDENID" is null then 
+         select AUTOORDEN.nextval into :NEW."ORDENID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."ORDENESAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ROLAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."ROLAUTO" 
+   before insert on "C##TIGO"."ROL" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."ROLID" is null then 
+         select AUTOROL.nextval into :NEW."ROLID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."ROLAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger TIPOCLIENTEAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."TIPOCLIENTEAUTO" 
+   before insert on "C##TIGO"."TIPOCLIENTES" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."TIPOCLIENTEID" is null then 
+         select AUTOTIPOCLIENTE.nextval into :NEW."TIPOCLIENTEID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."TIPOCLIENTEAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger USERSAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."USERSAUTO" 
+   before insert on "C##TIGO"."USERS" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."USUARIOID" is null then 
+         select AUTOUSERS.nextval into :NEW."USUARIOID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."USERSAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ACCIONAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."ACCIONAUTO" 
+   before insert on "C##TIGO"."ACCIONES" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."ACCIONID" is null then 
+         select AUTOACCION.nextval into :NEW."ACCIONID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."ACCIONAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger COMPRASAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."COMPRASAUTO" 
+   before insert on "C##TIGO"."COMPRAS" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."COMPRAID" is null then 
+         select AUTOCOMPRAS.nextval into :NEW."COMPRAID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."COMPRASAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger DESCARGA
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."DESCARGA" 
+BEFORE INSERT ON COMPRAS FOR EACH ROW
+DECLARE 
+    CANTIDAD NUMBER;
+    RESTA NUMBER;
+    CLIENTETIPE NUMBER;
+    SUB NUMBER;
+    TOT NUMBER;
+    DES NUMBER;
+BEGIN
+  SELECT INVENTARIO INTO CANTIDAD FROM TELEFONOS WHERE TELCODIGO = :NEW.TELCODIGO;
+  SELECT BUSCARTIPOCLIENTE(:NEW.ORDENID) INTO CLIENTETIPE FROM DUAL;
+
+  IF :NEW.ESTADO != 'pendiente' THEN
+      RESTA := CANTIDAD - :NEW.CANTIDAD; 
+        IF RESTA >= 0 THEN 
+            UPDATE TELEFONOS SET INVENTARIO = RESTA WHERE TELCODIGO = :NEW.TELCODIGO; 
+        END IF;
+        IF RESTA < 0 THEN
+            IF CLIENTETIPE = 1 THEN 
+                INSERT INTO COMPRAS ( ORDENID, TELCODIGO, CANTIDAD, DESCUENTO, SUBTOTAL, TOTAL, ESTADO) VALUES(:NEW.ORDENID, :NEW.TELCODIGO, RESTA * -1, (:NEW.DESCUENTO / :NEW.CANTIDAD) * RESTA * -1, (:NEW.SUBTOTAL / :NEW.CANTIDAD) * RESTA * -1, (:NEW.TOTAL / :NEW.CANTIDAD) * RESTA * -1, 'pendiente');
+            END IF; 
+            UPDATE TELEFONOS SET DISPONIBLE = 0 WHERE TELCODIGO = :NEW.TELCODIGO; 
+            UPDATE TELEFONOS SET INVENTARIO = 0 WHERE TELCODIGO = :NEW.TELCODIGO; 
+
+            DES := (:NEW.DESCUENTO / :NEW.CANTIDAD) * CANTIDAD;
+            SUB := (:NEW.SUBTOTAL / :NEW.CANTIDAD) * CANTIDAD;
+            TOT := (:NEW.TOTAL / :NEW.CANTIDAD) * CANTIDAD;
+            :NEW.DESCUENTO := DES;
+            :NEW.SUBTOTAL := SUB;
+            :NEW.TOTAL := TOT;
+
+            :NEW.CANTIDAD := CANTIDAD;
+        END IF;
+    END IF;
+END;
+/
+ALTER TRIGGER "C##TIGO"."DESCARGA" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger MARCASAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."MARCASAUTO" 
+   before insert on "C##TIGO"."FABRICANTES" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."FABRICAID" is null then 
+         select AUTOMARCAS.nextval into :NEW."FABRICAID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."MARCASAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger FOTOSAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."FOTOSAUTO" 
+   before insert on "C##TIGO"."FOTOS" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."FOTOID" is null then 
+         select AUTOFOTOS.nextval into :NEW."FOTOID" from dual; 
+      end if; 
+   end if; 
+end;
+
+/
+ALTER TRIGGER "C##TIGO"."FOTOSAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ORDENESAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."ORDENESAUTO" 
+   before insert on "C##TIGO"."ORDENES" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."ORDENID" is null then 
+         select AUTOORDEN.nextval into :NEW."ORDENID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."ORDENESAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ROLAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."ROLAUTO" 
+   before insert on "C##TIGO"."ROL" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."ROLID" is null then 
+         select AUTOROL.nextval into :NEW."ROLID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."ROLAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger TIPOCLIENTEAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."TIPOCLIENTEAUTO" 
+   before insert on "C##TIGO"."TIPOCLIENTES" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."TIPOCLIENTEID" is null then 
+         select AUTOTIPOCLIENTE.nextval into :NEW."TIPOCLIENTEID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."TIPOCLIENTEAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger USERSAUTO
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE TRIGGER "C##TIGO"."USERSAUTO" 
+   before insert on "C##TIGO"."USERS" 
+   for each row 
+begin  
+   if inserting then 
+      if :NEW."USUARIOID" is null then 
+         select AUTOUSERS.nextval into :NEW."USUARIOID" from dual; 
+      end if; 
+   end if; 
+end;
+
+
+/
+ALTER TRIGGER "C##TIGO"."USERSAUTO" ENABLE;
+--------------------------------------------------------
+--  DDL for Procedure SUMAINVENTARIO
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "C##TIGO"."SUMAINVENTARIO" 
+(
+  CANTIDAD IN NUMBER 
+, TEL IN VARCHAR2 
+) AS 
+BEGIN    
+    UPDATE TELEFONOS set INVENTARIO=INVENTARIO+CANTIDAD where TELCODIGO = TEL;
+END SUMAINVENTARIO;
+
+/
+--------------------------------------------------------
+--  DDL for Function BUSCARTIPOCLIENTE
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE FUNCTION "C##TIGO"."BUSCARTIPOCLIENTE" 
+(
+  ORDENIDB IN NUMBER 
+) RETURN NUMBER IS  
+    CLIENTED NUMBER;
+BEGIN
+  SELECT TIPOCLIENTEID INTO CLIENTED FROM CLIENTES JOIN (SELECT NIT FROM ORDENES WHERE ORDENID = ORDENIDB) USING (NIT);
+    RETURN CLIENTED;
+END BUSCARTIPOCLIENTE;
+
+/
+--------------------------------------------------------
+--  DDL for Function COMPROBAREXISTENCIAS
+--------------------------------------------------------
+
+  CREATE OR REPLACE NONEDITIONABLE FUNCTION "C##TIGO"."COMPROBAREXISTENCIAS" 
+(
+  TEL IN VARCHAR2, CAN IN NUMBER 
+) RETURN NUMBER IS  
+    CANTID NUMBER;
+    RESTA NUMBER;
+BEGIN
+  SELECT INVENTARIO INTO CANTID FROM TELEFONOS WHERE TELCODIGO = TEL;
+    RESTA := CANTID - CAN;
+    IF RESTA >= 0 THEN
+        RETURN 1;
+    ELSE 
+        RETURN 0;
+    END IF;
+END COMPROBAREXISTENCIAS;
+
+/
+--------------------------------------------------------
+--  Constraints for Table ACCIONES
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."ACCIONES" MODIFY ("ACCIONID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ACCIONES" MODIFY ("ACCION" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ACCIONES" MODIFY ("USUARIOID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ACCIONES" MODIFY ("TABLA" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ACCIONES" ADD CONSTRAINT "ACCIONES_PK" PRIMARY KEY ("ACCIONID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "C##TIGO"."ACCIONES" MODIFY ("FECHA" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table CLIENTES
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."CLIENTES" MODIFY ("NIT" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."CLIENTES" MODIFY ("NOMBRE" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."CLIENTES" ADD CONSTRAINT "TABLE1_PK" PRIMARY KEY ("NIT")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "C##TIGO"."CLIENTES" MODIFY ("EMAIL" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."CLIENTES" MODIFY ("TELEFONO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."CLIENTES" MODIFY ("PATENTE" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."CLIENTES" MODIFY ("TIPOCLIENTEID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."CLIENTES" MODIFY ("VENCIMIENTO" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table COMPRAS
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."COMPRAS" MODIFY ("COMPRAID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."COMPRAS" MODIFY ("ORDENID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."COMPRAS" MODIFY ("TELCODIGO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."COMPRAS" ADD CONSTRAINT "COMPRAS_PK" PRIMARY KEY ("COMPRAID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "C##TIGO"."COMPRAS" MODIFY ("CANTIDAD" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."COMPRAS" MODIFY ("DESCUENTO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."COMPRAS" MODIFY ("SUBTOTAL" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."COMPRAS" MODIFY ("TOTAL" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."COMPRAS" MODIFY ("ESTADO" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table FABRICANTES
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."FABRICANTES" MODIFY ("FABRICAID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."FABRICANTES" MODIFY ("FABRICA" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."FABRICANTES" ADD CONSTRAINT "FABRICANTES_PK" PRIMARY KEY ("FABRICAID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "C##TIGO"."FABRICANTES" MODIFY ("PUERTO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."FABRICANTES" MODIFY ("IP" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table FOTOS
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."FOTOS" MODIFY ("FOTOID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."FOTOS" MODIFY ("FOTO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."FOTOS" MODIFY ("TELCODIGO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."FOTOS" ADD CONSTRAINT "FOTOS_PK" PRIMARY KEY ("FOTOID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table ORDENES
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."ORDENES" MODIFY ("ORDENID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ORDENES" MODIFY ("NIT" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ORDENES" MODIFY ("FECHA" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ORDENES" MODIFY ("TOTAL" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ORDENES" MODIFY ("DESCUENTO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ORDENES" ADD CONSTRAINT "ORDENES_PK" PRIMARY KEY ("ORDENID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "C##TIGO"."ORDENES" MODIFY ("SUBTOTAL" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table ROL
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."ROL" MODIFY ("ROLID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ROL" MODIFY ("ROL" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."ROL" ADD CONSTRAINT "ROL_PK" PRIMARY KEY ("ROLID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TELEFONOS
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("TELCODIGO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("MODELO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" ADD CONSTRAINT "TELEFONO_PK" PRIMARY KEY ("TELCODIGO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("RAM" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("ALMACENAMIENTO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("PROCESADOR" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("CORES" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("DESCRIPCION" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("FABRICAID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("PRECIOFABRICA" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("PRECIOVENTA" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("DISPONIBLE" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("INVENTARIO" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TELEFONOS" MODIFY ("COLOR" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table TIPOCLIENTES
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."TIPOCLIENTES" MODIFY ("TIPOCLIENTEID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TIPOCLIENTES" MODIFY ("TIPOCLIENTE" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."TIPOCLIENTES" ADD CONSTRAINT "TIPOCLIENTES_PK" PRIMARY KEY ("TIPOCLIENTEID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "C##TIGO"."TIPOCLIENTES" MODIFY ("DESCUENTO" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table USERS
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."USERS" MODIFY ("USUARIOID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."USERS" MODIFY ("NOMBRE" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."USERS" MODIFY ("ROLID" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."USERS" ADD CONSTRAINT "USERS_PK" PRIMARY KEY ("USUARIOID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "C##TIGO"."USERS" MODIFY ("PASSWORD" NOT NULL ENABLE);
+  ALTER TABLE "C##TIGO"."USERS" ADD CONSTRAINT "USERS_UK1" UNIQUE ("NOMBRE", "PASSWORD")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table ACCIONES
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."ACCIONES" ADD CONSTRAINT "ACCIONES_FK1" FOREIGN KEY ("USUARIOID")
+	  REFERENCES "C##TIGO"."USERS" ("USUARIOID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table CLIENTES
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."CLIENTES" ADD CONSTRAINT "CLIENTES_FK1" FOREIGN KEY ("TIPOCLIENTEID")
+	  REFERENCES "C##TIGO"."TIPOCLIENTES" ("TIPOCLIENTEID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table COMPRAS
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."COMPRAS" ADD CONSTRAINT "COMPRAS_FK1" FOREIGN KEY ("TELCODIGO")
+	  REFERENCES "C##TIGO"."TELEFONOS" ("TELCODIGO") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table FOTOS
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."FOTOS" ADD CONSTRAINT "FOTOS_FK1" FOREIGN KEY ("TELCODIGO")
+	  REFERENCES "C##TIGO"."TELEFONOS" ("TELCODIGO") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table ORDENES
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."ORDENES" ADD CONSTRAINT "ORDENES_FK1" FOREIGN KEY ("NIT")
+	  REFERENCES "C##TIGO"."CLIENTES" ("NIT") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table TELEFONOS
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."TELEFONOS" ADD CONSTRAINT "TELEFONOS_FK1" FOREIGN KEY ("FABRICAID")
+	  REFERENCES "C##TIGO"."FABRICANTES" ("FABRICAID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table USERS
+--------------------------------------------------------
+
+  ALTER TABLE "C##TIGO"."USERS" ADD CONSTRAINT "USERS_FK1" FOREIGN KEY ("ROLID")
+	  REFERENCES "C##TIGO"."ROL" ("ROLID") ENABLE;
+    
+    
+Insert into C##TIGO.TIPOCLIENTES (TIPOCLIENTEID,TIPOCLIENTE,DESCUENTO) values (3,'Normal',0);
+Insert into C##TIGO.TIPOCLIENTES (TIPOCLIENTEID,TIPOCLIENTE,DESCUENTO) values (1,'Mayorista',0.1);
+Insert into C##TIGO.TIPOCLIENTES (TIPOCLIENTEID,TIPOCLIENTE,DESCUENTO) values (2,'Grande',0.05);
+
+Insert into C##TIGO.ROL (ROLID,ROL) values (1,'Administrador');
+Insert into C##TIGO.ROL (ROLID,ROL) values (2,'Vendedor');
+
+Insert into C##TIGO.USERS (USUARIOID,NOMBRE,ROLID,PASSWORD) values (1,'admin',1,'admin');
+
+Insert into C##TIGO.CLIENTES (NIT,NOMBRE,EMAIL,TELEFONO,PATENTE,TIPOCLIENTEID,VENCIMIENTO) values (0,'ConsumidorFinal','consumidorfinal@gmail.com',0,'https://i.blogs.es/3ae58a/patentes-3/450_1000.jpg',3,to_date('01/03/21','DD/MM/RR'));
