@@ -35,7 +35,7 @@ public class PedidoDao {
     }
 
     public List<Pedido> listPedidosByFabrica(int fabrica){
-        String sql = "SELECT TELCODIGO, SUM(CANTIDAD) CANTIDAD, SUM(TOTAL) TOTAL FROM ( SELECT * FROM "+ dbuser +".COMPRAS JOIN (SELECT ORDENID, FECHA FROM "+ dbuser +".ORDENES) USING(ORDENID) WHERE TRUNC(CURRENT_TIMESTAMP) = TRUNC(FECHA)) JOIN "+ dbuser +".TELEFONOS USING(TELCODIGO) WHERE FABRICAID = " + fabrica + " GROUP BY TELCODIGO";
+        String sql = "SELECT TELCODIGO, CANTIDAD, TOTAL FROM ( SELECT * FROM "+ dbuser +".COMPRAS JOIN (SELECT ORDENID, FECHA FROM "+ dbuser +".ORDENES) USING(ORDENID) WHERE TRUNC(CURRENT_TIMESTAMP) = TRUNC(FECHA)) JOIN "+ dbuser +".TELEFONOS USING(TELCODIGO) WHERE FABRICAID = " + fabrica;
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pedido.class));
     }
 
