@@ -1,6 +1,6 @@
 package com.ventas.ventas;
 import static org.junit.jupiter.api.Assertions.*;
-//commit extra extra
+//commit
 import com.ventas.ventas.clientes.ModeloCliente;
 import com.ventas.ventas.telefonos.*;
 
