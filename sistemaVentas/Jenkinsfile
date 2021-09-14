@@ -17,6 +17,12 @@ pipeline {
             }
         }*/
         
+        stage('envío de correo') {
+            steps {
+                emailext body: 'algo salió mal', subject: 'error de pipeline', to: 'juanestebancdl@gmail.com'
+                }
+            }
+            
         stage('proceso de sonarqube'){
                 steps{
                  withSonarQubeEnv('sonarqube') {
@@ -25,11 +31,6 @@ pipeline {
                 }
     
         }
-        stage('envío de correo') {
-            steps {
-                emailext body: 'algo salió mal', subject: 'error de pipeline', to: 'juanestebancdl@gmail.com'
-                }
-            }
 
         //stage('Deploy') { 
          //   steps {
