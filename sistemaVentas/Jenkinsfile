@@ -16,8 +16,8 @@ pipeline {
                 }
             }
         }
-        stage('proceso de SQ') { 
-            stage('SonarQube.Analysis'){
+        
+        stage('proceso de sonarqube'){
                 steps{
                  withSonarQubeEnv('sonarqube') {
                     sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
