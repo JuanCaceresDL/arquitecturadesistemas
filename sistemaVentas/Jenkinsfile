@@ -1,6 +1,11 @@
 pipeline {
     agent any 
     stages {
+        stage('checkout'){
+            steps{
+                git 'https://github.com/JuanCaceresDL/arquitecturadesistemas.git'
+                }
+            }
         stage('unit testing') { 
             steps {
                 withMaven(maven: 'maven') {
@@ -8,15 +13,18 @@ pipeline {
                 }
             }
         }
-        stage('build') { 
+        stage('sonarqube') { 
             steps {
-                // 
+                def mvnHome =  tool name: 'maven', type: 'maven'
+                    withSonarQubeEnv('sonarqube') {
+                        sh "${mvnHome}/bin/mvn verify sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
+                    }
             }
         }
-        stage('Deploy') { 
-            steps {
+        //stage('Deploy') { 
+         //   steps {
                 // 
-            }
-        }
+           // }
+        //}
     }
 }
