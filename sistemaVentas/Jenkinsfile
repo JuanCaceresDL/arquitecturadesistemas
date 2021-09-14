@@ -15,21 +15,17 @@ pipeline {
                 sh 'mvn -f sistemaVentas/pom.xml test'
                 }
             }
-        }*/
-        
-        stage('envío de correo') {
-            steps {
-                emailext body: 'algo salió mal', subject: 'error de pipeline', to: 'juanestebancdl@gmail.com'
-                }
-            }
-            
+        }*/   
         stage('proceso de sonarqube'){
                 steps{
-                 withSonarQubeEnv('sonarqube') {
-                    sh "mvn -f sistemaVentas/pom.xml sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
+                    try {
+                        withSonarQubeEnv('sonarqube') {
+                            sh "mvn -f sistemaVentas/pom.xml sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
+                            }
+                    }catch (err) {
+                        emailext body: 'algo salió mal', subject: 'error de pipeline', to: 'juanestebancdl@gmail.com'
                     }
                 }
-    
         }
 
         //stage('Deploy') { 
