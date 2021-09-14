@@ -9,13 +9,13 @@ pipeline {
                 git 'https://github.com/JuanCaceresDL/arquitecturadesistemas.git'
                 }
             }
-        stage('unit testing') { 
+        /*stage('unit testing') { 
             steps {
                 withMaven(maven: 'maven') {
                 sh 'mvn -f sistemaVentas/pom.xml test'
                 }
             }
-        }
+        }*/
         
         stage('proceso de sonarqube'){
                 steps{
