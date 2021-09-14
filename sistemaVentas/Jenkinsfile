@@ -1,5 +1,8 @@
 pipeline {
     agent any 
+    tools{
+      maven 'maven'
+   }
     stages {
         stage('checkout'){
             steps{
@@ -13,13 +16,14 @@ pipeline {
                 }
             }
         }
-        stage('sonarqube') { 
-            steps {
-                def mvnHome =  tool name: 'maven', type: 'maven'
-                    withSonarQubeEnv('sonarqube') {
-                        sh "${mvnHome}/bin/mvn verify sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
+        stage('proceso de SQ') { 
+            stage('SonarQube.Analysis'){
+                steps{
+                 withSonarQubeEnv('sonarqube') {
+                    sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
                     }
-            }
+                }
+    }
         }
         //stage('Deploy') { 
          //   steps {
