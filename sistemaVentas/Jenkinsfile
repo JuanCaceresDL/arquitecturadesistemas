@@ -1,0 +1,22 @@
+pipeline {
+    agent any 
+    stages {
+        stage('unit testing') { 
+            steps {
+                withMaven(maven: 'maven') {
+                sh 'mvn test'
+                }
+            }
+        }
+        stage('build') { 
+            steps {
+                // 
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                // 
+            }
+        }
+    }
+}
