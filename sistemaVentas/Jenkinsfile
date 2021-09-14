@@ -18,12 +18,12 @@ pipeline {
         }*/   
         stage('proceso de sonarqube'){
                 steps{
-                    try {
-                        withSonarQubeEnv('sonarqube') {
+                    withSonarQubeEnv('sonarqube') {
+                        try {
                             sh "mvn -f sistemaVentas/pom.xml sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
-                            }
-                    }catch (err) {
+                        }catch (err) {
                         emailext body: 'algo salió mal', subject: 'error de pipeline', to: 'juanestebancdl@gmail.com'
+                        }
                     }
                 }
         }
