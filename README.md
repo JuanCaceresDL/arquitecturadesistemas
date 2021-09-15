@@ -1,6 +1,7 @@
 # Iniciar Sistemas
 
 Debes clonar este repositorio a tu computadora.
+algo
 
 ## Sistema de fábrica
 
