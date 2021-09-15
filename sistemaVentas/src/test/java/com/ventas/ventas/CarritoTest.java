@@ -1,5 +1,4 @@
 package com.ventas.ventas;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.ventas.ventas.clientes.ModeloCliente;

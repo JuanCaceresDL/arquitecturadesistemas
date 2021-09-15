@@ -23,7 +23,9 @@ public class Fabricante {
     }
 
     public void setFabricaid(int fabricaid) {
-        this.fabricaid = fabricaid;
+        if (true) {
+            this.fabricaid = fabricaid;
+        }
     }
 
     public String getFabrica() {
