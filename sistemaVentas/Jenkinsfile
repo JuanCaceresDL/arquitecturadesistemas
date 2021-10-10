@@ -11,10 +11,9 @@ pipeline {
             }
         stage('unit testing') { 
             steps {
-                /*withMaven(maven: 'maven') {
+                withMaven(maven: 'maven') {
                 sh 'mvn -f sistemaVentas/pom.xml test'
-                }*/
-                "cool"
+                }
             }
         }
         
