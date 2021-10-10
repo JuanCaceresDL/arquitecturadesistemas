@@ -3,6 +3,9 @@
 Debes clonar este repositorio a tu computadora.
 algo
 
+algo mas
+
+
 ## Sistema de fábrica
 
 Entra en la carpeta `sistemaFabrica`
