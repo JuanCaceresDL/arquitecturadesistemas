@@ -10,11 +10,11 @@ pipeline {
                 }
             }
         stage('unit testing') { 
-            steps {
+            /*steps {
                 /*withMaven(maven: 'maven') {
                 sh 'mvn -f sistemaVentas/pom.xml test'
                 }*/
-            }
+            }*/
         }
         
         stage('envío de correo') {
