@@ -23,14 +23,14 @@ pipeline {
                 }
             }
             
-        /*stage('proceso de sonarqube'){
+        stage('proceso de sonarqube'){
                 steps{
                  withSonarQubeEnv('sonarqube') {
                     sh "mvn -f sistemaVentas/pom.xml sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
                     }
                 }
     
-        }*/
+        }
 
         //stage('Deploy') { 
          //   steps {
