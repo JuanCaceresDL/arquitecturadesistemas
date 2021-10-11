@@ -6,16 +6,16 @@ public class Vista {
     private float total;
     private float ganancia;
 
-    public vista(){
+    //public vista(){
 
-    }
+    //}
     
-    public vista(String telcodigo, int cantidad, float total, float ganancia) {
+    /*public vista(String telcodigo, int cantidad, float total, float ganancia) {
         this.telcodigo = telcodigo;
         this.cantidad = cantidad;
         this.total = total;
         this.ganancia = ganancia;
-    }
+    }*/
 
     public String getTelcodigo() {
         return telcodigo;
