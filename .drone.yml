@@ -14,6 +14,6 @@ steps:
   commands:
   - mvn clean verify sonar:sonar sonar-quality-gate:check -Dsonar.login=admin -Dsonar.password=hola -Dsonar.host.url=http://48e9-190-148-78-2.ngrok.io
 - name: Production
-    image: maven:3-jdk-11
-    commands:
-      - mvn tomcat7:redeploy
+  image: maven:3-jdk-11
+  commands:
+  - mvn tomcat7:redeploy
