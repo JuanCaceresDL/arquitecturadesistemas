@@ -8,4 +8,4 @@ steps:
 - name: SonarQube
   image: maven:3-jdk-11
   commands: 
-  - mvn clean verify sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://d177-190-148-78-2.ngrok.io
+  - mvn clean verify sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://1a4b-190-148-78-2.ngrok.io
