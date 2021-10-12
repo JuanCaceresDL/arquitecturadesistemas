@@ -12,7 +12,7 @@ pipeline {
         stage('unit testing') { 
             steps {
                 withMaven(maven: 'maven') {
-                sh 'mvn -f sistemaVentas/pom.xml test'
+                sh 'mvn test'
                 }
             }
         }
@@ -26,7 +26,7 @@ pipeline {
         stage('proceso de sonarqube'){
                 steps{
                  withSonarQubeEnv('sonarqube') {
-                    sh "mvn -f sistemaVentas/pom.xml sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
+                    sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
                     }
                 }
     
