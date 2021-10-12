@@ -25,8 +25,9 @@ pipeline {
             
         stage('proceso de sonarqube'){
                 steps{
-                 withSonarQubeEnv('sonarqube') {
-                    sh "mvn clean verify sonar:sonar -Dsonar.password= -Dsonar.login=62820ad4186f31e1484c55eddb02a4269812f43f"
+                def mvnHome =  tool name: 'maven', type: 'maven'
+                withSonarQubeEnv('sonarqube') {
+                sh "${mvnHome}/bin/mvn verify sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1"
                     }
                 }
     
