@@ -26,7 +26,7 @@ pipeline {
         stage('proceso de sonarqube'){
                 steps{
                  withSonarQubeEnv('sonarqube') {
-                    sh "mvn clean verify sonar:sonar -Dsonar.password= -Dsonar.login=5d09143e330c526b157f5bc076ef1a905611c9e9"
+                    sh "mvn clean verify sonar:sonar -Dsonar.password= -Dsonar.login=62820ad4186f31e1484c55eddb02a4269812f43f"
                     }
                 }
     
