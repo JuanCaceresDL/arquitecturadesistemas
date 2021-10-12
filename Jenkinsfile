@@ -1,8 +1,8 @@
 pipeline {
-    agent any
-            tools { 
-                    maven 'MAVEN_HOME'
-                }
+    agent any 
+    tools{
+      maven 'maven'
+   }
     stages {
         stage('checkout'){
             steps{
