@@ -31,7 +31,7 @@ public class CarritoTest {
         carrito.addPedido(1, telefono, "contado");
         assertEquals(1, carrito.getCarro().size());
         carrito.addPedido(1, telefono, "credito");
-        //assertEquals(2, carrito.getCarro().size());
+        assertEquals(2, carrito.getCarro().size());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class CarritoTest {
     }
 
     @Test
-    void testDeletePedido() {
+    /*void*/ testDeletePedido() {
         Telefono telefono = new Telefono();
         telefono.setTelcodigo("1");
         carrito.addPedido(1, telefono, "contado");
