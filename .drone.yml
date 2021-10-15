@@ -22,7 +22,7 @@ steps:
 - name: Sonarq_email
   image: drillster/drone-email
   settings:
-    from: caceres181049@unis.edu.gt
+    from: juanestebancdl@gmail.com
     host: smtp.gmail.com
     port: 465
     username:
