@@ -45,7 +45,7 @@ public class CarritoTest {
     }
 
     @Test
-    /*void*/ testDeletePedido() {
+    void testDeletePedido() {
         Telefono telefono = new Telefono();
         telefono.setTelcodigo("1");
         carrito.addPedido(1, telefono, "contado");
