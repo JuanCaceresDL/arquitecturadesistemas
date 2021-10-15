@@ -45,7 +45,7 @@ pipeline {
           failure{
 
               mail bcc: '',
-              body: "Project: ${currentBuild.currentResult} Job: ${env.JOB_NAME} URL: ${env.BUILD_URL} Buil Number: ${env.BUILD_NUMBER}, 
+              body: "Project: ${currentBuild.currentResult} Job: ${env.JOB_NAME} URL: ${env.BUILD_URL} Buil Number: ${env.BUILD_NUMBER}", 
               cc: '', 
               from: '', replyTo: '',
               subject: 'Pipeline fail', 
