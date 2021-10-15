@@ -17,12 +17,7 @@ pipeline {
             }
         }
         
-        stage('envío de correo') {
-            steps {
-                emailext body: 'algo salió mal', subject: 'error de pipeline', to: 'juanestebancdl@gmail.com, jflores@unis.edu.gt'
-                }
-            }
-            
+        
         stage('proceso de sonarqube'){
                 steps{
                 withSonarQubeEnv('sonarqube') {
@@ -32,10 +27,38 @@ pipeline {
     
         }
 
-        //stage('Deploy') { 
-         //   steps {
-                // 
-           // }
-        //}
+        stage("Quality Gate"){
+                steps {
+                    script {
+                            timeout(time: 1, unit: 'HOURS') {
+                            def qg = waitForQualityGate()
+                            if (qg.status != 'OK') {
+
+                               error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                                }
+                            }
+                        }
+                    }
+                }
     }
+    post{
+          failure{
+
+              mail bcc: '',
+              body: "Project: ${currentBuild.currentResult} Job: ${env.JOB_NAME} URL: ${env.BUILD_URL} Buil Number: ${env.BUILD_NUMBER}", 
+              cc: '', 
+              from: '', replyTo: '',
+              subject: 'Pipeline fail', 
+               to: 'caceres181049@unis.edu.gt'
+                   }
+        success{
+            mail bcc: '',
+              body: "Project: ${currentBuild.currentResult} Job: ${env.JOB_NAME} URL: ${env.BUILD_URL} Buil Number: ${env.BUILD_NUMBER}", 
+              cc: '', 
+              from: '', replyTo: '',
+              subject: 'Pipeline success', 
+               to: 'caceres181049@unis.edu.gt'
+            }
+
+         }
 }
