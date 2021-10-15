@@ -6,7 +6,7 @@ import com.ventas.ventas.telefonos.*;
 
 import org.junit.jupiter.api.Test;
 /**/ 
-public class CarritoTest {
+public class CarritoTests {
 
     private Carrito carrito = new Carrito();
     private Telefono telefono = new Telefono();
