@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('checkout'){
             steps{
+                echo ${GIT_BRANCH} 
                 git 'https://github.com/JuanCaceresDL/arquitecturadesistemas.git'
                 }
             }
