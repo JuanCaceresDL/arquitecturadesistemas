@@ -64,7 +64,7 @@ pipeline {
               cc: '', 
               from: '', replyTo: '',
               subject: 'Pipeline fail', 
-               to: 'caceres181049@unis.edu.gt'
+               to: 'caceres181049@unis.edu.gt, jflores@unis.edu.gt'
                    }
         success{
             mail bcc: '',
@@ -72,7 +72,7 @@ pipeline {
               cc: '', 
               from: '', replyTo: '',
               subject: 'Pipeline success', 
-               to: 'caceres181049@unis.edu.gt'
+               to: 'caceres181049@unis.edu.gt, jflores@unis.edu.gt'
             }
 
          }
