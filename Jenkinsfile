@@ -52,7 +52,7 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
             sh 'cd target/'
-            deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://a8c5-190-148-78-2.ngrok.io')], contextPath: "devv", war: '**/*.war'
+            deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://104.43.137.120:8085')], contextPath: "devv", war: '**/*.war'
           }
         }     
     }
