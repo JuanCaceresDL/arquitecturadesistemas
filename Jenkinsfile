@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('checkout'){
             steps{
+                echo GIT_BRANCH 
                 git 'https://github.com/JuanCaceresDL/arquitecturadesistemas.git'
                 }
             }
@@ -40,6 +41,20 @@ pipeline {
                         }
                     }
                 }
+        stage("Compile WAR file") {
+            steps{
+             withMaven(maven: 'maven') {
+                sh "mvn package"
+              }
+            }    
+        }
+
+        stage('Deploy to Tomcat') {
+            steps {
+            sh 'cd target/'
+            deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://0358-190-148-78-2.ngrok.io')], contextPath: "dev", war: '**/*.war'
+          }
+        }     
     }
     post{
           failure{
