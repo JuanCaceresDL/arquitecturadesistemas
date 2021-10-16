@@ -42,7 +42,7 @@ pipeline {
                     }
                 }
     }
-    stage("Compile WAR file ${env.BRANCH_NAME}") {
+    stage("Compile WAR file") {
             def mvnHome =  tool name: 'M3', type: 'maven'
             sh "${mvnHome}/bin/mvn -Dspring.profiles.active=main package"
         }
