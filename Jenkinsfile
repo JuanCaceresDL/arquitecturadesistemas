@@ -42,8 +42,9 @@ pipeline {
                     }
                 }
         stage("Compile WAR file") {
-            def mvnHome =  tool name: 'M3', type: 'maven'
-            sh "${mvnHome}/bin/mvn -Dspring.profiles.active=main package"
+             withMaven(maven: 'maven') {
+                sh "mvn -Dspring.profiles.active=main package"
+             }
         }
 
         stage('Deploy to Tomcat') {
