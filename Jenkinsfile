@@ -41,8 +41,7 @@ pipeline {
                         }
                     }
                 }
-    }
-    stage("Compile WAR file") {
+        stage("Compile WAR file") {
             def mvnHome =  tool name: 'M3', type: 'maven'
             sh "${mvnHome}/bin/mvn -Dspring.profiles.active=main package"
         }
@@ -51,6 +50,7 @@ pipeline {
             sh 'cd target/'
            deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://127.0.0.1:8080')], contextPath: null, war: '**/*.war'
         }
+    }
     post{
           failure{
 
