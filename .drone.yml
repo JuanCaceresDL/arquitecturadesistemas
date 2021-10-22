@@ -5,6 +5,7 @@ steps:
   commands:
   - mvn package
   - mvn test
+  
 - name: SonarQube
   image: maven:3-jdk-11
   commands: 
@@ -12,8 +13,22 @@ steps:
 - name: QualityGate
   image: maven:3-jdk-11
   commands:
-  - mvn clean verify sonar:sonar sonar-quality-gate:check -Dsonar.login=admin -Dsonar.password=hola -Dsonar.host.url=http://48e9-190-148-78-2.ngrok.io
-- name: Production
-  image: maven:3-jdk-11
-  commands:
-  - mvn tomcat7:redeploy
+  - mvn clean verify sonar:sonar sonar-quality-gate:check -Dsonar.login=admin -Dsonar.password=hola -Dsonar.host.url=http://8087-190-148-78-2.ngrok.io
+  
+- name: Sonarq_email
+  image: drillster/drone-email
+  settings:
+    from: juanestebancdl@gmail.com
+    host: smtp.gmail.com
+    port: 465
+    username:
+       from_secret: usuario
+    password: 
+      from_secret: contra
+    subject: Pipeline QualityGate Fail
+    recipients:
+        - caceres181049@unis.edu.gt
+        - jflores@unis.edu.gt
+  when:
+    status:
+    - failure
