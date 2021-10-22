@@ -13,7 +13,7 @@ steps:
 - name: QualityGate
   image: maven:3-jdk-11
   commands:
-  - mvn clean verify sonar:sonar sonar-quality-gate:check -Dsonar.login=admin -Dsonar.password=hola -Dsonar.host.url=http://8087-190-148-78-2.ngrok.io
+  - mvn clean verify sonar:sonar sonar-quality-gate:check -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://8087-190-148-78-2.ngrok.io
   
 - name: Sonarq_email
   image: drillster/drone-email
@@ -22,9 +22,9 @@ steps:
     host: smtp.gmail.com
     port: 465
     username:
-       from_secret: usuario
+       from_secret: admin
     password: 
-      from_secret: contra
+      from_secret: Blackace1
     subject: Pipeline QualityGate Fail
     recipients:
         - caceres181049@unis.edu.gt
