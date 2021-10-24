@@ -64,9 +64,9 @@ pipeline {
             sh 'cd target/'
                 if(env.GIT_BRANCH == "origin/development"){
                     deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "dev", war: '**/*.war'
-                }, else(env.GIT_BRANCH == "origin/uat"){
+                } else(env.GIT_BRANCH == "origin/uat"){
                     deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "uat", war: '**/*.war'
-                }, else(env.GIT_BRANCH == "origin/main"){
+                } else(env.GIT_BRANCH == "origin/main"){
                     deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "main", war: '**/*.war'
                 }
             }
