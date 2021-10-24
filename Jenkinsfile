@@ -48,10 +48,10 @@ pipeline {
                 if(env.GIT_BRANCH == "origin/development"){ 
                     sh "mvn -Dspring.profiles.active=development clean install"
                     sh "mvn -Dspring.profiles.active=development package"
-                }else(env.GIT_BRANCH == "origin/UAT"){
+                }, else(env.GIT_BRANCH == "origin/UAT"){
                     sh "mvn -Dspring.profiles.active=uat clean install"
                     sh "mvn -Dspring.profiles.active=uat package"
-                }else(env.GIT_BRANCH == "origin/main"){
+                }, else(env.GIT_BRANCH == "origin/main"){
                     sh "mvn -Dspring.profiles.active=main clean install"
                     sh "mvn -Dspring.profiles.active=main package"
                 }
@@ -64,9 +64,9 @@ pipeline {
             sh 'cd target/'
                 if(env.GIT_BRANCH == "origin/development"){
                     deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "dev", war: '**/*.war'
-                }elseif(env.GIT_BRANCH == "origin/UAT"){
+                }, else(env.GIT_BRANCH == "origin/UAT"){
                     deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "uat", war: '**/*.war'
-                }else(env.GIT_BRANCH == "origin/main"){
+                }, else(env.GIT_BRANCH == "origin/main"){
                     deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "main", war: '**/*.war'
                 }
             }
