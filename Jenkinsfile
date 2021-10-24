@@ -51,7 +51,7 @@ pipeline {
                 } else(env.GIT_BRANCH == "origin/uat"){
                     sh "mvn -Dspring.profiles.active=uat clean install"
                     sh "mvn -Dspring.profiles.active=uat package"
-                }, else(env.GIT_BRANCH == "origin/main"){
+                } else(env.GIT_BRANCH == "origin/main"){
                     sh "mvn -Dspring.profiles.active=main clean install"
                     sh "mvn -Dspring.profiles.active=main package"
                 }
