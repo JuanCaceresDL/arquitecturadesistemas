@@ -45,8 +45,8 @@ pipeline {
         stage("Compile WAR file") {
             steps{
              withMaven(maven: 'maven') {
-                sh "mvn -Dspring.profiles.active=dev clean install"
-                sh "mvn -Dspring.profiles.active=dev package"
+                sh "mvn -Dspring.profiles.active=development clean install"
+                sh "mvn -Dspring.profiles.active=development package"
               }
             }    
         }
