@@ -159,7 +159,7 @@
 		<profile>
 			<id>uat</id>
 			<properties>
-					<spring.profiles.active>UAT/QA</spring.profiles.active>
+					<spring.profiles.active>uat</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
