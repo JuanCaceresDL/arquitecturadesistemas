@@ -27,13 +27,13 @@ public class FabDao {
 
 
     public List<Fabricante> list(){
-        String sql = "SELECT * FROM "+ dbuser +".FABRICANTES ORDER BY FABRICAID";
+        String sql = "SELECT * FROM "+ dbuser +"FABRICANTES ORDER BY FABRICAID";
         List<Fabricante> listPrueba = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Fabricante.class));
         return listPrueba;
     }
 
     public List<Fabricante> listDisponibles(){
-        String sql = "SELECT * FROM "+ dbuser +".FABRICANTES WHERE PUERTO != 0";
+        String sql = "SELECT * FROM "+ dbuser +"FABRICANTES WHERE PUERTO != 0";
         List<Fabricante> listPrueba = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Fabricante.class));
         return listPrueba;
     }
@@ -47,7 +47,7 @@ public class FabDao {
     }
 
     public Fabricante get(int id) {
-		String sql = "SELECT * FROM "+ dbuser +".FABRICANTES WHERE FABRICAID = ?";
+		String sql = "SELECT * FROM "+ dbuser +"FABRICANTES WHERE FABRICAID = ?";
 		Object[] args = {id};
 		Fabricante fabrica = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Fabricante.class));
 		return fabrica;
@@ -55,7 +55,7 @@ public class FabDao {
 
     public Fabricante getByName(String fabrica) {
         try{
-		String sql = "SELECT * FROM "+ dbuser +".FABRICANTES WHERE FABRICA = ? AND PUERTO != 0";
+		String sql = "SELECT * FROM "+ dbuser +"FABRICANTES WHERE FABRICA = ? AND PUERTO != 0";
 		Object[] args = {fabrica};
 		Fabricante sale = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Fabricante.class));
 		return sale;
@@ -66,14 +66,14 @@ public class FabDao {
 	}
 
     public void update(Fabricante modelo) {
-		String sql = "UPDATE "+ dbuser +".FABRICANTES SET fabrica=:fabrica, puerto=:puerto, ip=:ip WHERE fabricaid=:fabricaid";
+		String sql = "UPDATE "+ dbuser +"FABRICANTES SET fabrica=:fabrica, puerto=:puerto, ip=:ip WHERE fabricaid=:fabricaid";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		
 	}
 
     public void delete(int id) {
-		String sql = "DELETE FROM "+ dbuser +".FABRICANTES WHERE FABRICAID = ?";
+		String sql = "DELETE FROM "+ dbuser +"FABRICANTES WHERE FABRICAID = ?";
 		jdbcTemplate.update(sql, id);
 	}
 

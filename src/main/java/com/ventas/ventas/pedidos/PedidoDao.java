@@ -25,27 +25,27 @@ public class PedidoDao {
 
 
     public List<Orden> listOrden(){
-        String sql = "SELECT * FROM "+ dbuser +".ORDENES ORDER BY FECHA DESC";
+        String sql = "SELECT * FROM "+ dbuser +"ORDENES ORDER BY FECHA DESC";
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Orden.class));
     }
 
     public List<Pedido> listPedido(String ordenid){
-        String sql = "SELECT * FROM "+ dbuser +".COMPRAS WHERE ORDENID = "+ ordenid +" ORDER BY COMPRAID";
+        String sql = "SELECT * FROM "+ dbuser +"COMPRAS WHERE ORDENID = "+ ordenid +" ORDER BY COMPRAID";
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pedido.class));
     }
 
     public List<Pedido> listPedidosByFabrica(int fabrica){
-        String sql = "SELECT TELCODIGO, CANTIDAD, TOTAL FROM ( SELECT * FROM "+ dbuser +".COMPRAS JOIN (SELECT ORDENID, FECHA FROM "+ dbuser +".ORDENES) USING(ORDENID) WHERE TRUNC(CURRENT_TIMESTAMP) = TRUNC(FECHA)) JOIN "+ dbuser +".TELEFONOS USING(TELCODIGO) WHERE FABRICAID = " + fabrica;
+        String sql = "SELECT TELCODIGO, CANTIDAD, TOTAL FROM ( SELECT * FROM "+ dbuser +"COMPRAS JOIN (SELECT ORDENID, FECHA FROM "+ dbuser +"ORDENES) USING(ORDENID) WHERE TRUNC(CURRENT_TIMESTAMP) = TRUNC(FECHA)) JOIN "+ dbuser +"TELEFONOS USING(TELCODIGO) WHERE FABRICAID = " + fabrica;
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pedido.class));
     }
 
     public List<Compra> getListByClient(int nit){
-        String sql = "SELECT * FROM "+ dbuser +".COMPRAS JOIN "+ dbuser +".ORDENES USING(ORDENID) WHERE NIT = " + nit + " AND EXTRACT(MONTH FROM FECHA) = EXTRACT(MONTH FROM CURRENT_TIMESTAMP) AND EXTRACT(YEAR FROM FECHA) = EXTRACT(YEAR FROM CURRENT_TIMESTAMP) AND ESTADO = 'credito'";
+        String sql = "SELECT * FROM "+ dbuser +"COMPRAS JOIN "+ dbuser +"ORDENES USING(ORDENID) WHERE NIT = " + nit + " AND EXTRACT(MONTH FROM FECHA) = EXTRACT(MONTH FROM CURRENT_TIMESTAMP) AND EXTRACT(YEAR FROM FECHA) = EXTRACT(YEAR FROM CURRENT_TIMESTAMP) AND ESTADO = 'credito'";
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Compra.class));
     }
 
     public List<Compra> getPendiente(int nit){
-        String sql = "SELECT * FROM "+ dbuser +".COMPRAS JOIN "+ dbuser +".ORDENES USING(ORDENID) WHERE NIT = " + nit + " AND ESTADO = 'pendiente'";
+        String sql = "SELECT * FROM "+ dbuser +"COMPRAS JOIN "+ dbuser +"ORDENES USING(ORDENID) WHERE NIT = " + nit + " AND ESTADO = 'pendiente'";
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Compra.class));
     }
 
@@ -57,7 +57,7 @@ public class PedidoDao {
     }
 
     public Orden get(int id) {
-		String sql = "SELECT * FROM "+ dbuser +".ORDENES WHERE ORDENID = ?";
+		String sql = "SELECT * FROM "+ dbuser +"ORDENES WHERE ORDENID = ?";
 		Object[] args = {id};
 		Orden orden = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Orden.class));
 		return orden;
@@ -71,36 +71,36 @@ public class PedidoDao {
     }
 
     public Orden getLast(int nit){
-        String sql = "SELECT * FROM "+ dbuser +".ORDENES WHERE NIT = ? ORDER BY ORDENID DESC FETCH FIRST 1 ROWS ONLY";
+        String sql = "SELECT * FROM "+ dbuser +"ORDENES WHERE NIT = ? ORDER BY ORDENID DESC FETCH FIRST 1 ROWS ONLY";
 		Object[] args = {nit};
 		Orden orden = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Orden.class));
 		return orden;
     }
 
     public void cancelar(int id) {
-        String updateQuery = "UPDATE "+ dbuser +".COMPRAS SET ESTADO = 'Cancelado' WHERE COMPRAID = ?";
+        String updateQuery = "UPDATE "+ dbuser +"COMPRAS SET ESTADO = 'Cancelado' WHERE COMPRAID = ?";
         jdbcTemplate.update(updateQuery, id);
 	}
 
     public void recibir(int id) {
-        String updateQuery = "UPDATE "+ dbuser +".COMPRAS SET ESTADO = 'Recibido' WHERE COMPRAID = ?";
+        String updateQuery = "UPDATE "+ dbuser +"COMPRAS SET ESTADO = 'Recibido' WHERE COMPRAID = ?";
         jdbcTemplate.update(updateQuery, id);
 	}
 
     public void entregar(int id) {
-        String updateQuery = "UPDATE "+ dbuser +".COMPRAS SET ESTADO = 'entregado' WHERE COMPRAID = ?";
+        String updateQuery = "UPDATE "+ dbuser +"COMPRAS SET ESTADO = 'entregado' WHERE COMPRAID = ?";
         jdbcTemplate.update(updateQuery, id);
 	}
 
     public Compra comprobar(String telcode, int cantidad){
-        String sql = "SELECT "+ dbuser +".COMPROBAREXISTENCIAS(?, " + cantidad + ") AS CANTIDAD FROM DUAL";
+        String sql = "SELECT "+ dbuser +"COMPROBAREXISTENCIAS(?, " + cantidad + ") AS CANTIDAD FROM DUAL";
 		Object[] args = {telcode};
 		Compra orden = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Compra.class));
 		return orden;
     }
 
     public void delete(int id) {
-		String sql = "DELETE FROM "+ dbuser +".ORDENES WHERE ORDENID = ?";
+		String sql = "DELETE FROM "+ dbuser +"ORDENES WHERE ORDENID = ?";
 		jdbcTemplate.update(sql, id);
 	}
 }

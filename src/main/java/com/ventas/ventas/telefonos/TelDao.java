@@ -26,19 +26,19 @@ public class TelDao {
     }
 
     public List<Telefono> list(){
-        String sql = "SELECT * FROM "+ dbuser +".TELEFONOS JOIN "+ dbuser +".FABRICANTES USING(FABRICAID)";
+        String sql = "SELECT * FROM "+ dbuser +"TELEFONOS JOIN "+ dbuser +"FABRICANTES USING(FABRICAID)";
         List<Telefono> listTel = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Telefono.class));
         return listTel;
     }
 
     public List<Telefono> listMarcas(){
-        String sql = "SELECT * FROM "+ dbuser +".FABRICANTES";
+        String sql = "SELECT * FROM "+ dbuser +"FABRICANTES";
         List<Telefono> listTel = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Telefono.class));
         return listTel;
     }
 
     public List<Telefono> listFotos(String id){
-        String sql = "SELECT * FROM "+ dbuser +".FOTOS WHERE TELCODIGO = '"+ id +"'";
+        String sql = "SELECT * FROM "+ dbuser +"FOTOS WHERE TELCODIGO = '"+ id +"'";
         List<Telefono> listTel = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Telefono.class));
         return listTel;
     }
@@ -61,12 +61,12 @@ public class TelDao {
     }
 
     public void deleteFoto(String id) {
-		String sql = "DELETE FROM "+ dbuser +".FOTOS WHERE FOTOID = ?";
+		String sql = "DELETE FROM "+ dbuser +"FOTOS WHERE FOTOID = ?";
 		jdbcTemplate.update(sql, id);
 	}
 
     public Telefono get(String id) {
-		String sql = "SELECT * FROM "+ dbuser +".TELEFONOS JOIN "+ dbuser +".FABRICANTES USING(FABRICAID) WHERE TELCODIGO = ?";
+		String sql = "SELECT * FROM "+ dbuser +"TELEFONOS JOIN "+ dbuser +"FABRICANTES USING(FABRICAID) WHERE TELCODIGO = ?";
 		Object[] args = {id};
 		Telefono tel = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Telefono.class));
 		return tel;
@@ -74,18 +74,18 @@ public class TelDao {
 
     public void update(Telefono modelo) {
         modelo.calcularPrecio();
-		String sql = "UPDATE "+ dbuser +".TELEFONOS SET modelo=:modelo, ram=:ram, almacenamiento=:almacenamiento, procesador=:procesador, cores=:cores, descripcion=:descripcion, fabricaid=:fabricaid, preciofabrica=:preciofabrica, precioventa=:precioventa, disponible=:disponible, inventario=:inventario, color=:color WHERE telcodigo=:telcodigo";
+		String sql = "UPDATE "+ dbuser +"TELEFONOS SET modelo=:modelo, ram=:ram, almacenamiento=:almacenamiento, procesador=:procesador, cores=:cores, descripcion=:descripcion, fabricaid=:fabricaid, preciofabrica=:preciofabrica, precioventa=:precioventa, disponible=:disponible, inventario=:inventario, color=:color WHERE telcodigo=:telcodigo";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		
 	}
 
     public void actualizarInventario(int cantidad, String tel) {
-        jdbcTemplate.update("CALL "+ dbuser +".SUMAINVENTARIO(?, ?)", cantidad, tel);
+        jdbcTemplate.update("CALL "+ dbuser +"SUMAINVENTARIO(?, ?)", cantidad, tel);
 	}
 
     public void delete(String id) {
-		String sql = "DELETE FROM "+ dbuser +".TELEFONOS WHERE TELCODIGO = ?";
+		String sql = "DELETE FROM "+ dbuser +"TELEFONOS WHERE TELCODIGO = ?";
 		jdbcTemplate.update(sql, id);
 	}
 

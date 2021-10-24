@@ -8,7 +8,7 @@ pipeline {
             steps{
                 echo env.GIT_BRANCH
                 echo env.BRANCH_NAME
-                git 'https://github.com/JuanCaceresDL/arquitecturadesistemas.git'
+                checkout scm
                 }
             }
         stage('unit testing') { 
@@ -45,7 +45,16 @@ pipeline {
         stage("Compile WAR file") {
             steps{
              withMaven(maven: 'maven') {
-                sh "mvn package"
+                if(env.GIT_BRANCH == "origin/development"){ 
+                    sh "mvn -Dspring.profiles.active=development clean install"
+                    sh "mvn -Dspring.profiles.active=development package"
+                }elseif(env.GIT_BRANCH == "origin/UAT"){
+                    sh "mvn -Dspring.profiles.active=uat clean install"
+                    sh "mvn -Dspring.profiles.active=uat package"
+                }else(env.GIT_BRANCH == "origin/main"){
+                    sh "mvn -Dspring.profiles.active=main clean install"
+                    sh "mvn -Dspring.profiles.active=main package"
+                }
               }
             }    
         }
@@ -53,8 +62,14 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
             sh 'cd target/'
-            deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://8e68-190-148-78-2.ngrok.io')], contextPath: "devv", war: '**/*.war'
-          }
+                if(env.GIT_BRANCH == "origin/development"){
+                    deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "dev", war: '**/*.war'
+                }elseif(env.GIT_BRANCH == "origin/UAT"){
+                    deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "uat", war: '**/*.war'
+                }else(env.GIT_BRANCH == "origin/main"){
+                    deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "main", war: '**/*.war'
+                }
+            }
         }     
     }
     post{
