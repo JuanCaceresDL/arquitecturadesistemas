@@ -8,7 +8,7 @@ pipeline {
             steps{
                 echo env.GIT_BRANCH
                 echo env.BRANCH_NAME
-                git 'https://github.com/JuanCaceresDL/arquitecturadesistemas.git'
+                checkout scm
                 }
             }
         stage('unit testing') { 
