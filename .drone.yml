@@ -37,10 +37,10 @@ steps:
     host: smtp.gmail.com
     port: 465
     username:
-       from_secret: admin
+       from_secret: email
     password: 
-      from_secret: Blackace1
-    subject: Pipeline QualityGate Fail
+      from_secret: contra
+    subject: Pipeline fail
     recipients:
         - caceres181049@unis.edu.gt
         - jflores@unis.edu.gt
