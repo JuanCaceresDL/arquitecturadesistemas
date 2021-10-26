@@ -45,8 +45,8 @@ pipeline {
         stage("Compile WAR file") {
             steps{
              withMaven(maven: 'maven') {
-                  sh "mvn -Dspring.profiles.active=development clean install"
-                  sh "mvn -Dspring.profiles.active=development package"
+                  sh "mvn -Dspring.profiles.active=main clean install"
+                  sh "mvn -Dspring.profiles.active=main package"
                 }
             }    
         }
@@ -54,7 +54,7 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
             sh 'cd target/'
-            deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: 'http://feee-190-148-78-2.ngrok.io')], contextPath: "dev", war: '**/*.war'
+            deploy adapters: [tomcat9(credentialsId: 'efd1443a-a9d5-43ce-941b-78e8aaf77fab', path: '', url: ' http://6400-190-148-78-2.ngrok.io')], contextPath: "main", war: '**/*.war'
            }
         }     
     }
