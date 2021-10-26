@@ -47,3 +47,12 @@ steps:
   when:
     status:
     - failure
+
+- name: slack
+  image: plugins/slack
+  settings:
+    webhook: 
+      from_secret: slack
+    channel: general
+  when:
+    status: [ success, failure ]
