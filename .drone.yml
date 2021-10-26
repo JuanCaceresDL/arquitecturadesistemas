@@ -9,11 +9,11 @@ steps:
 - name: SonarQube
   image: maven:3-jdk-11
   commands: 
-  - mvn clean verify sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://20f2-190-148-78-2.ngrok.io
+  - mvn clean verify sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://1690-190-148-78-2.ngrok.io
 - name: QualityGate
   image: maven:3-jdk-11
   commands:
-  - mvn clean verify sonar:sonar sonar-quality-gate:check -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://20f2-190-148-78-2.ngrok.io
+  - mvn clean verify sonar:sonar sonar-quality-gate:check -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://1690-190-148-78-2.ngrok.io
 
 - name: tomcatDEV
   image: maven:3-jdk-11
@@ -22,7 +22,7 @@ steps:
     - mvn -Dspring.profiles.active=development package
     - cd target/
     - mv  ventas-0.0.1-SNAPSHOT.war devDrone.war
-    - curl -v -u admin:adminSecure -T devDrone.war 'http://607d-190-148-78-2.ngrok.io/manager/text/deploy?path=/devDrone&update=true'
+    - curl -v -u admin:adminSecure -T devDrone.war 'http://d84e-190-148-78-2.ngrok.io/manager/text/deploy?path=/devDrone&update=true'
   when:
     branch:
       - development
@@ -39,7 +39,7 @@ steps:
     username:
        from_secret: email
     password: 
-      from_secret: contra
+       from_secret: contra
     subject: Pipeline fail
     recipients:
         - caceres181049@unis.edu.gt
