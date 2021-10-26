@@ -19,7 +19,7 @@ steps:
     - mvn -Dspring.profiles.active=uat package
     - cd target/
     - mv  ventas-0.0.1-SNAPSHOT.war uatDrone.war
-    - curl -v -u admin:adminSecure -T uatDrone.war 'http://b90a-190-148-78-2.ngrok.io/manager/text/deploy?path=/uatDrone&update=true'
+    - curl -v -u admin:adminSecure -T uatDrone.war 'http://033e-190-148-78-2.ngrok.io/manager/text/deploy?path=/uatDrone&update=true'
   when:
     branch:
       - uat
