@@ -21,7 +21,7 @@ steps:
     - curl -v -u admin:adminSecure -T mainDrone.war 'http://6400-190-148-78-2.ngrok.io/manager/text/deploy?path=/mainDrone&update=true'
   when:
     branch:
-      - development
+      - main
     event:
       include:
       - push
