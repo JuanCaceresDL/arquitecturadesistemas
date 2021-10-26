@@ -22,7 +22,7 @@ steps:
     - curl -v -u admin:adminSecure -T uatDrone.war 'http://6400-190-148-78-2.ngrok.io/manager/text/deploy?path=/uatDrone&update=true'
   when:
     branch:
-      - development
+      - uat
     event:
       include:
       - push  
