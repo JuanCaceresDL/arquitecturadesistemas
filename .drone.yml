@@ -15,6 +15,23 @@ steps:
   commands:
   - mvn clean verify sonar:sonar sonar-quality-gate:check -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://93f8-190-148-78-2.ngrok.io
   
+  
+- name: tomcatMain
+  image: maven:3-jdk-11
+  commands:
+    - mvn -Dspring.profiles.active=main clean  install
+    - mvn -Dspring.profiles.active=main package
+    - cd target/
+    - mv  ventas-0.0.1-SNAPSHOT.war mainDrone.war
+    - curl -v -u admin:adminSecure -T mainDrone.war 'http://6400-190-148-78-2.ngrok.io/manager/text/deploy?path=/mainDrone&update=true'
+  when:
+    branch:
+      - development
+    event:
+      include:
+      - push
+      
+
 - name: Sonarq_email
   image: drillster/drone-email
   settings:
