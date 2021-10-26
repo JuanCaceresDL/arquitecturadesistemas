@@ -67,7 +67,7 @@ pipeline {
               from: '', replyTo: '',
               subject: 'Pipeline fail', 
                to: 'caceres181049@unis.edu.gt, jflores@unis.edu.gt'
-              slackSend(channel: "arquitectura", color: '#008f39', message: "Project: ${currentBuild.currentResult} Job: ${env.JOB_NAME} URL: ${env.BUILD_URL} Buil Number: ${env.BUILD_NUMBER}")
+              slackSend(channel: "arquitectura", color: '#ff0000', message: "Project: ${currentBuild.currentResult} Job: ${env.JOB_NAME} URL: ${env.BUILD_URL} Buil Number: ${env.BUILD_NUMBER}")
                    }
         success{
             mail bcc: '',
