@@ -28,8 +28,7 @@ steps:
       - development
     event:
       include:
-      - push
-      
+      - push      
       
 - name: Sonarq_email
   image: drillster/drone-email
