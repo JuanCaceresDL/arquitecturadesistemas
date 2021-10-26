@@ -28,19 +28,19 @@ public class UsuarioDao {
     //LOG----------------------------------------------------------------------------------------
     public void newLog(String accion, int user, String tabla){
         Date date = new Date(System.currentTimeMillis());
-        String sql = "INSERT INTO "+ dbuser +".ACCIONES (ACCION, USUARIOID, TABLA, FECHA) VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO "+ dbuser +"ACCIONES (ACCION, USUARIOID, TABLA, FECHA) VALUES(?, ?, ?, ?)";
         jdbcTemplate.update( sql, accion, user, tabla, date);
     }
 
     public List<Acciones> listAccion(){
-        String sql = "SELECT * FROM "+ dbuser +".ACCIONES JOIN "+ dbuser +".USERS USING(USUARIOID) ORDER BY FECHA DESC";
+        String sql = "SELECT * FROM "+ dbuser +"ACCIONES JOIN "+ dbuser +"USERS USING(USUARIOID) ORDER BY FECHA DESC";
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Acciones.class));
     }
 
     //LOGIN--------------------------------------------------------------------------------------
     public Usuario logIn(String nombre, String password) {
         try {
-            String sql = "SELECT * FROM "+ dbuser +".USERS WHERE NOMBRE = ? AND PASSWORD = ? ";
+            String sql = "SELECT * FROM "+ dbuser +"USERS WHERE NOMBRE = ? AND PASSWORD = ? ";
 		    Object[] args = {nombre, password};
 		    Usuario user = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Usuario.class));
             return user;
@@ -53,13 +53,13 @@ public class UsuarioDao {
 
     //USUARIO CRUD-----------------------------------------------------------------------------------
     public List<Usuario> list(){
-        String sql = "SELECT * FROM "+ dbuser +".USERS JOIN "+ dbuser +".ROL USING(ROLID) ORDER BY USUARIOID";
+        String sql = "SELECT * FROM "+ dbuser +"USERS JOIN "+ dbuser +"ROL USING(ROLID) ORDER BY USUARIOID";
         List<Usuario> listPrueba = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Usuario.class));
         return listPrueba;
     }
 
     public List<Usuario> listRol(){
-        String sql = "SELECT * FROM "+ dbuser +".ROL";
+        String sql = "SELECT * FROM "+ dbuser +"ROL";
         return jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Usuario.class));
     }
 
@@ -72,21 +72,21 @@ public class UsuarioDao {
     }
 
     public Usuario get(int id) {
-		String sql = "SELECT * FROM "+ dbuser +".USERS WHERE USUARIOID = ?";
+		String sql = "SELECT * FROM "+ dbuser +"USERS WHERE USUARIOID = ?";
 		Object[] args = {id};
 		Usuario fabrica = jdbcTemplate.queryForObject(sql, args, BeanPropertyRowMapper.newInstance(Usuario.class));
 		return fabrica;
 	}
 
     public void update(Usuario modelo) {
-		String sql = "UPDATE "+ dbuser +".USERS SET nombre=:nombre, rolid=:rolid, password=:password WHERE usuarioid=:usuarioid";
+		String sql = "UPDATE "+ dbuser +"USERS SET nombre=:nombre, rolid=:rolid, password=:password WHERE usuarioid=:usuarioid";
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(modelo);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(jdbcTemplate);
 		template.update(sql, param);		
 	}
 
     public void delete(int id) {
-		String sql = "DELETE FROM "+ dbuser +".USERS WHERE USUARIOID = ?";
+		String sql = "DELETE FROM "+ dbuser +"USERS WHERE USUARIOID = ?";
 		jdbcTemplate.update(sql, id);
 	}
     
