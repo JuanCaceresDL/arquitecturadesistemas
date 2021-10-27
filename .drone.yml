@@ -12,35 +12,21 @@ steps:
   - mvn clean verify sonar:sonar -Dsonar.login=admin -Dsonar.password=Blackace1 -Dsonar.host.url=http://87e2-190-148-78-2.ngrok.io
   
 
-- name: Build-uat
-  image: maven:3-jdk-11
-  commands:
-  - mvn -f pom.xml -Dspring.profiles.active=uat package
-  when:
-    branch:
-      - uat
-    event: 
-      include: 
-      - push
-
 - name: tomcatUAT
   image: maven:3-jdk-11
   commands:
     - mvn -Dspring.profiles.active=uat clean  install
     - mvn -Dspring.profiles.active=uat package
-    - apk add curl
     - cd target/
-    - stat ventas-0.0.1-SNAPSHOT.war
     - mv  ventas-0.0.1-SNAPSHOT.war uatDrone.war
-    - curl -v -u admin:admin -T uatDrone.war 'http://3248-190-148-78-2.ngrok.io/manager/text/deploy?path=/uatDrone&update=true'
+    - curl -v -u admin:adminSecure -T uatDrone.war 'http://3248-190-148-78-2.ngrok.io/manager/text/deploy?path=/uatDrone&update=true'
   when:
     branch:
       - uat
     event:
       include:
-      - push  
+      - push
   
-
 
 - name: Sonarq_email
   image: drillster/drone-email
